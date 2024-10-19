@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_GUID: 46ff8de61b176104ebe1903e32e950f1
+  m_SerializeEntries:
+  - m_GUID: 24486391ad5475543921d9f959fbf6ac
+    m_Address: Assets/GameMain/Prefabs/UIForms/MenuForm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f48fad852e7cbc74a8c415c80893ee3a
+    m_Address: Assets/GameMain/Prefabs/UIForms/GameForm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: ab0642fa6929b0e488fa2c970dcef933, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c897228f377729e4eb9d6d55461b9288, type: 2}
+    - {fileID: 11400000, guid: 5bb172bd4af0993428c243cc530f467c, type: 2}
