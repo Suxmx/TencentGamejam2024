@@ -26,7 +26,7 @@ namespace Tencent
     ""name"": ""PlayerInputMap"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""GroundMove"",
             ""id"": ""add53290-b4c0-46c4-a809-037ae9ae46a2"",
             ""actions"": [
                 {
@@ -42,42 +42,6 @@ namespace Tencent
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""542a62cd-c314-4919-b09f-158e3491b188"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Attack"",
-                    ""type"": ""Button"",
-                    ""id"": ""9d4ec491-9a31-43a3-9d93-228c90cd05e7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Dash"",
-                    ""type"": ""Button"",
-                    ""id"": ""b8481466-70a8-4b1e-bd50-3c069c3b9a0c"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Defend"",
-                    ""type"": ""Button"",
-                    ""id"": ""58e1d5e3-345c-4718-a4d9-a4c5734ec8fb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Interact"",
-                    ""type"": ""Button"",
-                    ""id"": ""b0be9aba-f1a3-49dc-8a64-8d0d5ae86c60"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -216,59 +180,32 @@ namespace Tencent
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
+                }
+            ]
+        },
+        {
+            ""name"": ""Camera"",
+            ""id"": ""5ad1e505-4b4f-4cdc-83fa-0c4d0c9b4e5c"",
+            ""actions"": [
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""3c9971a8-62f8-48a6-9045-01a30407c58d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""b61f14a1-0d57-43dc-8a4a-090a7a43b975"",
-                    ""path"": ""<Keyboard>/j"",
+                    ""id"": ""65d65e12-ce90-447b-9a31-9a14fef2571a"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f96e1af8-3e98-4325-a6d3-11a0e64d0256"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ddc354ce-e618-4962-91f3-a07b95118329"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c77d32e4-799a-488b-bec9-7b3f479418a1"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Defend"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0c91df50-9e90-4c6b-b81f-ddc74e6bb819"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -277,19 +214,19 @@ namespace Tencent
     ],
     ""controlSchemes"": []
 }");
-            // Player
-            m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-            m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-            m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-            m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-            m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-            m_Player_Defend = m_Player.FindAction("Defend", throwIfNotFound: true);
-            m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+            // GroundMove
+            m_GroundMove = asset.FindActionMap("GroundMove", throwIfNotFound: true);
+            m_GroundMove_Move = m_GroundMove.FindAction("Move", throwIfNotFound: true);
+            m_GroundMove_Jump = m_GroundMove.FindAction("Jump", throwIfNotFound: true);
+            // Camera
+            m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
+            m_Camera_Look = m_Camera.FindAction("Look", throwIfNotFound: true);
         }
 
         ~@PlayerInputMap()
         {
-            UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, PlayerInputMap.Player.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_GroundMove.enabled, "This will cause a leak and performance issues, PlayerInputMap.GroundMove.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerInputMap.Camera.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -348,55 +285,35 @@ namespace Tencent
             return asset.FindBinding(bindingMask, out action);
         }
 
-        // Player
-        private readonly InputActionMap m_Player;
-        private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-        private readonly InputAction m_Player_Move;
-        private readonly InputAction m_Player_Jump;
-        private readonly InputAction m_Player_Attack;
-        private readonly InputAction m_Player_Dash;
-        private readonly InputAction m_Player_Defend;
-        private readonly InputAction m_Player_Interact;
-        public struct PlayerActions
+        // GroundMove
+        private readonly InputActionMap m_GroundMove;
+        private List<IGroundMoveActions> m_GroundMoveActionsCallbackInterfaces = new List<IGroundMoveActions>();
+        private readonly InputAction m_GroundMove_Move;
+        private readonly InputAction m_GroundMove_Jump;
+        public struct GroundMoveActions
         {
             private @PlayerInputMap m_Wrapper;
-            public PlayerActions(@PlayerInputMap wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Move => m_Wrapper.m_Player_Move;
-            public InputAction @Jump => m_Wrapper.m_Player_Jump;
-            public InputAction @Attack => m_Wrapper.m_Player_Attack;
-            public InputAction @Dash => m_Wrapper.m_Player_Dash;
-            public InputAction @Defend => m_Wrapper.m_Player_Defend;
-            public InputAction @Interact => m_Wrapper.m_Player_Interact;
-            public InputActionMap Get() { return m_Wrapper.m_Player; }
+            public GroundMoveActions(@PlayerInputMap wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Move => m_Wrapper.m_GroundMove_Move;
+            public InputAction @Jump => m_Wrapper.m_GroundMove_Jump;
+            public InputActionMap Get() { return m_Wrapper.m_GroundMove; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-            public void AddCallbacks(IPlayerActions instance)
+            public static implicit operator InputActionMap(GroundMoveActions set) { return set.Get(); }
+            public void AddCallbacks(IGroundMoveActions instance)
             {
-                if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+                if (instance == null || m_Wrapper.m_GroundMoveActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_GroundMoveActionsCallbackInterfaces.Add(instance);
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
-                @Dash.started += instance.OnDash;
-                @Dash.performed += instance.OnDash;
-                @Dash.canceled += instance.OnDash;
-                @Defend.started += instance.OnDefend;
-                @Defend.performed += instance.OnDefend;
-                @Defend.canceled += instance.OnDefend;
-                @Interact.started += instance.OnInteract;
-                @Interact.performed += instance.OnInteract;
-                @Interact.canceled += instance.OnInteract;
             }
 
-            private void UnregisterCallbacks(IPlayerActions instance)
+            private void UnregisterCallbacks(IGroundMoveActions instance)
             {
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
@@ -404,43 +321,77 @@ namespace Tencent
                 @Jump.started -= instance.OnJump;
                 @Jump.performed -= instance.OnJump;
                 @Jump.canceled -= instance.OnJump;
-                @Attack.started -= instance.OnAttack;
-                @Attack.performed -= instance.OnAttack;
-                @Attack.canceled -= instance.OnAttack;
-                @Dash.started -= instance.OnDash;
-                @Dash.performed -= instance.OnDash;
-                @Dash.canceled -= instance.OnDash;
-                @Defend.started -= instance.OnDefend;
-                @Defend.performed -= instance.OnDefend;
-                @Defend.canceled -= instance.OnDefend;
-                @Interact.started -= instance.OnInteract;
-                @Interact.performed -= instance.OnInteract;
-                @Interact.canceled -= instance.OnInteract;
             }
 
-            public void RemoveCallbacks(IPlayerActions instance)
+            public void RemoveCallbacks(IGroundMoveActions instance)
             {
-                if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
+                if (m_Wrapper.m_GroundMoveActionsCallbackInterfaces.Remove(instance))
                     UnregisterCallbacks(instance);
             }
 
-            public void SetCallbacks(IPlayerActions instance)
+            public void SetCallbacks(IGroundMoveActions instance)
             {
-                foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
+                foreach (var item in m_Wrapper.m_GroundMoveActionsCallbackInterfaces)
                     UnregisterCallbacks(item);
-                m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
+                m_Wrapper.m_GroundMoveActionsCallbackInterfaces.Clear();
                 AddCallbacks(instance);
             }
         }
-        public PlayerActions @Player => new PlayerActions(this);
-        public interface IPlayerActions
+        public GroundMoveActions @GroundMove => new GroundMoveActions(this);
+
+        // Camera
+        private readonly InputActionMap m_Camera;
+        private List<ICameraActions> m_CameraActionsCallbackInterfaces = new List<ICameraActions>();
+        private readonly InputAction m_Camera_Look;
+        public struct CameraActions
+        {
+            private @PlayerInputMap m_Wrapper;
+            public CameraActions(@PlayerInputMap wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Look => m_Wrapper.m_Camera_Look;
+            public InputActionMap Get() { return m_Wrapper.m_Camera; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+            public void AddCallbacks(ICameraActions instance)
+            {
+                if (instance == null || m_Wrapper.m_CameraActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_CameraActionsCallbackInterfaces.Add(instance);
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+            }
+
+            private void UnregisterCallbacks(ICameraActions instance)
+            {
+                @Look.started -= instance.OnLook;
+                @Look.performed -= instance.OnLook;
+                @Look.canceled -= instance.OnLook;
+            }
+
+            public void RemoveCallbacks(ICameraActions instance)
+            {
+                if (m_Wrapper.m_CameraActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ICameraActions instance)
+            {
+                foreach (var item in m_Wrapper.m_CameraActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_CameraActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public CameraActions @Camera => new CameraActions(this);
+        public interface IGroundMoveActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
-            void OnAttack(InputAction.CallbackContext context);
-            void OnDash(InputAction.CallbackContext context);
-            void OnDefend(InputAction.CallbackContext context);
-            void OnInteract(InputAction.CallbackContext context);
+        }
+        public interface ICameraActions
+        {
+            void OnLook(InputAction.CallbackContext context);
         }
     }
 }

@@ -10,10 +10,6 @@ namespace Tencent
         None = 0,
         Move = 1,
         Jump = 1 << 1,
-        Attack = 1 << 2,
-        Dash=1<<3,
-        Defend=1<<4,
-        Interact=1<<5,
     }
 
     public static class InputData
@@ -21,6 +17,7 @@ namespace Tencent
         private static InputEvent m_CurEvents;
         private static InputEvent m_StartEvents;
         public static Vector2 MoveInput;
+        public static Vector2 LookInput;
         private static Dictionary<InputEvent, ChargeData> m_ChargeDict = new();
         
 
@@ -29,6 +26,7 @@ namespace Tencent
             m_CurEvents = InputEvent.None;
             m_StartEvents = InputEvent.None;
             MoveInput = Vector2.zero;
+            LookInput = Vector2.zero;
             foreach (var pair in m_ChargeDict)
             {
                 if (pair.Value.ChargeEndThisFrame)

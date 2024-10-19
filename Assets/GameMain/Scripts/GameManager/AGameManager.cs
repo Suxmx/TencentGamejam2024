@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Framework;
 using Services;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Framework
@@ -28,14 +29,13 @@ namespace Framework
         }
 
         private static AGameManager _instance;
-        public static GameEntityManager Entity { get; private set; }
         
-
         #endregion
 
 
         private List<IManager> _managers=new();
         private List<IUpdatable> _updatables = new();
+        public CinemachineCamera CinemachineCamera => FindAnyObjectByType<CinemachineCamera>();
 
 
         private bool _running = false;
@@ -48,9 +48,6 @@ namespace Framework
             var trans = new GameObject("Managers").transform;
             trans.SetParent(transform);
             trans.localScale = Vector3.one;
-
-            //Create
-            Entity = CreateManager<GameEntityManager>("Entity", trans);
 
         }
 
@@ -117,6 +114,12 @@ namespace Framework
                 updatable.OnLateUpdate(Time.deltaTime);
             }
         }
+
+        #endregion
+
+        #region Events
+
+        
 
         #endregion
     }

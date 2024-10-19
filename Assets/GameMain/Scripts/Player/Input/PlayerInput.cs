@@ -8,7 +8,9 @@ namespace Tencent
     public class PlayerInput : MonoBehaviour
     {
         public PlayerInputMap InputMap { get; private set; }
-        public PlayerInputMap.PlayerActions PlayerActions { get; private set; }
+        public PlayerInputMap.GroundMoveActions GroundMoveActions { get; private set; }
+        
+        public PlayerInputMap.CameraActions CameraActions { get; private set; }
 
         private Vector2 m_LastFrameMoveInput;
 
@@ -17,7 +19,8 @@ namespace Tencent
         private void Awake()
         {
             InputMap = new PlayerInputMap();
-            PlayerActions = InputMap.Player;
+            GroundMoveActions = InputMap.GroundMove;
+            CameraActions = InputMap.Camera;
             foreach (InputEvent e in System.Enum.GetValues(typeof(InputEvent)))
             {
                 InputData.InitDict(e, new ChargeData());
@@ -25,11 +28,7 @@ namespace Tencent
 
             eventActionDict = new()
             {
-                { InputEvent.Attack, PlayerActions.Attack },
-                { InputEvent.Jump, PlayerActions.Jump },
-                { InputEvent.Dash, PlayerActions.Dash },
-                { InputEvent.Defend ,PlayerActions.Defend},
-                { InputEvent.Interact, PlayerActions.Interact }
+                { InputEvent.Jump, GroundMoveActions.Jump },
             };
         }
 
@@ -57,7 +56,7 @@ namespace Tencent
 
         private void CheckEventStart()
         {
-            if (m_LastFrameMoveInput == Vector2.zero && PlayerActions.Move.ReadValue<Vector2>() != Vector2.zero)
+            if (m_LastFrameMoveInput == Vector2.zero && GroundMoveActions.Move.ReadValue<Vector2>() != Vector2.zero)
             {
                 InputData.AddEventStart(InputEvent.Move);
             }
@@ -74,10 +73,15 @@ namespace Tencent
         private void CheckHasEvent()
         {
             //Move
-            if (PlayerActions.Move.ReadValue<Vector2>() != Vector2.zero)
+            if (GroundMoveActions.Move.ReadValue<Vector2>() != Vector2.zero)
             {
                 InputData.AddEvent(InputEvent.Move);
-                InputData.MoveInput = PlayerActions.Move.ReadValue<Vector2>();
+                InputData.MoveInput = GroundMoveActions.Move.ReadValue<Vector2>();
+            }
+
+            if (CameraActions.Look.ReadValue<Vector2>() != Vector2.zero)
+            {
+                InputData.LookInput = CameraActions.Look.ReadValue<Vector2>();
             }
 
             foreach (var pair in eventActionDict)
