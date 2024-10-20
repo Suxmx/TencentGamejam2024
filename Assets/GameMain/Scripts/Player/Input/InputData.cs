@@ -10,7 +10,8 @@ namespace Tencent
         None = 0,
         Move = 1,
         Jump = 1 << 1,
-        Crouch=1<<2,
+        Crouch = 1 << 2,
+        Fire = 1 << 3
     }
 
     public static class InputData
@@ -20,7 +21,7 @@ namespace Tencent
         public static Vector2 MoveInput;
         public static Vector2 LookInput;
         private static Dictionary<InputEvent, ChargeData> m_ChargeDict = new();
-        
+
 
         public static void Clear()
         {

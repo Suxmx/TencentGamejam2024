@@ -1,0 +1,26 @@
+﻿using System;
+using UnityEngine;
+
+namespace Tencent
+{
+    public class PlayerTrigger : MonoBehaviour
+    {
+        public Player Player => _player;
+        
+        private CapsuleCollider _collider;
+        private Player _player;
+
+        public void Init(Player player)
+        {
+            _collider = GetComponent<CapsuleCollider>();
+            _player = player;
+        }
+
+        public void ResetCollider(Vector3 center, float radius, float height)
+        {
+            _collider.center = center;
+            _collider.radius = radius + 0.02f;
+            _collider.height = height + 0.02f;
+        }
+    }
+}

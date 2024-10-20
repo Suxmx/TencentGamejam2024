@@ -230,6 +230,34 @@ namespace Tencent
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MaterialGun"",
+            ""id"": ""57401740-cd2a-499c-bb8b-0aaa87e31fab"",
+            ""actions"": [
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""ccf02268-029b-43a5-b5cf-64861df74c8e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d5aa1494-164e-42b1-908f-b3f4e1083c07"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -242,12 +270,16 @@ namespace Tencent
             // Camera
             m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
             m_Camera_Look = m_Camera.FindAction("Look", throwIfNotFound: true);
+            // MaterialGun
+            m_MaterialGun = asset.FindActionMap("MaterialGun", throwIfNotFound: true);
+            m_MaterialGun_Fire = m_MaterialGun.FindAction("Fire", throwIfNotFound: true);
         }
 
         ~@PlayerInputMap()
         {
             UnityEngine.Debug.Assert(!m_GroundMove.enabled, "This will cause a leak and performance issues, PlayerInputMap.GroundMove.Disable() has not been called.");
             UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerInputMap.Camera.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_MaterialGun.enabled, "This will cause a leak and performance issues, PlayerInputMap.MaterialGun.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -413,6 +445,52 @@ namespace Tencent
             }
         }
         public CameraActions @Camera => new CameraActions(this);
+
+        // MaterialGun
+        private readonly InputActionMap m_MaterialGun;
+        private List<IMaterialGunActions> m_MaterialGunActionsCallbackInterfaces = new List<IMaterialGunActions>();
+        private readonly InputAction m_MaterialGun_Fire;
+        public struct MaterialGunActions
+        {
+            private @PlayerInputMap m_Wrapper;
+            public MaterialGunActions(@PlayerInputMap wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Fire => m_Wrapper.m_MaterialGun_Fire;
+            public InputActionMap Get() { return m_Wrapper.m_MaterialGun; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(MaterialGunActions set) { return set.Get(); }
+            public void AddCallbacks(IMaterialGunActions instance)
+            {
+                if (instance == null || m_Wrapper.m_MaterialGunActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_MaterialGunActionsCallbackInterfaces.Add(instance);
+                @Fire.started += instance.OnFire;
+                @Fire.performed += instance.OnFire;
+                @Fire.canceled += instance.OnFire;
+            }
+
+            private void UnregisterCallbacks(IMaterialGunActions instance)
+            {
+                @Fire.started -= instance.OnFire;
+                @Fire.performed -= instance.OnFire;
+                @Fire.canceled -= instance.OnFire;
+            }
+
+            public void RemoveCallbacks(IMaterialGunActions instance)
+            {
+                if (m_Wrapper.m_MaterialGunActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IMaterialGunActions instance)
+            {
+                foreach (var item in m_Wrapper.m_MaterialGunActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_MaterialGunActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public MaterialGunActions @MaterialGun => new MaterialGunActions(this);
         public interface IGroundMoveActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -422,6 +500,10 @@ namespace Tencent
         public interface ICameraActions
         {
             void OnLook(InputAction.CallbackContext context);
+        }
+        public interface IMaterialGunActions
+        {
+            void OnFire(InputAction.CallbackContext context);
         }
     }
 }

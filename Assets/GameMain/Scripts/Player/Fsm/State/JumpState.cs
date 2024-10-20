@@ -134,6 +134,8 @@ namespace Tencent
         {
             base.OnLogic();
             if (_jumped) _fsm.StateCanExit();
+            if (timer.Elapsed > 0.2f && Motor.GroundingStatus.FoundAnyGround)
+                _fsm.RequestStateChange(EPlayerState.GroundMove);
         }
     }
 }

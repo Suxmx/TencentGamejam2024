@@ -13,6 +13,7 @@ namespace Tencent
 
         public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
+            if(!Motor.GroundingStatus.FoundAnyGround) return;
             float currentVelocityMagnitude = currentVelocity.magnitude;
 
             Vector3 effectiveGroundNormal = Motor.GroundingStatus.GroundNormal;

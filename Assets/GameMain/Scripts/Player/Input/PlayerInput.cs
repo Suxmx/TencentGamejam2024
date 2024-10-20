@@ -9,8 +9,10 @@ namespace Tencent
     {
         public PlayerInputMap InputMap { get; private set; }
         public PlayerInputMap.GroundMoveActions GroundMoveActions { get; private set; }
-        
+
         public PlayerInputMap.CameraActions CameraActions { get; private set; }
+
+        public PlayerInputMap.MaterialGunActions MaterialGunActions { get; private set; }
 
         private Vector2 m_LastFrameMoveInput;
 
@@ -21,6 +23,7 @@ namespace Tencent
             InputMap = new PlayerInputMap();
             GroundMoveActions = InputMap.GroundMove;
             CameraActions = InputMap.Camera;
+            MaterialGunActions = InputMap.MaterialGun;
             foreach (InputEvent e in System.Enum.GetValues(typeof(InputEvent)))
             {
                 InputData.InitDict(e, new ChargeData());
@@ -29,7 +32,8 @@ namespace Tencent
             eventActionDict = new()
             {
                 { InputEvent.Jump, GroundMoveActions.Jump },
-                { InputEvent.Crouch,GroundMoveActions.Crouch }
+                { InputEvent.Crouch, GroundMoveActions.Crouch },
+                { InputEvent.Fire, MaterialGunActions.Fire }
             };
         }
 
@@ -43,13 +47,14 @@ namespace Tencent
             InputMap.Disable();
         }
 
-        public void UpdateInput(bool clear=true)
+        public void UpdateInput(bool clear = true)
         {
             m_LastFrameMoveInput = InputData.MoveInput;
-            if(clear)
+            if (clear)
             {
                 InputData.Clear();
             }
+
             CheckEventStart();
             CheckHasEvent();
             UpdateChargeData();

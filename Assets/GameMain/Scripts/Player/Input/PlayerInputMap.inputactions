@@ -206,6 +206,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MaterialGun",
+            "id": "57401740-cd2a-499c-bb8b-0aaa87e31fab",
+            "actions": [
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "ccf02268-029b-43a5-b5cf-64861df74c8e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d5aa1494-164e-42b1-908f-b3f4e1083c07",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

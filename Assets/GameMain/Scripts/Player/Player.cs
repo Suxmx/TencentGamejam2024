@@ -21,7 +21,7 @@ namespace Tencent
     [RequireComponent(typeof(PlayerInput))]
     public class Player : MonoBehaviour, ICharacterController
     {
-        [BoxGroup("摄像机"), OnValueChanged(nameof(OnMouseGainChange))]
+        [BoxGroup("摄像机"), LabelText("视角灵敏度"), OnValueChanged(nameof(OnMouseGainChange))]
         public float MouseGain = 8f;
 
         public KinematicCharacterMotor Motor => _motor;
@@ -37,7 +37,8 @@ namespace Tencent
         private CinemachineCamera _cinemachine;
         private Transform _graphics;
         private PlayerFsm _fsm;
-        private Aim _aim;
+        private MaterialGun _materialGun;
+        private PlayerTrigger _playerTrigger;
 
         private void Awake()
         {
@@ -50,29 +51,25 @@ namespace Tencent
 
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                SuperJump(10);
+            }
+
             _input.UpdateInput();
             HandleCharacterInput();
             _fsm.OnLogic();
         }
 
-        private void LateUpdate()
+        private bool _superJumpRequest = false;
+        private float _superJumpVelocity = 0;
+
+        public void SuperJump(float jumpHeight)
         {
-            UpdateAimRaycast();
+            _superJumpVelocity = Mathf.Sqrt(2 * jumpHeight * (Mathf.Abs(Gravity.y)));
+            _superJumpRequest = true;
         }
 
-        private void UpdateAimRaycast()
-        {
-            Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-            Ray ray = Camera.main.ScreenPointToRay(screenCenter);
-            if (Physics.Raycast(ray.origin, ray.direction, out var info, 10f,
-                    LayerMask.GetMask("Ground", "Environment"), QueryTriggerInteraction.UseGlobal))
-            {
-                _aim.UpdateRaycast(ray.origin, info.point);
-                return;
-            }
-
-            _aim.UpdateRaycast(ray.origin, _eye.position + ray.direction * 10);
-        }
 
         #region Init
 
@@ -86,10 +83,14 @@ namespace Tencent
             _input = GetComponent<PlayerInput>();
             _motor = GetComponent<KinematicCharacterMotor>();
             _cinemachine = FindAnyObjectByType<CinemachineCamera>();
-            _aim = GetComponentInChildren<Aim>();
+            _materialGun = GetComponentInChildren<MaterialGun>();
+            _playerTrigger = GetComponentInChildren<PlayerTrigger>();
 
             _eye = transform.Find("Root/Eye");
             _graphics = transform.Find("Root/Graphics");
+            
+            _playerTrigger.Init(this);
+            _playerTrigger.ResetCollider(Vector3.up * StandUpHeight / 2f, 0.245f, StandUpHeight);
 
             _motor.CharacterController = this;
 
@@ -170,6 +171,7 @@ namespace Tencent
                 var eyePos = _eye.transform.localPosition;
                 eyePos.y = _curHeight;
                 _eye.localPosition = eyePos;
+                _playerTrigger.ResetCollider(Vector3.up * _curHeight / 2f, 0.245f, _curHeight);
             };
             _crouchTween.onComplete += () => IsCrouching = false;
         }
@@ -187,6 +189,7 @@ namespace Tencent
                 var eyePos = _eye.transform.localPosition;
                 eyePos.y = _curHeight;
                 _eye.localPosition = eyePos;
+                _playerTrigger.ResetCollider(Vector3.up*_curHeight / 2f,0.245f,_curHeight);
             };
         }
 
@@ -230,6 +233,14 @@ namespace Tencent
             if (_fsm.CurrentState is IKcc kcc)
             {
                 kcc.UpdateVelocity(ref currentVelocity, deltaTime);
+            }
+
+            if (_superJumpRequest)
+            {
+                Motor.ForceUnground();
+                _fsm.RequestStateChange(EPlayerState.Air, forceInstantly: true);
+                _superJumpRequest = false;
+                currentVelocity.y = _superJumpVelocity;
             }
         }
 
@@ -317,5 +328,6 @@ namespace Tencent
         }
 
         #endregion
+        
     }
 }
