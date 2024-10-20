@@ -46,6 +46,15 @@ namespace Tencent
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""7baa6f5b-c808-4419-9f86-95d9067d624d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -180,6 +189,17 @@ namespace Tencent
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8464725e-c737-47fb-924f-9475ce1cc0d8"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -218,6 +238,7 @@ namespace Tencent
             m_GroundMove = asset.FindActionMap("GroundMove", throwIfNotFound: true);
             m_GroundMove_Move = m_GroundMove.FindAction("Move", throwIfNotFound: true);
             m_GroundMove_Jump = m_GroundMove.FindAction("Jump", throwIfNotFound: true);
+            m_GroundMove_Crouch = m_GroundMove.FindAction("Crouch", throwIfNotFound: true);
             // Camera
             m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
             m_Camera_Look = m_Camera.FindAction("Look", throwIfNotFound: true);
@@ -290,12 +311,14 @@ namespace Tencent
         private List<IGroundMoveActions> m_GroundMoveActionsCallbackInterfaces = new List<IGroundMoveActions>();
         private readonly InputAction m_GroundMove_Move;
         private readonly InputAction m_GroundMove_Jump;
+        private readonly InputAction m_GroundMove_Crouch;
         public struct GroundMoveActions
         {
             private @PlayerInputMap m_Wrapper;
             public GroundMoveActions(@PlayerInputMap wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_GroundMove_Move;
             public InputAction @Jump => m_Wrapper.m_GroundMove_Jump;
+            public InputAction @Crouch => m_Wrapper.m_GroundMove_Crouch;
             public InputActionMap Get() { return m_Wrapper.m_GroundMove; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -311,6 +334,9 @@ namespace Tencent
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
             }
 
             private void UnregisterCallbacks(IGroundMoveActions instance)
@@ -321,6 +347,9 @@ namespace Tencent
                 @Jump.started -= instance.OnJump;
                 @Jump.performed -= instance.OnJump;
                 @Jump.canceled -= instance.OnJump;
+                @Crouch.started -= instance.OnCrouch;
+                @Crouch.performed -= instance.OnCrouch;
+                @Crouch.canceled -= instance.OnCrouch;
             }
 
             public void RemoveCallbacks(IGroundMoveActions instance)
@@ -388,6 +417,7 @@ namespace Tencent
         {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnCrouch(InputAction.CallbackContext context);
         }
         public interface ICameraActions
         {

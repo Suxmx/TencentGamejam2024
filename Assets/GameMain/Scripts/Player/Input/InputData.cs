@@ -10,6 +10,7 @@ namespace Tencent
         None = 0,
         Move = 1,
         Jump = 1 << 1,
+        Crouch=1<<2,
     }
 
     public static class InputData

@@ -29,6 +29,7 @@ namespace Tencent
             eventActionDict = new()
             {
                 { InputEvent.Jump, GroundMoveActions.Jump },
+                { InputEvent.Crouch,GroundMoveActions.Crouch }
             };
         }
 
