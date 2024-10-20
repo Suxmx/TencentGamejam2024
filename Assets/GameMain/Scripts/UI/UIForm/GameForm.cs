@@ -1,27 +1,15 @@
-﻿using Framework;
+﻿using System;
+using Framework;
 using Framework.Develop;
 using UnityEngine;
 
 namespace GameMain
 {
-    public partial class GameForm : UGuiForm
+    public partial class GameForm : MonoBehaviour
     {
-        public override void OnInit()
+        private void Awake()
         {
-            base.OnInit();
-            GetBindComponents(gameObject);
-        }
-
-        public override void OnOpen()
-        {
-            base.OnOpen();
-
-        }
-
-        public override void OnClose()
-        {
-            base.OnClose();
-
+            
         }
     }
 }

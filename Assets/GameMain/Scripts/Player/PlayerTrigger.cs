@@ -19,8 +19,9 @@ namespace Tencent
         public void ResetCollider(Vector3 center, float radius, float height)
         {
             _collider.center = center;
-            _collider.radius = radius + 0.02f;
-            _collider.height = height + 0.02f;
+            _collider.radius = radius + 0.001f;
+            _collider.height = height + 0.001f;
         }
+        
     }
 }

@@ -21,10 +21,13 @@ namespace Tencent
     [RequireComponent(typeof(PlayerInput))]
     public class Player : MonoBehaviour, ICharacterController
     {
+        [SerializeField] private GameObject _playerTriggerPrefab;
+
         [BoxGroup("摄像机"), LabelText("视角灵敏度"), OnValueChanged(nameof(OnMouseGainChange))]
         public float MouseGain = 8f;
 
         public KinematicCharacterMotor Motor => _motor;
+        public Vector3 FootPosition => _foot.position;
 
         //实际输入
         public Vector3 MoveInputVector => _moveInputVector;
@@ -36,9 +39,12 @@ namespace Tencent
         private KinematicCharacterMotor _motor;
         private CinemachineCamera _cinemachine;
         private Transform _graphics;
+        private Transform _foot;
         private PlayerFsm _fsm;
+        private Transform _root;
         private MaterialGun _materialGun;
         private PlayerTrigger _playerTrigger;
+
 
         private void Awake()
         {
@@ -70,6 +76,10 @@ namespace Tencent
             _superJumpRequest = true;
         }
 
+        private void LateUpdate()
+        {
+            _playerTrigger.transform.position = _root.position;
+        }
 
         #region Init
 
@@ -84,13 +94,20 @@ namespace Tencent
             _motor = GetComponent<KinematicCharacterMotor>();
             _cinemachine = FindAnyObjectByType<CinemachineCamera>();
             _materialGun = GetComponentInChildren<MaterialGun>();
-            _playerTrigger = GetComponentInChildren<PlayerTrigger>();
+            _playerTrigger = Instantiate(_playerTriggerPrefab).GetComponent<PlayerTrigger>();
+            _materialGun = GetComponentInChildren<MaterialGun>();
+
+            _root = transform.Find("Root");
+            _playerTrigger.transform.position = _root.position;
 
             _eye = transform.Find("Root/Eye");
             _graphics = transform.Find("Root/Graphics");
-            
+            _foot = transform.Find("Root/Foot");
+
             _playerTrigger.Init(this);
             _playerTrigger.ResetCollider(Vector3.up * StandUpHeight / 2f, 0.245f, StandUpHeight);
+            
+            _materialGun.Init(this);
 
             _motor.CharacterController = this;
 
@@ -109,14 +126,14 @@ namespace Tencent
             _fsm.AddTransition(EPlayerState.GroundMove, EPlayerState.Jump,
                 _ => InputData.HasEventStart(InputEvent.Jump));
             _fsm.AddTransition(EPlayerState.Jump, EPlayerState.Air, _ => Motor.Velocity.y < 0);
-            _fsm.AddTransition(EPlayerState.GroundMove, EPlayerState.Air, _ => !Motor.GroundingStatus.FoundAnyGround,
+            _fsm.AddTransition(EPlayerState.GroundMove, EPlayerState.Air, _ => !Motor.GroundingStatus.IsStableOnGround,
                 forceInstantly: true);
-            _fsm.AddTransition(EPlayerState.Air, EPlayerState.GroundMove, _ => Motor.GroundingStatus.FoundAnyGround);
+            _fsm.AddTransition(EPlayerState.Air, EPlayerState.GroundMove, _ => Motor.GroundingStatus.IsStableOnGround);
             _fsm.AddTransition(EPlayerState.GroundMove, EPlayerState.Crouch,
                 _ => InputData.HasEvent(InputEvent.Crouch));
             _fsm.AddTransition(EPlayerState.Crouch, EPlayerState.GroundMove,
                 _ => !InputData.HasEvent(InputEvent.Crouch) && CanStandupWhenCrouching);
-            _fsm.AddTransition(EPlayerState.Crouch, EPlayerState.Air, _ => !Motor.GroundingStatus.FoundAnyGround);
+            _fsm.AddTransition(EPlayerState.Crouch, EPlayerState.Air, _ => !Motor.GroundingStatus.IsStableOnGround);
             _fsm.AddTransition(EPlayerState.Crouch, EPlayerState.Jump,
                 _ => InputData.HasEventStart(InputEvent.Jump) && CanStandupWhenCrouching);
 
@@ -189,7 +206,7 @@ namespace Tencent
                 var eyePos = _eye.transform.localPosition;
                 eyePos.y = _curHeight;
                 _eye.localPosition = eyePos;
-                _playerTrigger.ResetCollider(Vector3.up*_curHeight / 2f,0.245f,_curHeight);
+                _playerTrigger.ResetCollider(Vector3.up * _curHeight / 2f, 0.245f, _curHeight);
             };
         }
 
@@ -328,6 +345,5 @@ namespace Tencent
         }
 
         #endregion
-        
     }
 }

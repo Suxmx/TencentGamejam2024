@@ -58,17 +58,6 @@ namespace GameMain
         {
             
         }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.TryGetComponent<PlayerTrigger>(out var player))
-            {
-                
-            }
-            else
-            {
-                Debug.Log(other.gameObject.name);
-            }
-        }
+        
     }
 }

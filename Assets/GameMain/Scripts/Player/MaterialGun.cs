@@ -15,6 +15,15 @@ namespace Tencent
         private ChangeableConfigSO _config;
         private GameObject _debugSphere;
         private Camera _mainCamera;
+        private Player _player;
+
+        private MoveableCube _movingCube = null;
+        private float _distance;
+
+        public void Init(Player player)
+        {
+            _player = player;
+        }
 
         private void Awake()
         {
@@ -37,13 +46,48 @@ namespace Tencent
             }
 
             FireMaterialBullet();
+            FireMoveGun();
             UpdateDebugSphere();
+
+            HandleMovingObj();
+        }
+
+        private void HandleMovingObj()
+        {
+            if (_movingCube is null) return;
+            Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+            Ray ray = _mainCamera.ScreenPointToRay(screenCenter);
+            _movingCube.SetTargetPosition(ray.origin + ray.direction*_distance);
+        }
+
+        private void FireMoveGun()
+        {
+            if (!Input.GetMouseButtonDown(1)) return;
+            if (_movingCube is not null)
+            {
+                _movingCube.EndMove();
+                _movingCube = null;
+            }
+            else
+            {
+                Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+                Ray ray = _mainCamera.ScreenPointToRay(screenCenter);
+                if (Physics.Raycast(ray.origin, ray.direction, out var info, 10f,
+                        LayerMask.GetMask("Ground", "Environment"), QueryTriggerInteraction.UseGlobal))
+                {
+                    if (info.transform.TryGetComponent<MoveableCube>(out var moveableCube))
+                    {
+                        _movingCube = moveableCube;
+                        _distance =  info.distance;
+                        _movingCube.StartMove();
+                    }
+                }
+            }
         }
 
         private void FireMaterialBullet()
         {
             if (!InputData.HasEventStart(InputEvent.Fire)) return;
-            Debug.Log("fire");
             Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
             Ray ray = _mainCamera.ScreenPointToRay(screenCenter);
 

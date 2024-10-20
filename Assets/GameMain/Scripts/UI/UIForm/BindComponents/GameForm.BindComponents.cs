@@ -1,18 +1,20 @@
 using Autobind;
 using UnityEngine;
 
-//自动生成于：2024/10/19 15:39:31
-namespace GameMain
+//自动生成于：2024/10/20 20:53:09
+namespace Tencent
 {
 
 	public partial class GameForm
 	{
 
+		private RectTransform m_trans_test;
 
 		private void GetBindComponents(GameObject go)
 		{
 			ComponentAutoBindTool autoBindTool = go.GetComponent<ComponentAutoBindTool>();
 
+			m_trans_test = autoBindTool.GetBindComponent<RectTransform>(0);
 		}
 
 		private void ReleaseBindComponents()
