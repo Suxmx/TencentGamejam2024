@@ -15,7 +15,7 @@ namespace Tencent
         {
             if (_moveInputVector.sqrMagnitude > 0f)
             {
-                Vector3 addedVelocity = _moveInputVector * (_player.AirAccelerationSpeed * deltaTime);
+                Vector3 addedVelocity = _moveInputVector * (15 * deltaTime);
 
                 Vector3 currentVelocityOnInputsPlane = Vector3.ProjectOnPlane(currentVelocity, Motor.CharacterUp);
 
@@ -55,9 +55,6 @@ namespace Tencent
 
             // Gravity
             currentVelocity += _player.Gravity * deltaTime;
-
-            // Drag
-            currentVelocity *= (1f / (1f + (_player.Drag * deltaTime)));
         }
 
         public void BeforeCharacterUpdate(float deltaTime)

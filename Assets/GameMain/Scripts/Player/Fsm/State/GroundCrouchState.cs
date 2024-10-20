@@ -20,18 +20,20 @@ namespace Tencent
         {
             base.OnEnter();
             _player.CanStandupWhenCrouching = false;
-            _player.DoCrouch();
+            _player.DoCrouchSmoothly();
         }
 
         public override void OnExit()
         {
             base.OnExit();
-            _player.DoStandUp();
+            _player.DoStandUpSmoothly();
         }
 
         private void CheckStandup()
         {
-            _player.DoStandUp();
+            if (_player.IsCrouching) return;
+            
+            Motor.SetCapsuleDimensions(0.245f, _player.StandUpHeight, _player.StandUpHeight / 2f);
             if (Motor.CharacterOverlap(
                     Motor.TransientPosition,
                     Motor.TransientRotation,
@@ -40,16 +42,16 @@ namespace Tencent
                     QueryTriggerInteraction.Ignore) > 0)
             {
                 //如果试图站起来时被阻挡了就继续蹲着
-
+                Debug.Log("check fail");
                 _player.CanStandupWhenCrouching = false;
             }
             else
-            
+
             {
                 _player.CanStandupWhenCrouching = true;
             }
 
-            _player.DoCrouch();
+            _player.Motor.SetCapsuleDimensions(0.245f, _player.CrouchedCapsuleHeight, _player.CrouchedCapsuleHeight / 2f);
         }
 
         #region KCC

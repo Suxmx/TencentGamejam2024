@@ -14354,18 +14354,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bf924e01f1144d584b7e9e5b4845163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GroundMoveSpeed: 8
+  GroundMoveSpeed: 1.75
   StandUpHeight: 1
-  AirMoveSpeed: 6
-  AirAccelerationSpeed: 15
-  Drag: 0.1
-  Gravity: {x: 0, y: -30, z: 0}
-  JumpPreGroundingGraceTime: 0.1
-  JumpUpSpeed: 10
-  JumpScalableForwardSpeed: 0
+  AirMoveSpeed: 1.75
+  Gravity: {x: 0, y: -5, z: 0}
+  JumpUpSpeed: 2.236
   CrouchedCapsuleHeight: 0.5
-  CrouchMoveSpeed: 4
-  CanStandupWhenCrouching: 0
+  CrouchMoveSpeed: 1
+  CrouchTime: 0.3
 --- !u!114 &2146112819
 MonoBehaviour:
   m_ObjectHideFlags: 0

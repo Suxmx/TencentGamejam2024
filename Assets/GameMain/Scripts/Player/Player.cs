@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DG.Tweening;
 using Framework;
 using KinematicCharacterController;
 using Sirenix.OdinInspector;
@@ -25,6 +26,7 @@ namespace Tencent
         //实际输入
         public Vector3 MoveInputVector => _moveInputVector;
         public Vector3 LookInputVector => _lookInputVector;
+        public float CurHeight => _curHeight;
 
         private PlayerInput _input;
         private Transform _eye;
@@ -81,6 +83,8 @@ namespace Tencent
             _graphics = transform.Find("Root/Graphics");
 
             _motor.CharacterController = this;
+
+            _curHeight = StandUpHeight;
         }
 
         private void InitFsm()
@@ -113,54 +117,65 @@ namespace Tencent
         #region Kcc
 
         [BoxGroup("KCC"), LabelText("地面移动速度")] public float GroundMoveSpeed = 15f;
-        public float StandUpHeight = 1f;
+        [BoxGroup("KCC"), LabelText("站起高度")] public float StandUpHeight = 1f;
 
         [BoxGroup("KCC/空中"), LabelText("空中移动速度")]
         public float AirMoveSpeed = 10f;
 
-        [BoxGroup("KCC/空中"), LabelText("空中移动加速度")]
-        public float AirAccelerationSpeed = 15f;
-
-        [BoxGroup("KCC/空中"), LabelText("空中下降阻力")]
-        public float Drag = 0.1f;
-
         [BoxGroup("KCC/空中"), LabelText("重力")] public Vector3 Gravity = new Vector3(0, -30f, 0);
-
-        [BoxGroup("KCC/跳跃"), LabelText("跳跃间隔时间")]
-        public float JumpPreGroundingGraceTime = 0.1f;
 
         [BoxGroup("KCC/跳跃"), LabelText("跳跃速度")]
         public float JumpUpSpeed = 10f;
 
-        [BoxGroup("KCC/跳跃"), LabelText("跳跃获得向前速度")]
-        public float JumpScalableForwardSpeed = 10f;
 
+        [BoxGroup("KCC/下蹲"), LabelText("下蹲高度")]
         public float CrouchedCapsuleHeight = 0.5f;
+
+        [BoxGroup("KCC/下蹲"), LabelText("下蹲移动速度")]
         public float CrouchMoveSpeed = 4f;
 
+        [BoxGroup("KCC/下蹲"), LabelText("下蹲插值时间")]
+        public float CrouchTime = .3f;
+
         private Vector3 _moveInputVector, _lookInputVector;
-        public bool CanStandupWhenCrouching = false;
+        [NonSerialized] public bool CanStandupWhenCrouching = false;
+        [NonSerialized] public bool IsCrouching = false;
+        private Tween _crouchTween;
+        private float _curHeight;
 
-        public void DoCrouch()
+        public void DoCrouchSmoothly()
         {
-            Motor.SetCapsuleDimensions(0.245f, CrouchedCapsuleHeight, CrouchedCapsuleHeight / 2f);
-            _graphics.localScale = new Vector3(0.5f, CrouchedCapsuleHeight / 2f, 0.5f);
-            _graphics.localPosition = new Vector3(0, CrouchedCapsuleHeight / 2f, 0);
-            var eyePos = _eye.transform.localPosition;
-            eyePos.y = CrouchedCapsuleHeight;
-            _eye.localPosition = eyePos;
+            if (_crouchTween is not null) _crouchTween.Kill();
+            IsCrouching = true;
+            _crouchTween = DOTween.To(x => _curHeight = x, _curHeight, CrouchedCapsuleHeight, CrouchTime);
+            _crouchTween.onUpdate += () =>
+            {
+                Debug.Log(_curHeight);
+                Motor.SetCapsuleDimensions(0.245f, _curHeight, _curHeight / 2f);
+                _graphics.localScale = new Vector3(0.5f, _curHeight / 2f, 0.5f);
+                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0);
+                var eyePos = _eye.transform.localPosition;
+                eyePos.y = _curHeight;
+                _eye.localPosition = eyePos;
+            };
+            _crouchTween.onComplete += () => IsCrouching = false;
         }
 
-        public void DoStandUp()
+        public void DoStandUpSmoothly()
         {
-            Motor.SetCapsuleDimensions(0.245f, StandUpHeight, StandUpHeight / 2f);
-            _graphics.localScale = new Vector3(0.5f, StandUpHeight / 2f, 0.5f);
-            _graphics.localPosition = new Vector3(0, StandUpHeight / 2f, 0);
-            var eyePos = _eye.transform.localPosition;
-            eyePos.y = StandUpHeight;
-            _eye.localPosition = eyePos;
+            if (_crouchTween is not null) _crouchTween.Kill();
+            _crouchTween = DOTween.To(x => _curHeight = x, _curHeight, StandUpHeight, CrouchTime);
+            _crouchTween.onUpdate += () =>
+            {
+                Debug.Log(_curHeight);
+                Motor.SetCapsuleDimensions(0.245f, _curHeight, _curHeight / 2f);
+                _graphics.localScale = new Vector3(0.5f, _curHeight / 2f, 0.5f);
+                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0);
+                var eyePos = _eye.transform.localPosition;
+                eyePos.y = _curHeight;
+                _eye.localPosition = eyePos;
+            };
         }
-
 
         private void HandleCharacterInput()
         {
