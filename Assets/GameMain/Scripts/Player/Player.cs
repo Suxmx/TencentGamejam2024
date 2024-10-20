@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Framework;
 using KinematicCharacterController;
 using Sirenix.OdinInspector;
@@ -14,9 +15,6 @@ namespace Tencent
         public float MoveAxisForward;
         public float MoveAxisRight;
         public Quaternion CameraRotation;
-        public bool JumpDown;
-        public bool CrouchDown;
-        public bool CrouchUp;
     }
 
     [RequireComponent(typeof(PlayerInput))]
@@ -34,6 +32,7 @@ namespace Tencent
         private CinemachineCamera _cinemachine;
         private Transform _graphics;
         private PlayerFsm _fsm;
+        private Aim _aim;
 
         private void Awake()
         {
@@ -48,7 +47,25 @@ namespace Tencent
             _input.UpdateInput();
             HandleCharacterInput();
             _fsm.OnLogic();
-            // Debug.Log($"current state{_fsm.CurrentState.name}");
+        }
+
+        private void LateUpdate()
+        {
+            UpdateAimRaycast();
+        }
+
+        private void UpdateAimRaycast()
+        {
+            Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+            if (Physics.Raycast(ray.origin, ray.direction, out var info, 10f,
+                    LayerMask.GetMask("Ground", "Environment"), QueryTriggerInteraction.UseGlobal))
+            {
+                _aim.UpdateRaycast(ray.origin, info.point);
+                return;
+            }
+
+            _aim.UpdateRaycast(ray.origin, _eye.position + ray.direction * 10);
         }
 
         #region Init
@@ -58,6 +75,7 @@ namespace Tencent
             _input = GetComponent<PlayerInput>();
             _motor = GetComponent<KinematicCharacterMotor>();
             _cinemachine = FindAnyObjectByType<CinemachineCamera>();
+            _aim = GetComponentInChildren<Aim>();
 
             _eye = transform.Find("Root/Eye");
             _graphics = transform.Find("Root/Graphics");
