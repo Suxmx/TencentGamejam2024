@@ -21,6 +21,9 @@ namespace Tencent
     [RequireComponent(typeof(PlayerInput))]
     public class Player : MonoBehaviour, ICharacterController
     {
+        [BoxGroup("摄像机"), OnValueChanged(nameof(OnMouseGainChange))]
+        public float MouseGain = 8f;
+
         public KinematicCharacterMotor Motor => _motor;
 
         //实际输入
@@ -38,6 +41,7 @@ namespace Tencent
 
         private void Awake()
         {
+            InitVariables();
             InitComponents();
             InitFsm();
             Cursor.lockState = CursorLockMode.Locked;
@@ -72,6 +76,11 @@ namespace Tencent
 
         #region Init
 
+        private void InitVariables()
+        {
+            JumpUpSpeed = Mathf.Sqrt(2 * JumpHeight * (Mathf.Abs(Gravity.y)));
+        }
+
         private void InitComponents()
         {
             _input = GetComponent<PlayerInput>();
@@ -85,6 +94,7 @@ namespace Tencent
             _motor.CharacterController = this;
 
             _curHeight = StandUpHeight;
+            OnMouseGainChange();
         }
 
         private void InitFsm()
@@ -124,7 +134,10 @@ namespace Tencent
 
         [BoxGroup("KCC/空中"), LabelText("重力")] public Vector3 Gravity = new Vector3(0, -30f, 0);
 
-        [BoxGroup("KCC/跳跃"), LabelText("跳跃速度")]
+        [BoxGroup("KCC/跳跃"), LabelText("跳跃高度")]
+        public float JumpHeight = 10f;
+
+        [BoxGroup("KCC/跳跃"), LabelText("跳跃速度"), Sirenix.OdinInspector.ReadOnly]
         public float JumpUpSpeed = 10f;
 
 
@@ -289,6 +302,18 @@ namespace Tencent
             {
                 kcc.OnDiscreteCollisionDetected(hitCollider);
             }
+        }
+
+        #endregion
+
+        #region Inspector
+
+        private void OnMouseGainChange()
+        {
+            if (!Application.isPlaying) return;
+            var inputAxis = _cinemachine.GetComponent<CinemachineInputAxisController>();
+            inputAxis.Controllers[0].Input.Gain = MouseGain;
+            inputAxis.Controllers[1].Input.Gain = -MouseGain;
         }
 
         #endregion

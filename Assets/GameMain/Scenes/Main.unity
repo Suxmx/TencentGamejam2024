@@ -14354,11 +14354,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bf924e01f1144d584b7e9e5b4845163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MouseGain: 9
   GroundMoveSpeed: 1.75
   StandUpHeight: 1
   AirMoveSpeed: 1.75
   Gravity: {x: 0, y: -5, z: 0}
-  JumpUpSpeed: 2.236
+  JumpHeight: 0.5
+  JumpUpSpeed: 10
   CrouchedCapsuleHeight: 0.5
   CrouchMoveSpeed: 1
   CrouchTime: 0.3
