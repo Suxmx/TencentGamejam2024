@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Framework;
 using MyTimer;
+using Sirenix.OdinInspector;
+using Tencent.Args;
 using UnityEngine;
 
 namespace Tencent
 {
     public class PressurePlate : MonoBehaviour
     {
-        private BoxCollider _box;
+        [SerializeField, LabelText("激活的Key")] private string _triggerKey;
         private bool _pressed = false;
         private List<GameObject> _upObjs = new();
 
         private HashSet<GameObject> _waitToAdd = new();
         private Dictionary<GameObject, TimerOnly> _addDict = new();
-
-        private void Awake()
-        {
-            _box = GetComponent<BoxCollider>();
-        }
 
         private void Update()
         {
@@ -28,18 +26,38 @@ namespace Tencent
 
             if (_upObjs.Count > 0)
             {
+                if (!_pressed)
+                {
+                    OnStartPressed();
+                }
+
                 OnBePressing();
             }
         }
 
-        private void OnBePressing()
+        /// <summary>
+        /// 开始被按压
+        /// </summary>
+        private void OnStartPressed()
         {
             _pressed = true;
+            GameEntry.NewEvent.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, true));
         }
 
+        /// <summary>
+        /// 正在被按压
+        /// </summary>
+        private void OnBePressing()
+        {
+        }
+
+        /// <summary>
+        /// 按压结束
+        /// </summary>
         private void OnPressEnd()
         {
             _pressed = false;
+            GameEntry.NewEvent.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, false));
         }
 
         private void OnCollisionStay(Collision other)
@@ -55,10 +73,26 @@ namespace Tencent
                         AddToWaitQueue(playerTrigger.gameObject);
                     }
                 }
+
                 return;
             }
-            
-            
+
+            if (other.gameObject.TryGetComponent<MoveableCube>(out var cube))
+            {
+                foreach (ContactPoint contact in other.contacts)
+                {
+                    if (Vector3.Dot(contact.normal, Vector3.up) < -0.9f)
+                    {
+                        if (!_upObjs.Contains(cube.gameObject) && !_waitToAdd.Contains(cube.gameObject))
+                        {
+                            Debug.Log("方块在上方");
+                            AddToWaitQueue(cube.gameObject);
+                        }
+
+                        break;
+                    }
+                }
+            }
         }
 
         private void OnCollisionExit(Collision other)
@@ -92,7 +126,6 @@ namespace Tencent
 
         private void OnAddTimerEnd(TimerOnly timer, GameObject go)
         {
-            Debug.Log("add success");
             _waitToAdd.Remove(go);
             _addDict.Remove(go);
             timer.Paused = true;
