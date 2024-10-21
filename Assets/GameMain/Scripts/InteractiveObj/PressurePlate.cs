@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Framework;
 using MyTimer;
 using Sirenix.OdinInspector;
+using Tencent.Args;
 using UnityEngine;
 
 namespace Tencent
@@ -39,6 +41,7 @@ namespace Tencent
         private void OnStartPressed()
         {
             _pressed = true;
+            GameEntry.NewEvent.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, true));
         }
 
         /// <summary>
@@ -54,6 +57,7 @@ namespace Tencent
         private void OnPressEnd()
         {
             _pressed = false;
+            GameEntry.NewEvent.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, false));
         }
 
         private void OnCollisionStay(Collision other)
@@ -71,6 +75,23 @@ namespace Tencent
                 }
 
                 return;
+            }
+
+            if (other.gameObject.TryGetComponent<MoveableCube>(out var cube))
+            {
+                foreach (ContactPoint contact in other.contacts)
+                {
+                    if (Vector3.Dot(contact.normal, Vector3.up) < -0.9f)
+                    {
+                        if (!_upObjs.Contains(cube.gameObject) && !_waitToAdd.Contains(cube.gameObject))
+                        {
+                            Debug.Log("方块在上方");
+                            AddToWaitQueue(cube.gameObject);
+                        }
+
+                        break;
+                    }
+                }
             }
         }
 

@@ -13,6 +13,7 @@ namespace Tencent
     public class MovingPlatform : MonoBehaviour, IMoverController
     {
         [SerializeField, LabelText("开关Key")] private string _triggerKey;
+        [SerializeField, LabelText("初始状态")] private bool _initState;
 
         [SerializeField, LabelText("移动速度")] private float _moveSpeed;
         [SerializeField, LabelText("停留时间")] private float _stopTime;
@@ -21,7 +22,7 @@ namespace Tencent
 
         private PhysicsMover _mover;
         private Transform _currentTarget;
-        private bool _moving=true;
+        private bool _moving;
         private TimerOnly _stopTimer = new();
 
         private void Awake()
@@ -40,13 +41,14 @@ namespace Tencent
             _currentTarget = _pointA;
             _stopTimer.Initialize(_stopTime,false);
             _stopTimer.AfterCompelete += _ => _moving = true;
+            _moving = _initState;
             
-            GameEntry.NewEvent.Subscribe(OnPressurePlateTriggerArg.EventId,OnPressurePlateTriggered);
+            GameEntry.NewEvent.Subscribe(OnPressurePlateStateChangeArg.EventId,OnPressurePlateTriggered);
         }
 
         private void OnDestroy()
         {
-            GameEntry.NewEvent.Unsubscribe(OnPressurePlateTriggerArg.EventId,OnPressurePlateTriggered);
+            GameEntry.NewEvent.Unsubscribe(OnPressurePlateStateChangeArg.EventId,OnPressurePlateTriggered);
         }
 
         public void UpdateMovement(out Vector3 goalPosition, out Quaternion goalRotation, float deltaTime)
@@ -74,8 +76,11 @@ namespace Tencent
 
         private void OnPressurePlateTriggered(object sender, GameEventArgs arg)
         {
-            var e = (OnPressurePlateTriggerArg)arg;
+            var e = (OnPressurePlateStateChangeArg)arg;
             if (e.TriggerKey != _triggerKey) return;
+            _stopTimer.Paused = true;
+            _moving = _initState ? !e.Enable : e.Enable;
+
         }
     }
 }
