@@ -110,7 +110,7 @@ namespace Framework.Develop
             {
                 throw new Exception($"Event {id} doesn't exit handler");
             }
-
+            
             m_EventHandlers[id] -= handler;
         }
 

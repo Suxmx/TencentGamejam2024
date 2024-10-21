@@ -16,7 +16,7 @@ MonoBehaviour:
   UIunits:
   - Id: 1
     Path: MenuForm
-    CanMultiOpen: 0
   - Id: 2
     Path: GameForm
-    CanMultiOpen: 0
+  - Id: 3
+    Path: SettingForm

@@ -3,6 +3,7 @@
     public enum UIFormId
     {
         MenuForm=1,
-        GameForm=2
+        GameForm=2,
+        SettingForm=3
     }
 }

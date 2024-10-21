@@ -9,7 +9,6 @@ namespace Framework
     {
         public UIFormId Id;
         public string Path;
-        public bool CanMultiOpen;
     }
     [CreateAssetMenu(menuName = "My/UIConfig")]
     public class UIConfig : ScriptableObject

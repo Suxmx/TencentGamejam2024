@@ -52,8 +52,7 @@ namespace Tencent
             InitVariables();
             InitComponents();
             InitFsm();
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            
         }
 
         private void Update()

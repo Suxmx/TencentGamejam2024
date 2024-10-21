@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2adeecd599882554d820b95dbe36b598
+    m_Address: Assets/GameMain/Prefabs/UIForms/SettingForm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4bf8a885b2d16be49a0fbf1041d0a536
     m_Address: Assets/GameMain/Configs/ChangeableConfig.asset
     m_ReadOnly: 0

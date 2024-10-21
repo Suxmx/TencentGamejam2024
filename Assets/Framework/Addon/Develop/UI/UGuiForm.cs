@@ -4,7 +4,6 @@ namespace Framework
 {
     public abstract class UGuiForm : MonoBehaviour
     {
-        public int SerialId;
         public UIFormId FormId;
 
         public virtual void OnInit()

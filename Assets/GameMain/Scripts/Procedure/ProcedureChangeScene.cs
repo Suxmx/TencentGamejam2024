@@ -15,7 +15,7 @@ namespace GameMain
             //还原游戏时间
             Time.timeScale = 1;
             //关闭UI
-            GameEntry.UI.CloseAllUIForm();
+            GameEntry.UI.CloseAllUIForms();
             //开始加载场景
             string nextScene = Owner.GetValue<string>("NextScene");
             _toMenu = string.CompareOrdinal(nextScene, "Menu") == 0;

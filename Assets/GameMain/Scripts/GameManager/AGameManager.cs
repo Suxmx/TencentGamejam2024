@@ -31,11 +31,11 @@ namespace Framework
         private static AGameManager _instance;
 
         public static GameEntityManager Entity { get; private set; }
-        
+
         #endregion
 
 
-        private List<IManager> _managers=new();
+        private List<IManager> _managers = new();
         private List<IUpdatable> _updatables = new();
         public CinemachineCamera CinemachineCamera => FindAnyObjectByType<CinemachineCamera>();
 
@@ -52,7 +52,6 @@ namespace Framework
             trans.localScale = Vector3.one;
 
             Entity = CreateManager<GameEntityManager>("Entity", trans);
-
         }
 
         private T CreateManager<T>(string name, Transform trans) where T : ManagerBase
@@ -65,6 +64,7 @@ namespace Framework
             {
                 _updatables.Add(updatable);
             }
+
             return mgr;
         }
 
@@ -81,6 +81,8 @@ namespace Framework
             {
                 mgr.OnEnter();
             }
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         /// <summary>
@@ -92,18 +94,38 @@ namespace Framework
             _instance = null;
         }
 
+        private bool _settingOpen = false;
+
         private void Update()
         {
-            if(!_running) return;
+            if (!_running) return;
             foreach (var updatable in _updatables)
             {
                 updatable.OnUpdate(Time.deltaTime);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (_settingOpen)
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                    GameEntry.UI.CloseUIForm(UIFormId.SettingForm);
+                }
+                else
+                {
+                    Cursor.lockState = CursorLockMode.Confined;
+                    Cursor.visible = true;
+                    GameEntry.UI.OpenUIForm(UIFormId.SettingForm);
+                }
+
+                _settingOpen = !_settingOpen;
             }
         }
 
         private void FixedUpdate()
         {
-            if(!_running) return;
+            if (!_running) return;
             foreach (var updatable in _updatables)
             {
                 updatable.OnFixedUpdate(Time.deltaTime);
@@ -112,7 +134,7 @@ namespace Framework
 
         private void LateUpdate()
         {
-            if(!_running) return;
+            if (!_running) return;
             foreach (var updatable in _updatables)
             {
                 updatable.OnLateUpdate(Time.deltaTime);
@@ -122,8 +144,6 @@ namespace Framework
         #endregion
 
         #region Events
-
-        
 
         #endregion
     }

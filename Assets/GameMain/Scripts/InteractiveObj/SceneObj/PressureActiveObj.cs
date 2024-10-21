@@ -35,6 +35,7 @@ namespace Tencent
         private void OnPressurePlateTriggered(object sender, GameEventArgs arg)
         {
             var e = (OnPressurePlateStateChangeArg)arg;
+            Debug.Log("trigger");
             if (e.TriggerKey != _triggerKey) return;
             OnTriggerStateChange(e.Enable);
         }
