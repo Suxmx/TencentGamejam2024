@@ -20,6 +20,8 @@ namespace GameMain
             {
                 GameEntry.NewEvent = GetComponent<ClassEventSystem>();
             }
+            
+            AGameManager.Instance.OnEnter();
         }
     }
 }

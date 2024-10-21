@@ -29,6 +29,8 @@ namespace Framework
         }
 
         private static AGameManager _instance;
+
+        public static GameEntityManager Entity { get; private set; }
         
         #endregion
 
@@ -48,6 +50,8 @@ namespace Framework
             var trans = new GameObject("Managers").transform;
             trans.SetParent(transform);
             trans.localScale = Vector3.one;
+
+            Entity = CreateManager<GameEntityManager>("Entity", trans);
 
         }
 

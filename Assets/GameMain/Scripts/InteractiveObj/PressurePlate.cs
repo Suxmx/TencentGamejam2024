@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using MyTimer;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Tencent
 {
     public class PressurePlate : MonoBehaviour
     {
-        private BoxCollider _box;
+        [SerializeField, LabelText("激活的Key")] private string _triggerKey;
         private bool _pressed = false;
         private List<GameObject> _upObjs = new();
 
         private HashSet<GameObject> _waitToAdd = new();
         private Dictionary<GameObject, TimerOnly> _addDict = new();
-
-        private void Awake()
-        {
-            _box = GetComponent<BoxCollider>();
-        }
 
         private void Update()
         {
@@ -28,15 +24,33 @@ namespace Tencent
 
             if (_upObjs.Count > 0)
             {
+                if (!_pressed)
+                {
+                    OnStartPressed();
+                }
+
                 OnBePressing();
             }
         }
 
-        private void OnBePressing()
+        /// <summary>
+        /// 开始被按压
+        /// </summary>
+        private void OnStartPressed()
         {
             _pressed = true;
         }
 
+        /// <summary>
+        /// 正在被按压
+        /// </summary>
+        private void OnBePressing()
+        {
+        }
+
+        /// <summary>
+        /// 按压结束
+        /// </summary>
         private void OnPressEnd()
         {
             _pressed = false;
@@ -55,10 +69,9 @@ namespace Tencent
                         AddToWaitQueue(playerTrigger.gameObject);
                     }
                 }
+
                 return;
             }
-            
-            
         }
 
         private void OnCollisionExit(Collision other)
@@ -92,7 +105,6 @@ namespace Tencent
 
         private void OnAddTimerEnd(TimerOnly timer, GameObject go)
         {
-            Debug.Log("add success");
             _waitToAdd.Remove(go);
             _addDict.Remove(go);
             timer.Paused = true;
