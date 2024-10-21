@@ -1,4 +1,5 @@
 ﻿using System;
+using GameMain;
 using UnityEngine;
 
 namespace Tencent
@@ -6,7 +7,7 @@ namespace Tencent
     public class PlayerTrigger : MonoBehaviour
     {
         public Player Player => _player;
-        
+
         private CapsuleCollider _collider;
         private Player _player;
 
@@ -22,6 +23,14 @@ namespace Tencent
             _collider.radius = radius + 0.001f;
             _collider.height = height + 0.001f;
         }
-        
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent<ICollectable>(out var collect))
+            {
+                collect.OnCollected(_player);
+                Debug.Log("on trigger enter");
+            }
+        }
     }
 }
