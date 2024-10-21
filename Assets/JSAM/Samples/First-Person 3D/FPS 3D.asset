@@ -54,7 +54,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 710a6cb5046c91947a846ebe06cde67d, type: 2}
     - {fileID: 11400000, guid: 96398ed6e06769044b2d992828fa51d8, type: 2}
     - {fileID: 11400000, guid: 64df0c54db9ea73419da5e47fa52bb0f, type: 2}
-    foldout: 1
+    foldout: 0
   - name: 
     files:
     - {fileID: 11400000, guid: a03d93398434809489558195c45c68f7, type: 2}

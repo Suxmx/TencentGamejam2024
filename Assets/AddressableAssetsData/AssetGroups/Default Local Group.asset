@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d21c6d32fdcb81046a3c4143b88b0e68
+    m_Address: Assets/GameMain/Prefabs/Bullet/MaterialBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f48fad852e7cbc74a8c415c80893ee3a
     m_Address: Assets/GameMain/Prefabs/UIForms/GameForm.prefab
     m_ReadOnly: 0

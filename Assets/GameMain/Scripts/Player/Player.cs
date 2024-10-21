@@ -42,6 +42,7 @@ namespace Tencent
         private Transform _foot;
         private PlayerFsm _fsm;
         private Transform _root;
+
         private MaterialGun _materialGun;
         private PlayerTrigger _playerTrigger;
 
@@ -89,9 +90,8 @@ namespace Tencent
             _input = GetComponent<PlayerInput>();
             _motor = GetComponent<KinematicCharacterMotor>();
             _cinemachine = FindAnyObjectByType<CinemachineCamera>();
-            _materialGun = GetComponentInChildren<MaterialGun>();
+            _materialGun = _cinemachine.GetComponentInChildren<MaterialGun>();
             _playerTrigger = Instantiate(_playerTriggerPrefab).GetComponent<PlayerTrigger>();
-            _materialGun = GetComponentInChildren<MaterialGun>();
 
             _root = transform.Find("Root");
             _playerTrigger.transform.position = _root.position;

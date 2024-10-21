@@ -1,33 +1,66 @@
 ﻿using System;
+using Framework;
 using GameMain;
+using MyTimer;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Tencent
 {
-    public class MaterialBullet : MonoBehaviour
+    public class MaterialBulletInfo
+    {
+        public MaterialBulletInfo(EMaterial materialType, Material material, Vector3 direction)
+        {
+            MaterialType = materialType;
+            Material = material;
+            Direction = direction;
+        }
+
+        public EMaterial MaterialType;
+        public Material Material;
+        public Vector3 Direction;
+    }
+
+    public class MaterialBullet : GameEntityBase
     {
         [LabelText("子弹速度")] private float _bulletSpeed = 20;
+        [LabelText("子弹销毁时间")] private float _bulletDestroyTime = 5f;
         private EMaterial _materialType;
         private MeshRenderer _mr;
-        private bool _inited = false;
         private Vector3 _fireDirection;
         private Rigidbody _rigid;
+        private TimerOnly _destroyTimer;
 
-        public void Init(EMaterial materialType, Material bulletMaterial, Vector3 direction)
+        public override void OnInit()
         {
             _mr = GetComponent<MeshRenderer>();
             _rigid = GetComponent<Rigidbody>();
-            _mr.material = bulletMaterial;
 
-            _materialType = materialType;
-            _fireDirection = direction.normalized;
-            _inited = true;
+            _destroyTimer = new();
+            _destroyTimer.Initialize(_bulletDestroyTime,false);
+            _destroyTimer.AfterCompelete += _ => UnspawnObj();
         }
 
-        private void Update()
+        public override void OnShow(object userData)
         {
-            if (!_inited) return;
+            base.OnShow(userData);
+            _destroyTimer.Restart();
+            _rigid.linearVelocity = Vector3.zero;
+            var data = (MaterialBulletInfo)userData;
+            _materialType = data.MaterialType;
+            _fireDirection = data.Direction.normalized;
+            _mr.material = data.Material;
+        }
+
+        public override void OnHide()
+        {
+            base.OnHide();
+            _destroyTimer.Paused = true;
+        }
+
+        public override void OnUpdate(float deltaTime)
+        {
+            base.OnUpdate(deltaTime);
             _rigid.linearVelocity = _fireDirection * _bulletSpeed;
         }
 
@@ -37,7 +70,7 @@ namespace Tencent
             if (changeable is null) return;
 
             changeable.OnHitMaterialBullet(_materialType);
-            Destroy(gameObject);
+            UnspawnObj();
         }
     }
 }
