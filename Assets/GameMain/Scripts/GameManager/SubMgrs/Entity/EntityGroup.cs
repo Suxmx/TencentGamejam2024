@@ -10,32 +10,7 @@ namespace Framework
     /// </summary>
     public enum EEntityGroup
     {
-        Player,
-
-        /// <summary>
-        /// 普通小怪
-        /// </summary>
-        NormalEnemy,
-
-        /// <summary>
-        /// boss
-        /// </summary>
-        Boss,
-
-        /// <summary>
-        /// 障碍
-        /// </summary>
-        Obstacle,
-
-        /// <summary>
-        /// 攻击触发器
-        /// </summary>
-        AttackTrigger,
-
-        /// <summary>
-        /// 可交互物品
-        /// </summary>
-        InteractableItems,
+        Bullet
     }
 
     public class EntityGroup : MonoBehaviour

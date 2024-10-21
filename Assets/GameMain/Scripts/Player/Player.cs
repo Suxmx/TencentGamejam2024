@@ -42,6 +42,7 @@ namespace Tencent
         private Transform _foot;
         private PlayerFsm _fsm;
         private Transform _root;
+
         private MaterialGun _materialGun;
         private PlayerTrigger _playerTrigger;
 
@@ -67,19 +68,15 @@ namespace Tencent
             _fsm.OnLogic();
         }
 
-        private bool _superJumpRequest = false;
-        private float _superJumpVelocity = 0;
-
-        public void SuperJump(float jumpHeight)
-        {
-            _superJumpVelocity = Mathf.Sqrt(2 * jumpHeight * (Mathf.Abs(Gravity.y)));
-            _superJumpRequest = true;
-        }
 
         private void LateUpdate()
         {
             _playerTrigger.transform.position = _root.position;
         }
+
+        #region 收集
+
+        #endregion
 
         #region Init
 
@@ -93,9 +90,8 @@ namespace Tencent
             _input = GetComponent<PlayerInput>();
             _motor = GetComponent<KinematicCharacterMotor>();
             _cinemachine = FindAnyObjectByType<CinemachineCamera>();
-            _materialGun = GetComponentInChildren<MaterialGun>();
+            _materialGun = _cinemachine.GetComponentInChildren<MaterialGun>();
             _playerTrigger = Instantiate(_playerTriggerPrefab).GetComponent<PlayerTrigger>();
-            _materialGun = GetComponentInChildren<MaterialGun>();
 
             _root = transform.Find("Root");
             _playerTrigger.transform.position = _root.position;
@@ -106,7 +102,7 @@ namespace Tencent
 
             _playerTrigger.Init(this);
             _playerTrigger.ResetCollider(Vector3.up * StandUpHeight / 2f, 0.245f, StandUpHeight);
-            
+
             _materialGun.Init(this);
 
             _motor.CharacterController = this;
@@ -142,7 +138,7 @@ namespace Tencent
 
         #endregion
 
-        #region Kcc
+        #region 运动相关
 
         [BoxGroup("KCC"), LabelText("地面移动速度")] public float GroundMoveSpeed = 15f;
         [BoxGroup("KCC"), LabelText("站起高度")] public float StandUpHeight = 1f;
@@ -173,6 +169,16 @@ namespace Tencent
         [NonSerialized] public bool IsCrouching = false;
         private Tween _crouchTween;
         private float _curHeight;
+
+
+        private bool _superJumpRequest = false;
+        private float _superJumpVelocity = 0;
+
+        public void SuperJump(float jumpHeight)
+        {
+            _superJumpVelocity = Mathf.Sqrt(2 * jumpHeight * (Mathf.Abs(Gravity.y)));
+            _superJumpRequest = true;
+        }
 
         public void DoCrouchSmoothly()
         {

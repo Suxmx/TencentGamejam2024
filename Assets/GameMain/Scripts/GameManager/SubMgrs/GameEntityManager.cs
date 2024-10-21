@@ -9,13 +9,15 @@ namespace Framework
     /// <summary>
     /// 全局实体管理类，所有实体都应用这个类生成；需要提前添加prefab，并且设置为Addressable
     /// </summary>
-    public class GameEntityManager : ManagerBase,IUpdatable
+    public class GameEntityManager : ManagerBase, IUpdatable
     {
-        private static string EntityPrefabRootPath;
+        private static string EntityPrefabRootPath = "Assets/GameMain/Prefabs";
+
         public static string GetEntityPath(EEntityGroup group, string entityName)
         {
             return $"{EntityPrefabRootPath}/{group.ToString()}/{entityName}.prefab";
         }
+
         public bool Active
         {
             get => _active;
@@ -29,7 +31,7 @@ namespace Framework
         {
         }
 
-        public  void OnUpdate(float deltaTime)
+        public void OnUpdate(float deltaTime)
         {
             if (Active)
             {
@@ -42,7 +44,7 @@ namespace Framework
             }
         }
 
-        public  void OnFixedUpdate(float deltaTime)
+        public void OnFixedUpdate(float deltaTime)
         {
             if (Active)
             {
@@ -55,7 +57,7 @@ namespace Framework
             }
         }
 
-        public  void OnLateUpdate(float deltaTime)
+        public void OnLateUpdate(float deltaTime)
         {
             if (Active)
             {
@@ -70,7 +72,6 @@ namespace Framework
 
         public override void OnExit()
         {
-
         }
 
         /// <summary>

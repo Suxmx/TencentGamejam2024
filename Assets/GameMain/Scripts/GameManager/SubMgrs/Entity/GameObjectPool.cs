@@ -8,7 +8,7 @@ namespace Framework
     /// </summary>
     public class GameObjectPool
     {
-        private Queue<GameObject> _pool=new();
+        private Queue<GameObject> _pool = new();
         private GameObject _prefab;
         private Transform _parent;
 
@@ -19,7 +19,7 @@ namespace Framework
             _parent = parent;
         }
 
-        public GameObject Spawn(Transform trans=null)
+        public GameObject Spawn(Transform trans = null)
         {
             GameObject obj;
             if (_pool.Count <= 0)
@@ -39,14 +39,16 @@ namespace Framework
             {
                 obj.transform.SetParent(trans);
             }
+
             obj.SetActive(true);
             return obj;
         }
 
         public void Unspawn(GameObject obj)
         {
+            Vector3 originScale = obj.transform.localScale;
             obj.transform.SetParent(_parent);
-            obj.transform.localScale=Vector3.one;
+            obj.transform.localScale = originScale;
             obj.SetActive(false);
             _pool.Enqueue(obj);
         }

@@ -19,8 +19,7 @@ namespace Framework
         public static IProcedureManager Procedure;
 
         public static ISaveManager Save;
-
-        public static IAudioManager Audio;
+        
         
         private void GetBuiltInServices()
         {
@@ -30,7 +29,6 @@ namespace Framework
             NewEvent = ServiceLocator.Get<IClassEventSystem>();
             Procedure = ServiceLocator.Get<IProcedureManager>();
             Save = ServiceLocator.Get<ISaveManager>();
-            Audio = ServiceLocator.Get<IAudioManager>();
 
         }
     }

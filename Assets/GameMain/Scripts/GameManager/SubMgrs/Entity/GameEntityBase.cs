@@ -58,5 +58,10 @@ namespace Framework
         public virtual void OnDestroy()
         {
         }
+
+        public void UnspawnObj()
+        {
+            AGameManager.Entity.Unspawn(this);
+        }
     }
 }
