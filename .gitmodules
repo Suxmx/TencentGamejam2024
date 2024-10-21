@@ -1,0 +1,3 @@
+[submodule "Assets/TencentGJResource"]
+	path = Assets/TencentGJResource
+	url = git@github.com:Suxmx/TencentGJResource.git
