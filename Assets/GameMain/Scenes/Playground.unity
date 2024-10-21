@@ -15344,6 +15344,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _materialBulletPrefab: {fileID: 1430091995095288469, guid: d21c6d32fdcb81046a3c4143b88b0e68, type: 3}
+  _muzzle: {fileID: 0}
+  _shootingMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1833634776
 GameObject:
   m_ObjectHideFlags: 0
