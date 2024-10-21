@@ -26,7 +26,8 @@ MonoBehaviour:
     probeVolumeBlendStatesCS: {fileID: 7200000, guid: b9a23f869c4fd45f19c5ada54dd82176, type: 3}
   m_RendererFeatures:
   - {fileID: 7833122117494664109}
-  m_RendererFeatureMap: ad6b866f10d7b46c
+  - {fileID: 2676870560273166252}
+  m_RendererFeatureMap: ad6b866f10d7b46cac6fc88697272625
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -46,12 +47,34 @@ MonoBehaviour:
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 2
-  m_DepthPrimingMode: 0
+  m_DepthPrimingMode: 2
   m_CopyDepthMode: 2
   m_DepthAttachmentFormat: 0
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
+--- !u!114 &2676870560273166252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9acd4c12a87a14ebcec4ba15d5dce9, type: 3}
+  m_Name: FogRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_shader: {fileID: 4800000, guid: acb0fff9fe2d40d4b8bf679bba6df409, type: 3}
+  m_FogColor: {r: 1, g: 1, b: 1, a: 1}
+  m_FogStart: 0.61
+  m_FogEnd: 3.9
+  m_NoiseCellSize: 0
+  m_NoiseRoughness: 0
+  m_NoisePersistance: 0
+  m_NoiseSpeed: {x: 0, y: 0, z: 0}
+  m_NoiseScale: 0
 --- !u!114 &7833122117494664109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,7 +94,7 @@ MonoBehaviour:
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 0.4
+    Intensity: 0.49
     DirectLightingStrength: 0.25
     Radius: 0.3
     Samples: 1
