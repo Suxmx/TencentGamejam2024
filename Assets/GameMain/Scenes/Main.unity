@@ -15049,7 +15049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _triggerKey: test
-  _initState: 0
+  _initState: 1
   _moveSpeed: 3
   _stopTime: 2
   _pointA: {fileID: 1906052569}
@@ -16714,7 +16714,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 690675477}
+  m_Mesh: {fileID: 1404863587}
 --- !u!33 &1687212375
 MeshFilter:
   m_ObjectHideFlags: 10
