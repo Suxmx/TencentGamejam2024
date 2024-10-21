@@ -1,0 +1,3 @@
+[submodule "Assets/TXGJResource"]
+	path = Assets/TXGJResource
+	url = git@github.com:Suxmx/TXGJResource.git
