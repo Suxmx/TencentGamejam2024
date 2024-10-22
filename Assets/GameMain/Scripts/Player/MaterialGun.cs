@@ -36,21 +36,33 @@ namespace Tencent
             _animator = GetComponent<Animator>();
             LoadConfig();
             _currentMaterial = EMaterial.Cloud;
+            GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-               
+                int count = Enum.GetValues(typeof(EMaterial)).Length;
+                int index = (int)_currentMaterial;
+                index = index - 1 < 0 ? count - 1 : index - 1;
+                _currentMaterial = (EMaterial)index;
+                GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-               
+                int count = Enum.GetValues(typeof(EMaterial)).Length;
+                int index = (int)_currentMaterial;
+                index = index + 1 >= count ? 0 : index + 1;
+                _currentMaterial = (EMaterial)index;
+                GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
             }
 
-            FireMaterialBullet();
+            if (InputData.HasEventStart(InputEvent.Fire))
+            {
+                _animator.SetTrigger("fire");
+            }
             FireMoveGun();
             UpdateDebugSphere();
 
@@ -92,7 +104,7 @@ namespace Tencent
 
         private void FireMaterialBullet()
         {
-            if (!InputData.HasEventStart(InputEvent.Fire)) return;
+            Debug.Log("fire");
             var targetPos = RaycastFromCursor();
             var direction = (targetPos - _muzzle.transform.position).normalized;
 
@@ -137,9 +149,8 @@ namespace Tencent
 
         public void SetBool(string name, bool value)
         {
-            _animator.SetBool(name,value);
+            _animator.SetBool(name, value);
         }
-        
 
         #endregion
 
