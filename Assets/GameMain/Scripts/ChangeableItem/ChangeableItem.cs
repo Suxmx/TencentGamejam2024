@@ -43,6 +43,7 @@ namespace GameMain
 
         protected void OnChangeMaterial(EMaterial materialType)
         {
+            gameObject.layer = LayerMask.NameToLayer("Environment");
             switch (materialType)
             {
                 case EMaterial.Cloud:
