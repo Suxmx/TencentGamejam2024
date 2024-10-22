@@ -52,7 +52,6 @@ namespace Tencent
             InitVariables();
             InitComponents();
             InitFsm();
-            
         }
 
         private void Update()
@@ -65,6 +64,8 @@ namespace Tencent
             _input.UpdateInput();
             HandleCharacterInput();
             _fsm.OnLogic();
+            //set gun anim
+            _materialGun.SetBool("walk", Motor.Velocity.magnitude > 0.1f);
         }
 
 

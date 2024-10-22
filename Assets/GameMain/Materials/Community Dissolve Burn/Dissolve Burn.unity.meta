@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameMain/Anim/Clips/Gun.meta
+guid: 3e46636e420786e4b9476bd0b7e6db81
+folderAsset: yes
+========
 guid: 7eb69d1458db5e943b6a561ec85ec8aa
+>>>>>>>> origin/master:Assets/GameMain/Materials/Community Dissolve Burn/Dissolve Burn.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

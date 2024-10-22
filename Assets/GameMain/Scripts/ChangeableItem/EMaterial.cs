@@ -5,9 +5,12 @@
     /// </summary>
     public enum EMaterial
     {
-        None,
-        Test1,
-        Test2,
-        Test3
+        Default,
+        Jelly,
+        Cloud,
+        Climbable,
+        Dangerous,
+        WhiteError,
+        BlackError
     }
 }
