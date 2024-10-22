@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameMain/Anim/Controller.meta
+guid: d90a75ee209739a47b29861baed0334c
+folderAsset: yes
+========
 guid: 6367a1d14c488ad4682c4539bf4d3c99
+>>>>>>>> origin/master:Assets/AmplifyShaderPack/Assets/Default.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

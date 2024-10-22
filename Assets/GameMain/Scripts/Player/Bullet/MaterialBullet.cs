@@ -9,15 +9,17 @@ namespace Tencent
 {
     public class MaterialBulletInfo
     {
-        public MaterialBulletInfo(EMaterial materialType, Material material, Vector3 direction)
+        public MaterialBulletInfo(EMaterial materialType, Material bulletMaterial,Material objMaterial, Vector3 direction)
         {
             MaterialType = materialType;
-            Material = material;
+            BulletMaterial = bulletMaterial;
+            ObjMaterial = objMaterial;
             Direction = direction;
         }
 
         public EMaterial MaterialType;
-        public Material Material;
+        public Material BulletMaterial;
+        public Material ObjMaterial;
         public Vector3 Direction;
     }
 
@@ -30,6 +32,7 @@ namespace Tencent
         private Vector3 _fireDirection;
         private Rigidbody _rigid;
         private TimerOnly _destroyTimer;
+        private Material _objMaterial;
 
         public override void OnInit()
         {
@@ -49,7 +52,8 @@ namespace Tencent
             var data = (MaterialBulletInfo)userData;
             _materialType = data.MaterialType;
             _fireDirection = data.Direction.normalized;
-            _mr.material = data.Material;
+            _mr.material = data.BulletMaterial;
+            _objMaterial = data.ObjMaterial;
         }
 
         public override void OnHide()
@@ -69,7 +73,8 @@ namespace Tencent
             var changeable = other.GetComponent<ChangeableItem>();
             if (changeable is null) return;
 
-            changeable.OnHitMaterialBullet(_materialType);
+            changeable.OnHitMaterialBullet(_materialType,_objMaterial);
+            Debug.Log("unspawn"+" "+changeable.gameObject.name);
             UnspawnObj();
         }
     }

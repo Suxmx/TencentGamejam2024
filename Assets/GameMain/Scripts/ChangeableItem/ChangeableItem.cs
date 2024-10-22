@@ -9,55 +9,49 @@ namespace GameMain
 {
     public class ChangeableItem : MonoBehaviour
     {
-        private static string _configPath = "Assets/GameMain/Configs/ChangeableConfig.asset";
+        public EMaterial CurrentMaterial
+        {
+            get => _currentMaterial;
+            protected set
+            {
+                if (value != _currentMaterial)
+                {
+                    OnChangeMaterial(value);
+                }
 
-        public EMaterial CurrentMaterial = EMaterial.None;
-        private ChangeableConfigSO _config;
+                _currentMaterial = value;
+            }
+        }
+
+        private EMaterial _currentMaterial;
         private MeshRenderer _mr;
-        private Material _defaultMaterial;
-        private TimerOnly _cdTimer = new();
-
-        private bool _canUseSkill = true;
 
         private void Awake()
         {
             _mr = GetComponent<MeshRenderer>();
-            _defaultMaterial = _mr.material;
-            LoadConfig();
-            _cdTimer.Initialize(1f, false);
-            _cdTimer.AfterCompelete += _ => _canUseSkill = true;
         }
 
-        public virtual void OnHitMaterialBullet(EMaterial materialType)
+        public virtual void OnHitMaterialBullet(EMaterial materialType, Material _material)
         {
-            ChangeMaterial(materialType);
-        }
+            if (_material is not null)
+            {
+                _mr.material = _material;
+            }
 
-        private void LoadConfig()
-        {
-            AsyncOperationHandle<ChangeableConfigSO>
-                handle = Addressables.LoadAssetAsync<ChangeableConfigSO>(_configPath);
-            _config = handle.WaitForCompletion();
-        }
-
-        protected void ChangeMaterial(EMaterial materialType)
-        {
             CurrentMaterial = materialType;
-            if (materialType != EMaterial.None)
-            {
-                var m = _config.MaterialDict[materialType].ItemMaterial;
-                _mr.material = m;
-            }
-            else
-            {
-                _mr.material = _defaultMaterial;
-            }
         }
 
-        private void TriggerSkill()
+        protected void OnChangeMaterial(EMaterial materialType)
         {
-            
+            gameObject.layer = LayerMask.NameToLayer("Environment");
+            switch (materialType)
+            {
+                case EMaterial.Cloud:
+                    gameObject.layer = LayerMask.NameToLayer("Cloud");
+                    break;
+                default:
+                    break;
+            }
         }
-        
     }
 }

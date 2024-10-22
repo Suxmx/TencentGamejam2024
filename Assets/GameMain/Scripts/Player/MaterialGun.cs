@@ -19,6 +19,7 @@ namespace Tencent
         private GameObject _debugSphere;
         private Camera _mainCamera;
         private Player _player;
+        private Animator _animator;
 
         private MoveableCube _movingCube = null;
         private float _distance;
@@ -32,23 +33,36 @@ namespace Tencent
         {
             _debugSphere = transform.Find("DebugSphere").gameObject;
             _mainCamera = Camera.main;
+            _animator = GetComponent<Animator>();
             LoadConfig();
-            _currentMaterial = EMaterial.Test1;
+            _currentMaterial = EMaterial.Cloud;
+            GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                _currentMaterial = EMaterial.Test1;
+                int count = Enum.GetValues(typeof(EMaterial)).Length;
+                int index = (int)_currentMaterial;
+                index = index - 1 < 0 ? count - 1 : index - 1;
+                _currentMaterial = (EMaterial)index;
+                GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                _currentMaterial = EMaterial.Test2;
+                int count = Enum.GetValues(typeof(EMaterial)).Length;
+                int index = (int)_currentMaterial;
+                index = index + 1 >= count ? 0 : index + 1;
+                _currentMaterial = (EMaterial)index;
+                GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
             }
 
-            FireMaterialBullet();
+            if (InputData.HasEventStart(InputEvent.Fire))
+            {
+                _animator.SetTrigger("fire");
+            }
             FireMoveGun();
             UpdateDebugSphere();
 
@@ -90,12 +104,13 @@ namespace Tencent
 
         private void FireMaterialBullet()
         {
-            if (!InputData.HasEventStart(InputEvent.Fire)) return;
+            Debug.Log("fire");
             var targetPos = RaycastFromCursor();
             var direction = (targetPos - _muzzle.transform.position).normalized;
-            
+
             Material bulletMaterial = _config.MaterialDict[_currentMaterial].BulletMaterial;
-            var initInfo = new MaterialBulletInfo(_currentMaterial, bulletMaterial, direction);
+            Material objMaterial = _config.MaterialDict[_currentMaterial].ObjMaterial;
+            var initInfo = new MaterialBulletInfo(_currentMaterial, bulletMaterial, objMaterial, direction);
             var bullet =
                 AGameManager.Entity.Spawn<MaterialBullet>("MaterialBullet", EEntityGroup.Bullet, null, initInfo);
             bullet.transform.position = _muzzle.position;
@@ -124,6 +139,20 @@ namespace Tencent
                 handle = Addressables.LoadAssetAsync<ChangeableConfigSO>(_configPath);
             _config = handle.WaitForCompletion();
         }
+
+        #region 动画
+
+        public void SetTrigger(string name)
+        {
+            _animator.SetTrigger(name);
+        }
+
+        public void SetBool(string name, bool value)
+        {
+            _animator.SetBool(name, value);
+        }
+
+        #endregion
 
 
         #region DEBUG

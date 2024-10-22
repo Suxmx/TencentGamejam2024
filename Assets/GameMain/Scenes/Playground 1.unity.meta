@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameMain/Anim.meta
+guid: bf75f8d18ccd8834c8e0c9f5289ad16a
+folderAsset: yes
+========
 guid: a78dfe79394a23f48a5b3af2dbb12294
+>>>>>>>> origin/master:Assets/GameMain/Scenes/Playground 1.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
