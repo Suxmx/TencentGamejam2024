@@ -12603,15 +12603,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7139072700855333125, guid: 7d0cfd9e9c6dece4e9dc43b84ec2d6cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 0.0000023841858
       objectReference: {fileID: 0}
     - target: {fileID: 7139072700855333125, guid: 7d0cfd9e9c6dece4e9dc43b84ec2d6cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 0.00000008940697
       objectReference: {fileID: 0}
     - target: {fileID: 7139072700855333125, guid: 7d0cfd9e9c6dece4e9dc43b84ec2d6cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 0.0000009536743
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
