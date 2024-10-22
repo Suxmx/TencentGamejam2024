@@ -151,6 +151,10 @@ namespace Framework
 
         #region Events
 
+        public void PlayerDie()
+        {
+            
+        }
         #endregion
     }
 }

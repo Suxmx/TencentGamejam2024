@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameMain
 {
@@ -14,7 +15,7 @@ namespace GameMain
     [Serializable]
     public class ChangeableConfigUnit
     {
-        [LabelText("物体材质")] public Material ItemMaterial;
+        [FormerlySerializedAs("ItemMaterial")] [LabelText("物体材质")] public Material ObjMaterial;
         [LabelText("子弹材质")] public Material BulletMaterial;
     }
 }
