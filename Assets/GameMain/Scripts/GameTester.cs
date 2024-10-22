@@ -44,9 +44,8 @@ namespace GameMain
             
         }
 
-        private IEnumerator Start()
+        private void Start()
         {
-            yield return new WaitForEndOfFrame();
             AGameManager.Instance.OnEnter();
         }
     }

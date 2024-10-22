@@ -33,7 +33,7 @@ namespace Tencent
         public override void OnEnter()
         {
             base.OnEnter();
-            Debug.Log($"on enter {name}");
+            // Debug.Log($"on enter {name}");
         }
     }
 }

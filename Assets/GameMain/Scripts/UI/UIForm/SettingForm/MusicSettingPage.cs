@@ -63,13 +63,11 @@ namespace GameMain
         {
             if (enable)
             {
-                Debug.Log("enable volume");
                 m_trans_volumeOffChose.gameObject.SetActive(false);
                 m_trans_volumeOnChose.gameObject.SetActive(true);
             }
             else
             {
-                Debug.Log("disable volume");
                 m_trans_volumeOffChose.gameObject.SetActive(true);
                 m_trans_volumeOnChose.gameObject.SetActive(false);
             }

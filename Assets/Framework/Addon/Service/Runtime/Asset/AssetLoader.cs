@@ -1,7 +1,9 @@
 using System;
+using UnityEngine;
 
 namespace Services.Asset
 {
+    [DefaultExecutionOrder(-1100)]
     public sealed class AssetLoader : Service, IAssetLoader
     {
         internal AssetLoaderCore core;

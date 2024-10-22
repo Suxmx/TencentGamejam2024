@@ -1,5 +1,6 @@
 ﻿using System;
 using MyTimer;
+using Sirenix.OdinInspector;
 using Tencent;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,6 +10,8 @@ namespace GameMain
 {
     public class ChangeableItem : MonoBehaviour
     {
+        [SerializeField, LabelText("果冻跳跃高度")] private float _jellyJumpHeight = 5f;
+
         public EMaterial CurrentMaterial
         {
             get => _currentMaterial;
@@ -29,6 +32,7 @@ namespace GameMain
         private void Awake()
         {
             _mr = GetComponent<MeshRenderer>();
+            _currentMaterial = EMaterial.WhiteError;
         }
 
         public virtual void OnHitMaterialBullet(EMaterial materialType, Material _material)
@@ -49,8 +53,27 @@ namespace GameMain
                 case EMaterial.Cloud:
                     gameObject.layer = LayerMask.NameToLayer("Cloud");
                     break;
+                case EMaterial.Climbable:
+                    break;
                 default:
                     break;
+            }
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (_currentMaterial == EMaterial.Jelly)
+            {
+                if (other.gameObject.TryGetComponent<PlayerTrigger>(out var playerTrigger))
+                {
+                    foreach (ContactPoint contact in other.contacts)
+                    {
+                        if (Vector3.Dot(contact.normal, Vector3.up) < -0.9f)
+                        {
+                            playerTrigger.Player.SuperJump(_jellyJumpHeight);
+                        }
+                    }
+                }
             }
         }
     }

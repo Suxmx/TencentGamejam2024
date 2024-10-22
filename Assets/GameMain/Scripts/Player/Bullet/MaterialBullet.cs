@@ -74,7 +74,6 @@ namespace Tencent
             if (changeable is null) return;
 
             changeable.OnHitMaterialBullet(_materialType,_objMaterial);
-            Debug.Log("unspawn"+" "+changeable.gameObject.name);
             UnspawnObj();
         }
     }

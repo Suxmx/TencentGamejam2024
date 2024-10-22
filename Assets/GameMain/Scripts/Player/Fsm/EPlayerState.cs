@@ -5,6 +5,7 @@
         Air,
         GroundMove,
         Crouch,
-        Jump
+        Jump,
+        Climb
     }
 }

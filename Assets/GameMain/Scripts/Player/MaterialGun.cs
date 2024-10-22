@@ -36,6 +36,10 @@ namespace Tencent
             _animator = GetComponent<Animator>();
             LoadConfig();
             _currentMaterial = EMaterial.Cloud;
+        }
+
+        private void Start()
+        {
             GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
         }
 

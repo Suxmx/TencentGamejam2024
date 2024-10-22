@@ -352,6 +352,7 @@ namespace MirMirror
         }
 
     }
+#if UNITY_EDITOR
     [CustomEditor(typeof(MMDialogueController))]
     public class ObjectBuilderEditor : Editor
     {
@@ -363,14 +364,15 @@ namespace MirMirror
             {
                 myScript.StartDialogue();
             }
+
             if (GUILayout.Button("ResetEvents"))
             {
                 myScript.ResetEventList();
             }
-
         }
-
     }
+#endif
+    
 }
 namespace MirMirror
 {

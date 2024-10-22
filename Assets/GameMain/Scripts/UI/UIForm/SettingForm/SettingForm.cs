@@ -70,7 +70,6 @@ namespace GameMain
 
         private void ChooseIndex(int previousIndex, int nextIndex, bool force = false)
         {
-            Debug.Log($"previous{previousIndex}  current{nextIndex}");
             if (nextIndex == previousIndex && !force) return;
             
             //关闭之前的

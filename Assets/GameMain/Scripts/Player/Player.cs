@@ -2,6 +2,7 @@
 using System.Linq;
 using DG.Tweening;
 using Framework;
+using GameMain;
 using KinematicCharacterController;
 using Sirenix.OdinInspector;
 using Unity.Cinemachine;
@@ -65,7 +66,7 @@ namespace Tencent
             HandleCharacterInput();
             _fsm.OnLogic();
             //set gun anim
-            // _materialGun.SetBool("walk", Motor.Velocity.magnitude > 0.1f);
+            _materialGun.SetBool("walk", Motor.Velocity.magnitude > 0.1f);
         }
 
 
@@ -118,6 +119,7 @@ namespace Tencent
             _fsm.AddState(EPlayerState.Crouch, new GroundCrouchState());
             _fsm.AddState(EPlayerState.Air, new AirState());
             _fsm.AddState(EPlayerState.Jump, new JumpState(needsExitTime: true));
+            _fsm.AddState(EPlayerState.Climb, new ClimbState());
 
             _fsm.AddTransition(EPlayerState.GroundMove, EPlayerState.Jump,
                 _ => InputData.HasEventStart(InputEvent.Jump));
@@ -132,6 +134,14 @@ namespace Tencent
             _fsm.AddTransition(EPlayerState.Crouch, EPlayerState.Air, _ => !Motor.GroundingStatus.IsStableOnGround);
             _fsm.AddTransition(EPlayerState.Crouch, EPlayerState.Jump,
                 _ => InputData.HasEventStart(InputEvent.Jump) && CanStandupWhenCrouching);
+            _fsm.AddTransition(EPlayerState.GroundMove, EPlayerState.Climb,
+                _ => Input.GetKeyDown(KeyCode.T) && CheckClimb());
+            _fsm.AddTransition(EPlayerState.Air, EPlayerState.Climb, _ => Input.GetKeyDown(KeyCode.T) && CheckClimb());
+            _fsm.AddTransition(EPlayerState.Jump, EPlayerState.Climb, _ => Input.GetKeyDown(KeyCode.T) && CheckClimb());
+            _fsm.AddTransition(EPlayerState.Climb, EPlayerState.GroundMove, _ => Input.GetKeyDown(KeyCode.T));
+            _fsm.AddTransition(EPlayerState.Climb, EPlayerState.GroundMove,
+                _ => ClimbingObj is null || ClimbingObj.CurrentMaterial != EMaterial.Climbable);
+            _fsm.AddTriggerTransition("ClimbTop", EPlayerState.Climb, EPlayerState.GroundMove);
 
             _fsm.Init();
         }
@@ -163,6 +173,9 @@ namespace Tencent
 
         [BoxGroup("KCC/下蹲"), LabelText("下蹲插值时间")]
         public float CrouchTime = .3f;
+
+        [BoxGroup("KCC/攀爬"), LabelText("攀爬速度")]
+        public float ClimbSpeed = 2f;
 
         private Vector3 _moveInputVector, _lookInputVector;
         [NonSerialized] public bool CanStandupWhenCrouching = false;
@@ -214,6 +227,31 @@ namespace Tencent
                 _eye.localPosition = eyePos;
                 _playerTrigger.ResetCollider(Vector3.up * _curHeight / 2f, 0.245f, _curHeight);
             };
+        }
+
+        [BoxGroup("KCC"), LabelText("攀爬层"), SerializeField]
+        private LayerMask _climbableLayer;
+
+        [NonSerialized] public ChangeableItem ClimbingObj;
+        private Collider[] _cacheColliders = new Collider[8];
+
+        private bool CheckClimb()
+        {
+            if (Motor.CharacterOverlap(Motor.TransientPosition + Motor.CharacterForward * 0.1f, Motor.TransientRotation,
+                    _cacheColliders,
+                    _climbableLayer, QueryTriggerInteraction.Collide) > 0)
+            {
+                if (_cacheColliders[0] is not null)
+                {
+                    Debug.Log("detect climbable");
+                    ChangeableItem item = _cacheColliders[0].gameObject.GetComponent<ChangeableItem>();
+                    if (item is null || item.CurrentMaterial != EMaterial.Climbable) return false;
+                    ClimbingObj = item;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void HandleCharacterInput()

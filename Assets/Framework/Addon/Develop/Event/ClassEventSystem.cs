@@ -27,6 +27,7 @@ namespace Framework.Develop
         AllowMultiHandler = 2,
     }
 
+    [DefaultExecutionOrder(-1200)]
     public class ClassEventSystem : Service, IClassEventSystem
     {
         private readonly Dictionary<int, Action<object, GameEventArgs>> m_EventHandlers = new();

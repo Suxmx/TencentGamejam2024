@@ -16,10 +16,12 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 2100000, guid: 94c29bfdbb24c4e45a3bc0982aedb13b, type: 3}
-    - {fileID: 2100000, guid: 6c6572d67b2ed4140a21a7617df3d874, type: 2}
+    - {fileID: 2100000, guid: 9563376a24680bd4e8c9242d50295096, type: 2}
+    - {fileID: 2100000, guid: 6f06bcb2a7b31e14cb3e5bd16c55bcf4, type: 2}
+    - {fileID: 2100000, guid: 289d58a0e0936b64fb0882c52077b98b, type: 2}
     - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
-    - {fileID: 2100000, guid: 541ef61594cba1c4b848171826d808e0, type: 3}
+    - {fileID: 2100000, guid: 2808692119bf2f04c9b7fb883d47c4dd, type: 2}
+    - {fileID: 2100000, guid: c45a7a22240672a41b767c77de2788ae, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -44,7 +46,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 6
     - Name: 
       Entry: 7
       Data: 
@@ -54,12 +56,12 @@ MonoBehaviour:
     - Name: $v
       Entry: 7
       Data: 2|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ItemMaterial
+    - Name: ObjMaterial
       Entry: 10
       Data: 0
     - Name: BulletMaterial
       Entry: 10
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -75,12 +77,96 @@ MonoBehaviour:
     - Name: $v
       Entry: 7
       Data: 3|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ItemMaterial
+    - Name: ObjMaterial
+      Entry: 10
+      Data: 1
+    - Name: BulletMaterial
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 4|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterial
       Entry: 10
       Data: 2
     - Name: BulletMaterial
       Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: 5|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterial
+      Entry: 10
       Data: 3
+    - Name: BulletMaterial
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: 6|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterial
+      Entry: 10
+      Data: 4
+    - Name: BulletMaterial
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 7|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterial
+      Entry: 10
+      Data: 5
+    - Name: BulletMaterial
+      Entry: 10
+      Data: 5
     - Name: 
       Entry: 8
       Data: 

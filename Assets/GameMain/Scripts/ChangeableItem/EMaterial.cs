@@ -5,7 +5,6 @@
     /// </summary>
     public enum EMaterial
     {
-        Default,
         Jelly,
         Cloud,
         Climbable,
