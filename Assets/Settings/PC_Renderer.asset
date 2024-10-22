@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9acd4c12a87a14ebcec4ba15d5dce9, type: 3}
   m_Name: FogRenderFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   m_shader: {fileID: 4800000, guid: acb0fff9fe2d40d4b8bf679bba6df409, type: 3}
   m_FogColor: {r: 1, g: 1, b: 1, a: 1}
   m_FogStart: 0.61
