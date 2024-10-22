@@ -41,6 +41,7 @@ namespace Framework
 
 
         private bool _running = false;
+        private bool _entered = false;
 
         /// <summary>
         /// 创建各个子Manager
@@ -75,6 +76,8 @@ namespace Framework
         /// </summary>
         public void OnEnter()
         {
+            if (_entered) return;
+            _entered = true;
             _running = true;
             InitManagers();
             foreach (var mgr in _managers)
@@ -83,6 +86,7 @@ namespace Framework
             }
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            GameEntry.UI.OpenUIForm(UIFormId.GameForm);
         }
 
         /// <summary>
@@ -110,6 +114,7 @@ namespace Framework
                 {
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
+                    GameEntry.UI.OpenUIForm(UIFormId.GameForm);
                     GameEntry.UI.CloseUIForm(UIFormId.SettingForm);
                 }
                 else
@@ -117,6 +122,7 @@ namespace Framework
                     Cursor.lockState = CursorLockMode.Confined;
                     Cursor.visible = true;
                     GameEntry.UI.OpenUIForm(UIFormId.SettingForm);
+                    GameEntry.UI.CloseUIForm(UIFormId.GameForm);
                 }
 
                 _settingOpen = !_settingOpen;

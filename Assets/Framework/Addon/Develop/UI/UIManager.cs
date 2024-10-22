@@ -21,10 +21,22 @@ namespace Framework
             _uiRoot = GetComponentInChildren<Canvas>();
         }
 
+        /// <summary>
+        /// for debugging
+        /// </summary>
+        public void InitImmediately()
+        {
+            //for debug
+            if (_resource is null)
+            {
+                _resource = GameEntry.Resource;
+            }
+        }
         protected override void Start()
         {
             base.Start();
             _resource = ServiceLocator.Get<IAssetLoader>();
+            
         }
 
         /// <summary>

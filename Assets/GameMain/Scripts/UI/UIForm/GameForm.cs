@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GameMain
 {
-    public partial class GameForm : MonoBehaviour
+    public partial class GameForm : UGuiForm
     {
         private void Awake()
         {
