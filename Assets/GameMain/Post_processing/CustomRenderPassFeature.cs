@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering.RenderGraphModule;
+#pragma warning disable CS0672 // 成员将重写过时的成员
 
 public class CustomRenderPassFeature : ScriptableRendererFeature
 {

@@ -24,10 +24,7 @@ namespace Tencent
             GroundMoveActions = InputMap.GroundMove;
             CameraActions = InputMap.Camera;
             MaterialGunActions = InputMap.MaterialGun;
-            foreach (InputEvent e in System.Enum.GetValues(typeof(InputEvent)))
-            {
-                InputData.InitDict(e, new ChargeData());
-            }
+
 
             eventActionDict = new()
             {
@@ -57,7 +54,6 @@ namespace Tencent
 
             CheckEventStart();
             CheckHasEvent();
-            UpdateChargeData();
         }
 
         private void CheckEventStart()
@@ -96,24 +92,6 @@ namespace Tencent
                     pair.Value.phase == InputActionPhase.Started)
                 {
                     InputData.AddEvent(pair.Key);
-                }
-            }
-        }
-
-        private void UpdateChargeData()
-        {
-            foreach (InputEvent e in System.Enum.GetValues(typeof(InputEvent)))
-            {
-                var data = InputData.GetChargeData(e);
-                if (InputData.HasEvent(e))
-                {
-                    data.Charging = true;
-                    data.ChargeTime += Time.deltaTime;
-                }
-
-                if (!InputData.HasEvent(e) && data.Charging)
-                {
-                    data.Charging = false;
                 }
             }
         }

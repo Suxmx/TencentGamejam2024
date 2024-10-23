@@ -37,7 +37,12 @@ namespace GameMain
         
         private void OnPressEnterGame()
         {
-            Owner.SetValue("NextScene","Main");
+            if (!Owner.TryGetValue<int>("Level", out int level))
+            {
+                level = 1;
+                Owner.SetValue("Level",level);
+            }
+            Owner.SetValue("NextScene",$"Level{level}");
             ChangeState<ProcedureChangeScene>();
         }
     }

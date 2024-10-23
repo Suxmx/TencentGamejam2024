@@ -18,11 +18,20 @@ namespace GameMain
             _loopTween = DOTween.Sequence();
             _loopTween.Append(_graphics.DOMoveY(initHeight + 0.5f, 1f))
                 .SetLoops(-1, LoopType.Yoyo);
-            _loopTween.onUpdate += () => { _graphics.Rotate(Vector3.up, 60 * Time.deltaTime); };
+            _loopTween.onUpdate += () =>
+            {
+                _graphics.Rotate(Vector3.up, 60 * Time.deltaTime);
+            };
+            _loopTween.SetTarget(this);
         }
 
 
         public virtual void OnCollected(Player player)
+        {
+            _loopTween.Kill();
+        }
+
+        private void OnDestroy()
         {
             _loopTween.Kill();
         }

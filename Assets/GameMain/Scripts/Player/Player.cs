@@ -76,6 +76,12 @@ namespace Tencent
             _playerTrigger.transform.position = _root.position;
         }
 
+        private void OnDestroy()
+        {
+            if(_crouchTween is not null)
+                _crouchTween.Kill();
+        }
+
         #region 收集
 
         private List<KeyInfo> _keyInfos = new();
@@ -229,6 +235,7 @@ namespace Tencent
                 _playerTrigger.ResetCollider(Vector3.up * _curHeight / 2f, 0.245f, _curHeight);
             };
             _crouchTween.onComplete += () => IsCrouching = false;
+            _crouchTween.SetTarget(this);
         }
 
         public void DoStandUpSmoothly()
@@ -246,6 +253,7 @@ namespace Tencent
                 _eye.localPosition = eyePos;
                 _playerTrigger.ResetCollider(Vector3.up * _curHeight / 2f, 0.245f, _curHeight);
             };
+            _crouchTween.SetTarget(this);
         }
 
         [BoxGroup("KCC"), LabelText("攀爬层"), SerializeField]

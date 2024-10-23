@@ -20,8 +20,6 @@ namespace Tencent
         private static InputEvent m_StartEvents;
         public static Vector2 MoveInput;
         public static Vector2 LookInput;
-        private static Dictionary<InputEvent, ChargeData> m_ChargeDict = new();
-
 
         public static void Clear()
         {
@@ -29,13 +27,7 @@ namespace Tencent
             m_StartEvents = InputEvent.None;
             MoveInput = Vector2.zero;
             LookInput = Vector2.zero;
-            foreach (var pair in m_ChargeDict)
-            {
-                if (pair.Value.ChargeEndThisFrame)
-                {
-                    pair.Value.ChargeTime = 0;
-                }
-            }
+
         }
 
         public static bool HasEvent(InputEvent e)
@@ -59,43 +51,7 @@ namespace Tencent
             m_StartEvents |= e;
         }
 
-        public static void InitDict(InputEvent e, ChargeData d)
-        {
-            m_ChargeDict.Add(e, d);
-        }
 
-        public static ChargeData GetChargeData(InputEvent e)
-        {
-            return m_ChargeDict[e];
-        }
-
-        public static float GetChargeEndTime(InputEvent e)
-        {
-            var data = m_ChargeDict[e];
-            if (data.ChargeEndThisFrame)
-            {
-                return data.ChargeTime;
-            }
-            else return 0;
-        }
-
-        public static bool IsCharging(InputEvent e)
-        {
-            return m_ChargeDict[e].Charging;
-        }
-
-        public static float GetChargingTime(InputEvent e)
-        {
-            if (!IsCharging(e)) return 0;
-            else return GetChargeData(e).ChargeTime;
-        }
     }
 
-    public class ChargeData
-    {
-        public InputEvent Type = InputEvent.None;
-        public float ChargeTime = 0;
-        public bool Charging = false;
-        public bool ChargeEndThisFrame => !Charging && ChargeTime > 0;
-    }
 }

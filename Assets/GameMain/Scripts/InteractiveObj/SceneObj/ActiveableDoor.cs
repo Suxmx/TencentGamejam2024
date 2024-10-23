@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using Framework;
 using Framework.Develop;
 using Sirenix.OdinInspector;
@@ -19,9 +20,10 @@ namespace Tencent
         private Tween _openTween;
         private bool _shouldOpen;
 
-        protected override void OnEnable()
+        private void OnDestroy()
         {
-            base.OnEnable();
+            if(_openTween is not null)
+                _openTween.Kill();
         }
 
         protected override void InitState(bool enable)

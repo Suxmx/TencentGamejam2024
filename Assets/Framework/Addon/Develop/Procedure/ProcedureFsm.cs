@@ -73,5 +73,17 @@ namespace Framework
             Assert.IsTrue(_valueDictionary.ContainsKey(name));
             return (T)_valueDictionary[name];
         }
+
+        public bool TryGetValue<T>(string name, out T value)
+        {
+            if (!_valueDictionary.ContainsKey(name))
+            {
+                value = default;
+                return false;
+            }
+            
+            value=(T)_valueDictionary[name];
+            return true;
+        }
     }
 }

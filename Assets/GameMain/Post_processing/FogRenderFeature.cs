@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+#pragma warning disable CS0618 // 类型或成员已过时
 
 public class FogRenderFeature : ScriptableRendererFeature
 {

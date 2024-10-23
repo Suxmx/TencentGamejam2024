@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+#pragma warning disable CS0618 // 类型或成员已过时
+#pragma warning disable CS0672 // 成员将重写过时的成员
 
 internal class FogPass : ScriptableRenderPass
 {

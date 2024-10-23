@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Framework;
+using GameMain;
 using Services;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -33,15 +34,14 @@ namespace Framework
         public static GameEntityManager Entity { get; private set; }
 
         #endregion
-
-
+        
         private List<IManager> _managers = new();
         private List<IUpdatable> _updatables = new();
         public CinemachineCamera CinemachineCamera => FindAnyObjectByType<CinemachineCamera>();
-
-
+        
         private bool _running = false;
         private bool _entered = false;
+        private bool _gameEnd = false;
 
         /// <summary>
         /// 创建各个子Manager
@@ -79,6 +79,7 @@ namespace Framework
             if (_entered) return;
             _entered = true;
             _running = true;
+            _gameEnd = false;
             InitManagers();
             foreach (var mgr in _managers)
             {
@@ -94,8 +95,14 @@ namespace Framework
         /// </summary>
         public void OnExit()
         {
+            foreach (var mgr in _managers)
+            {
+                mgr.OnExit();
+            }
             _running = false;
             _instance = null;
+            _managers.Clear();
+            _updatables.Clear();
         }
 
         private bool _settingOpen = false;
@@ -127,6 +134,16 @@ namespace Framework
 
                 _settingOpen = !_settingOpen;
             }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                PlayerDie();
+            }
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                LevelWin();
+            }
         }
 
         private void FixedUpdate()
@@ -153,7 +170,16 @@ namespace Framework
 
         public void PlayerDie()
         {
-            
+            if (_gameEnd) return;
+            _gameEnd = true;
+            (GameEntry.Procedure.CurrentProcedure as ProcedureMain).PlayerDie();
+        }
+
+        public void LevelWin()
+        {
+            if (_gameEnd) return;
+            _gameEnd = true;
+            (GameEntry.Procedure.CurrentProcedure as ProcedureMain).LevelWin();
         }
         #endregion
     }

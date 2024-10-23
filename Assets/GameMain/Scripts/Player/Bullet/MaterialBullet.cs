@@ -62,6 +62,12 @@ namespace Tencent
             _destroyTimer.Paused = true;
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            _destroyTimer.Paused = true;
+        }
+
         public override void OnUpdate(float deltaTime)
         {
             base.OnUpdate(deltaTime);
