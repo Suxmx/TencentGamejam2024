@@ -59,6 +59,7 @@ namespace Tencent
         private Transform _eye;
         private Transform _topDownGunPos;
         private Transform _directionPointer;
+        private Quaternion _targetDirectionPtrDir = Quaternion.Euler(90, 0, 0);
 
         #endregion
 
@@ -119,9 +120,12 @@ namespace Tencent
             _directionPointer.transform.position = _root.position + Vector3.up * 0.02f;
             if (_moveInputVector.sqrMagnitude != 0)
             {
-                _directionPointer.rotation = Quaternion.LookRotation(_moveInputVector, Motor.CharacterUp) *
-                                             Quaternion.Euler(90, 0, 0);
+                _targetDirectionPtrDir = Quaternion.LookRotation(_moveInputVector, Motor.CharacterUp) *
+                                         Quaternion.Euler(90, 0, 0);
             }
+
+            _directionPointer.rotation = Quaternion.Slerp(_directionPointer.rotation, _targetDirectionPtrDir
+                , Time.deltaTime * 10);
         }
 
         #region 收集
@@ -168,6 +172,7 @@ namespace Tencent
             _graphicsDelta = _graphics.localPosition;
             _foot = transform.Find("Root/Foot");
             _directionPointer = transform.Find("DirectionPointer");
+            _directionPointer.SetParent(null);
 
             _playerTrigger.Init(this);
             _playerTrigger.ResetCollider(Vector3.up * StandUpHeight / 2f, 0.245f, StandUpHeight);
@@ -374,7 +379,7 @@ namespace Tencent
                     }
 
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    Plane groundPlane = new Plane(Vector3.up, new Vector3(0,Motor.transform.position.y,0));
+                    Plane groundPlane = new Plane(Vector3.up, new Vector3(0, Motor.transform.position.y, 0));
 
                     float distance;
                     if (groundPlane.Raycast(ray, out distance))
@@ -385,7 +390,6 @@ namespace Tencent
                         // 计算方向并忽略Y轴高度
                         _lookInputVector = mouseWorldPosition - Motor.Transform.position;
                         _lookInputVector.y = 0;
-                        Debug.Log(_lookInputVector.magnitude);
                         if (_lookInputVector.sqrMagnitude < 0.16f)
                         {
                             _lookInputVector = Vector3.zero;
@@ -519,31 +523,6 @@ namespace Tencent
         {
             if (!Application.isPlaying) return;
             AGameManager.Instance.PlayerCamera.SetInputAxisGain(MouseGain);
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (!Application.isPlaying) return;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, new Vector3(0,Motor.transform.position.y,0)); // Y=0 的水平面
-
-            float distance;
-            if (groundPlane.Raycast(ray, out distance))
-            {
-                // 计算射线与水平面的交点
-                Vector3 mouseWorldPosition = ray.GetPoint(distance);
-                Gizmos.color = Color.blue;
-                Gizmos.DrawSphere(new Vector3(mouseWorldPosition.x, -1f, mouseWorldPosition.z), 0.1f);
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(new Vector3(Motor.Transform.position.x, -1f, Motor.Transform.position.z), 0.1f); // // 计算方向并忽略Y轴高度
-                // _lookInputVector = mouseWorldPosition - Motor.Transform.position;
-                // _lookInputVector.y = 0;
-                // Debug.Log(_lookInputVector.magnitude);
-                // if (_lookInputVector.sqrMagnitude < 0.16f)
-                // {
-                //     _lookInputVector = Vector3.zero;
-                // }
-            }
         }
 
         #endregion
