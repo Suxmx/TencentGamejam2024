@@ -1,5 +1,10 @@
 fileFormatVersion: 2
-guid: a8a08a0bc3c0f06449659207e45e9e64
+<<<<<<<< Updated upstream:Assets/GameMain/Textures/Blocks/Bricks066_1K-JPG/Bricks066_1K-JPG.mtlx.meta
+guid: 511df8e093035304da65bffaf8f8f9fb
+========
+guid: a0a58c20b3b527b4bab83a4010b31f67
+folderAsset: yes
+>>>>>>>> Stashed changes:Assets/GameMain/UI/Prototype.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
