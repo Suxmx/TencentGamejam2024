@@ -6,6 +6,6 @@ namespace Tencent
 {
     public class PlayerSpawnPoint : MonoBehaviour
     {
-        
+          
     }
 }
