@@ -61,10 +61,10 @@ namespace Tencent
 
                     else
                     {
-                        Debug.Log(_player.ClimbInputVector);
-                        vertical = (_player.ClimbInputVector.z < -0.1f)
+                        Debug.Log(_player.ClimbInput);
+                        vertical = (_player.ClimbInput < -0.1f)
                             ? -1
-                            : (_player.ClimbInputVector.z > 0.1f ? 1 : 0);
+                            : (_player.ClimbInput > 0.1f ? 1 : 0);
                     }
 
                     currentVelocity = Vector3.Lerp(currentVelocity, Vector3.up * (vertical * _player.ClimbSpeed),

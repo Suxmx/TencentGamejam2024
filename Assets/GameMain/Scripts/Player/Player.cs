@@ -36,7 +36,7 @@ namespace Tencent
         public Vector3 MoveInputVector => _moveInputVector;
         public Vector3 LookInputVector => _lookInputVector;
 
-        public Vector3 ClimbInputVector => _climbInputVector;
+        public float ClimbInput => _climbUp;
 
         private ECameraMode _cameraMode = ECameraMode.FirstPerson;
 
@@ -239,7 +239,8 @@ namespace Tencent
         [BoxGroup("KCC/攀爬"), LabelText("攀爬速度")]
         public float ClimbSpeed = 2f;
 
-        private Vector3 _moveInputVector, _lookInputVector,_climbInputVector;
+        private Vector3 _moveInputVector, _lookInputVector;
+        private float _climbUp;
         [NonSerialized] public bool CanStandupWhenCrouching = false;
         [NonSerialized] public bool IsCrouching = false;
         private Tween _crouchTween;
@@ -317,7 +318,6 @@ namespace Tencent
 
             return false;
         }
-
         private void HandleCharacterInput()
         {
             PlayerCharacterInputs inputs = new PlayerCharacterInputs();
@@ -349,26 +349,55 @@ namespace Tencent
                     _lookInputVector = cameraPlanarDirection;
                     return;
                 case ECameraMode.TopDownShot:
-                    moveInputVector =
-                        Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
-                    var dir=Vector3.ProjectOnPlane(Motor.Transform.rotation * Vector3.forward, Motor.CharacterUp).normalized;
-                    _climbInputVector = Quaternion.LookRotation(dir, Motor.CharacterUp) * moveInputVector;
-                    Debug.Log($"climb vec{_climbInputVector}");
                     _moveInputVector =
                         Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
-                    Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    if (Physics.Raycast(mouseRay.origin - mouseRay.direction * 5, mouseRay.direction,
-                            out var mouseHitInfo, 1000f))
+                    var dir = Vector3.ProjectOnPlane(Motor.Transform.rotation * Vector3.forward, Motor.CharacterUp)
+                        .normalized;
+                    if (_moveInputVector.sqrMagnitude == 0)
                     {
-                        _lookInputVector = mouseHitInfo.point - Motor.transform.position;
+                        _climbUp = 0;
+                    }
+                    else
+                    {
+                        _climbUp = (Vector3.Dot(dir, _moveInputVector) < 0 ? -1f : 1f);
+                    }
+
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    Plane groundPlane = new Plane(Vector3.up, Vector3.zero); // Y=0 的水平面
+
+                    float distance;
+                    if (groundPlane.Raycast(ray, out distance))
+                    {
+                        // 计算射线与水平面的交点
+                        Vector3 mouseWorldPosition = ray.GetPoint(distance);
+                        Debug.Log($"Mouse on Plane: {mouseWorldPosition}");
+
+                        // 计算方向并忽略Y轴高度
+                        _lookInputVector = mouseWorldPosition - _materialGun.Muzzle.position;
                         _lookInputVector.y = 0;
                     }
                     else
                     {
-                        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        _lookInputVector = mouseWorldPosition - _materialGun.Muzzle.position;
-                        _lookInputVector.y = 0;
+                        // 如果没有找到交点，使用枪口的前方方向作为默认值
+                        _lookInputVector = _materialGun.Muzzle.forward;
+                        Debug.LogWarning("Mouse not on plane, defaulting to muzzle's forward direction.");
                     }
+                    // Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    // if (Physics.Raycast(mouseRay.origin - mouseRay.direction * 5, mouseRay.direction,
+                    //         out var mouseHitInfo, 1000f))
+                    // {
+                    //     Debug.Log(mouseHitInfo.point);
+                    //     _lookInputVector = mouseHitInfo.point - Motor.transform.position;
+                    //     _lookInputVector.y = 0;
+                    // }
+                    // else
+                    // {
+                    //     Vector3 mouseWorldPosition =
+                    //         Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+                    //     Debug.Log(mouseWorldPosition);
+                    //     _lookInputVector = mouseWorldPosition - _materialGun.Muzzle.position;
+                    //     _lookInputVector.y = 0;
+                    // }
 
                     return;
             }
