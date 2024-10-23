@@ -21,9 +21,9 @@ namespace GameMain
             GetBindComponents(gameObject);
         }
 
-        public override void OnOpen()
+        public override void OnOpen(object userData)
         {
-            base.OnOpen();
+            base.OnOpen(userData);
             GameEntry.Event.Subscribe(OnGunMaterialChangeArg.EventId, OnMaterialChange);
             GameEntry.Event.Subscribe(OnGetKeyArgs.EventId, OnGetKey);
             GameEntry.Event.Subscribe(OnUseKeyArgs.EventId, OnUseKey);
