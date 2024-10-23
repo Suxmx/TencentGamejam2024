@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/GameMain/Scenes/LevelsForTest/Level3.unity.meta
 guid: 39283e4fb4e6a874e8468d8f6972abcf
+========
+guid: 3e34ac40940da8a43875ef7d2c3fb8cf
+folderAsset: yes
+>>>>>>>> Stashed changes:Assets/GameMain/Scenes/Levels.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
