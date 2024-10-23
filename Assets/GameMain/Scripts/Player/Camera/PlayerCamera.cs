@@ -14,11 +14,13 @@ namespace Tencent
         private Transform _topDownGunPos, _firstPersonGunPos;
         private Sequence _changeTween;
         private MaterialGun _gun;
+        private CinemachineImpulseSource _impulseSource;
 
         public void Init(ECameraMode mode, Transform eye, Transform topdownGunPos, MaterialGun gun)
         {
             FirstPersonCinemachine = transform.Find("FirstPerson").GetComponent<CinemachineCamera>();
             TopDownShotCinemachine = transform.Find("TopDownShot").GetComponent<CinemachineCamera>();
+            _impulseSource = GetComponent<CinemachineImpulseSource>();
             FirstPersonCinemachine.Follow = eye;
             FirstPersonCinemachine.LookAt = eye;
 
@@ -40,6 +42,11 @@ namespace Tencent
         {
             _inputAxis.Controllers[0].Input.Gain = gain;
             _inputAxis.Controllers[1].Input.Gain = -gain;
+        }
+
+        public void Impulse(float force=0.2f)
+        {
+            _impulseSource.GenerateImpulseWithForce(force);
         }
 
         public void ChangeCameraMode(ECameraMode mode)

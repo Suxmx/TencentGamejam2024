@@ -129,7 +129,7 @@ namespace Tencent
 
         private void FireMaterialBullet()
         {
-            Debug.Log("fire");
+            AGameManager.Instance.PlayerCamera.Impulse(0.2f);
             var targetPos = RaycastFromCursor();
             var direction = (targetPos - Muzzle.transform.position).normalized;
 

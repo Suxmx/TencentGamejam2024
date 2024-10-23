@@ -1,4 +1,5 @@
-﻿using Framework;
+﻿using System.Collections.Generic;
+using Framework;
 using MirMirror;
 
 namespace GameMain
@@ -8,7 +9,7 @@ namespace GameMain
         private MMDialogue_Data _curDialogueData;
         private DataMMDialogueNode _currentNode = null;
         private int _curWordIndex;
-        private int _curWordsLength;
+        private List<string> _curWords;
         public override void OnInit()
         {
             base.OnInit();
