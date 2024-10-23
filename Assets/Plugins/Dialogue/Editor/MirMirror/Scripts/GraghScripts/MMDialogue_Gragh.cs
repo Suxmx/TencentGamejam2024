@@ -5,7 +5,7 @@ using MirMirror;
 namespace MirMirrorEditor
 {
 
-    [System.Serializable]
+    [CreateAssetMenu(menuName = "配置/对话表")]
     public class MMDialogue_Gragh : ScriptableObject
     {
         

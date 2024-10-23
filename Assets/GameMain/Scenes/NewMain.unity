@@ -1787,7 +1787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &497370264
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2045,6 +2045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce048e4776544629e9e72bd5db29e14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dialogueData: {fileID: 11400000, guid: 472f4e521d4f6fa46a9d63ccd6e7a80a, type: 2}
 --- !u!4 &679613799
 Transform:
   m_ObjectHideFlags: 0
@@ -2389,7 +2390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1204074643
 Light:
   m_ObjectHideFlags: 0
@@ -4094,7 +4095,7 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    m_Quality: 3
+    m_Quality: 0
     m_FrameInfluence: 0.1
     m_JitterScale: 1
     m_MipBias: 0
@@ -4148,7 +4149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1970003741
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
 using System.Collections;
 using Framework;
 using Framework.Develop;
+using MirMirror;
 using Services.Asset;
 using Services.SceneManagement;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace GameMain
     [DefaultExecutionOrder(-1000)]
     public class GameTester : MonoBehaviour
     {
+        [SerializeField]public MMDialogue_Data _dialogueData;
         private void Awake()
         {
             if (FindObjectsByType<GameTester>(FindObjectsSortMode.None).Length > 1)
@@ -66,6 +68,11 @@ namespace GameMain
         private void Start()
         {
             // AGameManager.Instance.OnEnter();
+        }
+
+        private void Update()
+        {
+            
         }
     }
 }

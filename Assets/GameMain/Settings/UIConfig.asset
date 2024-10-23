@@ -20,3 +20,5 @@ MonoBehaviour:
     Path: GameForm
   - Id: 3
     Path: SettingForm
+  - Id: 4
+    Path: DialogueForm

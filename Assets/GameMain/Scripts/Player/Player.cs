@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Framework;
+using Framework.Args;
 using Framework.Develop;
 using GameMain;
 using KinematicCharacterController;
@@ -73,6 +74,19 @@ namespace Tencent
                 Cursor.lockState = CursorLockMode.Confined;
         }
 
+        private void OnDialoguePlay(object sender, GameEventArgs arg)
+        {
+            var e = (OnDialoguePlayArg)arg;
+            if (e.Start)
+            {
+                Pause();
+            }
+            else
+            {
+                Resume();
+            }
+        }
+
 
         public override void OnInit()
         {
@@ -88,6 +102,7 @@ namespace Tencent
             InitComponents();
             InitFsm();
             GameEntry.Event.Subscribe(OnCameraModeChangeArg.EventId, OnCameraModeChange);
+            GameEntry.Event.Subscribe(OnDialoguePlayArg.EventId, OnDialoguePlay);
         }
 
         public override void OnHide()
@@ -96,6 +111,7 @@ namespace Tencent
             if (_crouchTween is not null)
                 _crouchTween.Kill();
             GameEntry.Event.Unsubscribe(OnCameraModeChangeArg.EventId, OnCameraModeChange);
+            GameEntry.Event.Unsubscribe(OnDialoguePlayArg.EventId, OnDialoguePlay);
         }
 
         public override void OnUpdate(float deltaTime)
@@ -126,6 +142,18 @@ namespace Tencent
 
             _directionPointer.rotation = Quaternion.Slerp(_directionPointer.rotation, _targetDirectionPtrDir
                 , Time.deltaTime * 10);
+        }
+
+        public void Pause()
+        {
+            Motor.enabled = false;
+            _input.InputMap.Disable();
+        }
+
+        public void Resume()
+        {
+            Motor.enabled = true;
+            _input.InputMap.Enable();
         }
 
         #region 收集

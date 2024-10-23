@@ -113,7 +113,6 @@ namespace Framework
             {
                 mgr.OnEnter();
             }
-            Cursor.visible = false;
             GameEntry.UI.OpenUIForm(UIFormId.GameForm);
             
             GameEntry.Event.Fire(null,OnGameManagerInitedArg.Create());
@@ -164,23 +163,13 @@ namespace Framework
             {
                 if (_settingOpen)
                 {
-                    Cursor.visible = false;
-                    switch (CameraMode)
-                    {
-                        case ECameraMode.FirstPerson:
-                            Cursor.lockState = CursorLockMode.Locked;
-                            break;
-                        case ECameraMode.TopDownShot:
-                            Cursor.lockState = CursorLockMode.Confined;
-                            break;
-                    }
+                    LockCursor();
                     GameEntry.UI.OpenUIForm(UIFormId.GameForm);
                     GameEntry.UI.CloseUIForm(UIFormId.SettingForm);
                 }
                 else
                 {
-                    Cursor.lockState = CursorLockMode.Confined;
-                    Cursor.visible = true;
+                    FreeCursor(true);
                     GameEntry.UI.OpenUIForm(UIFormId.SettingForm);
                     GameEntry.UI.CloseUIForm(UIFormId.GameForm);
                 }
@@ -202,6 +191,10 @@ namespace Framework
             {
                 CameraMode = CameraMode == ECameraMode.FirstPerson ? ECameraMode.TopDownShot : ECameraMode.FirstPerson;
                 PlayerCamera.ChangeCameraMode(CameraMode);
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                GameEntry.UI.OpenUIForm(UIFormId.DialogueForm,FindAnyObjectByType<GameTester>()._dialogueData);
             }
         }
 
@@ -240,6 +233,30 @@ namespace Framework
             _gameEnd = true;
             (GameEntry.Procedure.CurrentProcedure as ProcedureMain).LevelWin();
         }
+        #endregion
+
+        #region Cusor
+
+        public static void FreeCursor(bool visible=false)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = visible;
+        }
+
+        public static void LockCursor()
+        {
+            Cursor.visible = false;
+            switch (CameraMode)
+            {
+                case ECameraMode.FirstPerson:
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+                case ECameraMode.TopDownShot:
+                    Cursor.lockState = CursorLockMode.Confined;
+                    break;
+            }
+        }
+
         #endregion
     }
 }
