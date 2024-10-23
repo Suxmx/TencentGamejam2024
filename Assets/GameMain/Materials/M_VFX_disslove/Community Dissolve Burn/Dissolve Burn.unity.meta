@@ -1,8 +1,19 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 07d9c26c36a96ca4f809ca3605893c87
 timeCreated: 1481126946
 licenseType: Pro
 DefaultImporter:
+=======
+<<<<<<<< HEAD:Assets/GameMain/Materials/M_VFX_Jelly/LightRamps.meta
+guid: 2b08e92f04c5ae3408811a3c838f7907
+folderAsset: yes
+========
+guid: 49605bc0bff813c498f4cd35ab7f4ece
+>>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041:Assets/GameMain/Materials/M_VFX_disslove/Community Dissolve Burn/Dissolve Burn.unity.meta
+DefaultImporter:
+  externalObjects: {}
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
   userData: 
   assetBundleName: 
   assetBundleVariant: 

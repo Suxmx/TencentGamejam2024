@@ -44,7 +44,7 @@ namespace Framework
         /// </summary>
         /// <param name="id">UI枚举Id</param>
         /// <returns>序列化Id</returns>
-        public void OpenUIForm(UIFormId id)
+        public void OpenUIForm(UIFormId id,object userData=null)
         {
             if (_resource is null)
             {
@@ -74,7 +74,7 @@ namespace Framework
                 form.gameObject.SetActive(true);
             }
 
-            form.OnOpen();
+            form.OnOpen(userData);
         }
 
         /// <summary>

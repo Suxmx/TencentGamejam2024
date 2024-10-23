@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/GameMain/Materials/M_VFX_Wrong.meta
 guid: 713c16eeb3c3cbc43b7c82a78f267106
+========
+guid: 523bf2b25d929d24e919d42ba18ae099
+>>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041:Assets/ArtTest.meta
+=======
+guid: f639b6ba50ba0f34b8c42321e67cfd58
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -1,9 +1,17 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: aca4a40569cb358458767ace3bdaffcc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
+=======
+guid: dc25637f647c7e349903e60d76c9288f
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -25,7 +33,11 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+<<<<<<< HEAD
   ignoreMasterTextureLimit: 0
+=======
+  ignoreMipmapLimit: 0
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -67,7 +79,11 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
+<<<<<<< HEAD
   - serializedVersion: 3
+=======
+  - serializedVersion: 4
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -77,9 +93,16 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+<<<<<<< HEAD
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+=======
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -89,6 +112,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+<<<<<<< HEAD
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -125,12 +149,19 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+=======
+    ignorePlatformSupport: 0
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
+<<<<<<< HEAD
+=======
+    customData: 
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
     physicsShape: []
     bones: []
     spriteID: 
@@ -140,8 +171,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+<<<<<<< HEAD
     nameFileIdTable: {}
   spritePackingTag: 
+=======
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
   pSDRemoveMatte: 0
   userData: 
   assetBundleName: 

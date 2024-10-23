@@ -224,9 +224,7 @@ namespace MirMirror
         {
 
             m_WDialogueCharBGL.transform.GetChild(0).GetComponent<Image>().sprite = _DataNode.ChrImgs[m_WordsID];
-            m_AudioClip = _DataNode.Voices[m_WordsID];
             
-
             m_WDialogueCharBGL.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = _DataNode.ChrName;
             m_WDialogueCharBGL.Fade(1, 0.2f, null);
             m_WDialogueBG.Fade(1, 0f, StartShowContent);

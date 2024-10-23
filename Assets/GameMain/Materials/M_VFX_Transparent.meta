@@ -1,6 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/GameMain/Materials/M_VFX_Transparent.meta
 guid: 7b150ce8eb80c9d4babb9d31bbb590e4
 folderAsset: yes
+========
+guid: e69f59672f92b1b4282150d240db6d57
+>>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041:Assets/SrRubfish_VFX_03/DemoScene/Demo.unity.meta
+=======
+guid: 41ffe463587d0314fa76eb46697e1902
+folderAsset: yes
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
 DefaultImporter:
   externalObjects: {}
   userData: 
