@@ -421,7 +421,8 @@ namespace Tencent
                 case ECameraMode.TopDownShot:
                     if (_lookInputVector.sqrMagnitude > 0f && _fsm.CurrentState.name != EPlayerState.Climb)
                     {
-                        currentRotation = Quaternion.LookRotation(_lookInputVector, Motor.CharacterUp);
+                        Vector3 smoothedLookInputDirection = Vector3.Slerp(Motor.CharacterForward, _lookInputVector, 1 - Mathf.Exp(-10 * deltaTime)).normalized;
+                        currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, Motor.CharacterUp);
                     }
 
                     break;
