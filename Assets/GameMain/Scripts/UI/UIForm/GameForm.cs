@@ -68,6 +68,19 @@ namespace GameMain
         {
             var e = (OnCameraModeChangeArg)arg;
             _cameraMode = e.Mode;
+            if (_cameraMode == ECameraMode.FirstPerson)
+            {
+                Vector2 screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    (m_rect_cusor.parent as RectTransform),
+                    screenCenter,
+                    null,
+                    out var uiPosition
+                );
+
+                // 更新准心的位置
+                m_rect_cusor.anchoredPosition = uiPosition;
+            }
         }
 
         private void Update()

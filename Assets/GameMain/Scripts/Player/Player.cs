@@ -36,6 +36,8 @@ namespace Tencent
         public Vector3 MoveInputVector => _moveInputVector;
         public Vector3 LookInputVector => _lookInputVector;
 
+        public Vector3 ClimbInputVector => _climbInputVector;
+
         private ECameraMode _cameraMode = ECameraMode.FirstPerson;
 
         private PlayerInput _input;
@@ -237,7 +239,7 @@ namespace Tencent
         [BoxGroup("KCC/攀爬"), LabelText("攀爬速度")]
         public float ClimbSpeed = 2f;
 
-        private Vector3 _moveInputVector, _lookInputVector;
+        private Vector3 _moveInputVector, _lookInputVector,_climbInputVector;
         [NonSerialized] public bool CanStandupWhenCrouching = false;
         [NonSerialized] public bool IsCrouching = false;
         private Tween _crouchTween;
@@ -347,6 +349,11 @@ namespace Tencent
                     _lookInputVector = cameraPlanarDirection;
                     return;
                 case ECameraMode.TopDownShot:
+                    moveInputVector =
+                        Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
+                    var dir=Vector3.ProjectOnPlane(Motor.Transform.rotation * Vector3.forward, Motor.CharacterUp).normalized;
+                    _climbInputVector = Quaternion.LookRotation(dir, Motor.CharacterUp) * moveInputVector;
+                    Debug.Log($"climb vec{_climbInputVector}");
                     _moveInputVector =
                         Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
                     Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);

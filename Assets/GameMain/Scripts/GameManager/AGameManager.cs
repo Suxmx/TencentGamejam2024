@@ -118,7 +118,7 @@ namespace Framework
             
             GameEntry.Event.Fire(null,OnGameManagerInitedArg.Create());
 
-            CameraMode = ECameraMode.FirstPerson;
+            CameraMode = ECameraMode.TopDownShot;
             _instance.SpawnPlayer();
         }
 
@@ -131,6 +131,7 @@ namespace Framework
             player.transform.rotation = spawnPoint.transform.rotation;
             player.transform.position = spawnPoint.transform.position;
             _player = player;
+            spawnPoint.gameObject.SetActive(false);
         }
 
         /// <summary>

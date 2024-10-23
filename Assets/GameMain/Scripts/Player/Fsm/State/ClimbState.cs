@@ -1,4 +1,5 @@
 ﻿using System;
+using Framework;
 using KinematicCharacterController;
 using MyTimer;
 using UnityEngine;
@@ -52,7 +53,20 @@ namespace Tencent
                     _state = EClimbState.Climb;
                     break;
                 case EClimbState.Climb:
-                    float vertical = (InputData.MoveInput.y < -0.1f) ? -1 : (InputData.MoveInput.y > 0.1f ? 1 : 0);
+                    float vertical = 0;
+                    if (AGameManager.CameraMode == ECameraMode.FirstPerson)
+                    {
+                        vertical = (InputData.MoveInput.y < -0.1f) ? -1 : (InputData.MoveInput.y > 0.1f ? 1 : 0);
+                    }
+
+                    else
+                    {
+                        Debug.Log(_player.ClimbInputVector);
+                        vertical = (_player.ClimbInputVector.z < -0.1f)
+                            ? -1
+                            : (_player.ClimbInputVector.z > 0.1f ? 1 : 0);
+                    }
+
                     currentVelocity = Vector3.Lerp(currentVelocity, Vector3.up * (vertical * _player.ClimbSpeed),
                         0.2f);
                     var detectPos = _player.FootPosition;
