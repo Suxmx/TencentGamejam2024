@@ -16,7 +16,10 @@ namespace GameMain
             if (LoaderAnim is null)
             {
                 var obj = GameObject.Find("LoaderAnim");
-                if (obj is not null) LoaderAnim = obj.GetComponent<Animator>();
+                if (obj is not null)
+                {
+                    LoaderAnim = obj.GetComponent<Animator>();
+                }
             }
 
 

@@ -50,6 +50,7 @@ namespace Framework
             instance.Owner = this;
             if (!_stateDict.ContainsKey(hash))
             {
+                Debug.Log(instance.GetType().ToString());
                 _stateDict.Add(hash,instance);
             }
             else

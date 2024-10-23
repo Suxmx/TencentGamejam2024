@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Framework;
+using Framework.Develop;
 using GameMain;
 using KinematicCharacterController;
 using Sirenix.OdinInspector;
@@ -21,7 +22,7 @@ namespace Tencent
     }
 
     [RequireComponent(typeof(PlayerInput))]
-    public class Player : MonoBehaviour, ICharacterController
+    public class Player : GameEntityBase, ICharacterController
     {
         [SerializeField] private GameObject _playerTriggerPrefab;
 
@@ -34,30 +35,69 @@ namespace Tencent
         //实际输入
         public Vector3 MoveInputVector => _moveInputVector;
         public Vector3 LookInputVector => _lookInputVector;
-        public float CurHeight => _curHeight;
+
+        public float ClimbInput => _climbUp;
+
+        private ECameraMode _cameraMode = ECameraMode.FirstPerson;
 
         private PlayerInput _input;
-        private Transform _eye;
+
         private KinematicCharacterMotor _motor;
-        private CinemachineCamera _cinemachine;
-        private Transform _graphics;
-        private Transform _foot;
+
         private PlayerFsm _fsm;
-        private Transform _root;
+
 
         private MaterialGun _materialGun;
         private PlayerTrigger _playerTrigger;
 
+        #region 子物体
 
-        private void Awake()
+        private Transform _graphics;
+        private Transform _foot;
+        private Transform _root;
+        private Transform _eye;
+        private Transform _topDownGunPos;
+
+        #endregion
+
+        private void OnCameraModeChange(object sender, GameEventArgs arg)
         {
+            var e = (OnCameraModeChangeArg)arg;
+            _cameraMode = e.Mode;
+            if (_cameraMode == ECameraMode.FirstPerson)
+                Cursor.lockState = CursorLockMode.Locked;
+            else
+                Cursor.lockState = CursorLockMode.Confined;
+        }
+
+
+        public override void OnInit()
+        {
+            base.OnInit();
+            _motor = GetComponent<KinematicCharacterMotor>();
+            _motor.enabled = false;
+        }
+
+        public override void OnShow(object userData)
+        {
+            base.OnShow(userData);
             InitVariables();
             InitComponents();
             InitFsm();
+            GameEntry.Event.Subscribe(OnCameraModeChangeArg.EventId, OnCameraModeChange);
         }
 
-        private void Update()
+        public override void OnHide()
         {
+            base.OnHide();
+            if (_crouchTween is not null)
+                _crouchTween.Kill();
+            GameEntry.Event.Unsubscribe(OnCameraModeChangeArg.EventId, OnCameraModeChange);
+        }
+
+        public override void OnUpdate(float deltaTime)
+        {
+            base.OnUpdate(deltaTime);
             if (Input.GetKeyDown(KeyCode.P))
             {
                 SuperJump(10);
@@ -70,16 +110,10 @@ namespace Tencent
             _materialGun.SetBool("walk", Motor.Velocity.magnitude > 0.1f);
         }
 
-
-        private void LateUpdate()
+        public override void OnLateUpdate(float deltaTime)
         {
+            base.OnLateUpdate(deltaTime);
             _playerTrigger.transform.position = _root.position;
-        }
-
-        private void OnDestroy()
-        {
-            if(_crouchTween is not null)
-                _crouchTween.Kill();
         }
 
         #region 收集
@@ -98,7 +132,7 @@ namespace Tencent
             if (index < 0)
                 return false;
             _keyInfos.RemoveAt(index);
-            GameEntry.Event.Fire(this,OnUseKeyArgs.Create(key));
+            GameEntry.Event.Fire(this, OnUseKeyArgs.Create(key));
             return true;
         }
 
@@ -114,9 +148,8 @@ namespace Tencent
         private void InitComponents()
         {
             _input = GetComponent<PlayerInput>();
-            _motor = GetComponent<KinematicCharacterMotor>();
-            _cinemachine = FindAnyObjectByType<CinemachineCamera>();
-            _materialGun = _cinemachine.GetComponentInChildren<MaterialGun>();
+            _topDownGunPos = transform.Find("Root/TopDownGunPos");
+            _materialGun = FindAnyObjectByType<MaterialGun>();
             _playerTrigger = Instantiate(_playerTriggerPrefab).GetComponent<PlayerTrigger>();
 
             _root = transform.Find("Root");
@@ -132,9 +165,13 @@ namespace Tencent
             _materialGun.Init(this);
 
             _motor.CharacterController = this;
+            _motor.enabled = true;
 
             _curHeight = StandUpHeight;
-            OnMouseGainChange();
+
+            AGameManager.Instance.PlayerCamera.Init(AGameManager.CameraMode, _eye, _topDownGunPos, _materialGun);
+            AGameManager.Instance.PlayerCamera.ChangeCameraMode(AGameManager.CameraMode);
+            // OnMouseGainChange();
         }
 
         private void InitFsm()
@@ -203,6 +240,7 @@ namespace Tencent
         public float ClimbSpeed = 2f;
 
         private Vector3 _moveInputVector, _lookInputVector;
+        private float _climbUp;
         [NonSerialized] public bool CanStandupWhenCrouching = false;
         [NonSerialized] public bool IsCrouching = false;
         private Tween _crouchTween;
@@ -280,39 +318,109 @@ namespace Tencent
 
             return false;
         }
-
         private void HandleCharacterInput()
         {
             PlayerCharacterInputs inputs = new PlayerCharacterInputs();
 
             inputs.MoveAxisForward = InputData.MoveInput.y;
             inputs.MoveAxisRight = InputData.MoveInput.x;
-            inputs.CameraRotation = _cinemachine.transform.rotation;
-
-            //handle input
-            Vector3 moveInputVector =
-                Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
-
-            // Calculate camera direction and rotation on the character plane
-            Vector3 cameraPlanarDirection =
-                Vector3.ProjectOnPlane(inputs.CameraRotation * Vector3.forward, Motor.CharacterUp).normalized;
-            if (cameraPlanarDirection.sqrMagnitude == 0f)
+            inputs.CameraRotation = AGameManager.Instance.PlayerCamera.GetCameraRotation();
+            Vector3 moveInputVector = Vector3.zero, cameraPlanarDirection = Vector3.zero;
+            switch (_cameraMode)
             {
-                cameraPlanarDirection = Vector3.ProjectOnPlane(inputs.CameraRotation * Vector3.up, Motor.CharacterUp)
-                    .normalized;
-            }
+                case ECameraMode.FirstPerson:
+                    //handle input
+                    moveInputVector =
+                        Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
 
-            Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection, Motor.CharacterUp);
-            //生成实际的输入
-            _moveInputVector = cameraPlanarRotation * moveInputVector;
-            _lookInputVector = cameraPlanarDirection;
+                    // Calculate camera direction and rotation on the character plane
+                    cameraPlanarDirection =
+                        Vector3.ProjectOnPlane(inputs.CameraRotation * Vector3.forward, Motor.CharacterUp).normalized;
+                    if (cameraPlanarDirection.sqrMagnitude == 0f)
+                    {
+                        cameraPlanarDirection = Vector3
+                            .ProjectOnPlane(inputs.CameraRotation * Vector3.up, Motor.CharacterUp)
+                            .normalized;
+                    }
+
+                    Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection, Motor.CharacterUp);
+                    //生成实际的输入
+                    _moveInputVector = cameraPlanarRotation * moveInputVector;
+                    _lookInputVector = cameraPlanarDirection;
+                    return;
+                case ECameraMode.TopDownShot:
+                    _moveInputVector =
+                        Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
+                    var dir = Vector3.ProjectOnPlane(Motor.Transform.rotation * Vector3.forward, Motor.CharacterUp)
+                        .normalized;
+                    if (_moveInputVector.sqrMagnitude == 0)
+                    {
+                        _climbUp = 0;
+                    }
+                    else
+                    {
+                        _climbUp = (Vector3.Dot(dir, _moveInputVector) < 0 ? -1f : 1f);
+                    }
+
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    Plane groundPlane = new Plane(Vector3.up, Vector3.zero); // Y=0 的水平面
+
+                    float distance;
+                    if (groundPlane.Raycast(ray, out distance))
+                    {
+                        // 计算射线与水平面的交点
+                        Vector3 mouseWorldPosition = ray.GetPoint(distance);
+                        Debug.Log($"Mouse on Plane: {mouseWorldPosition}");
+
+                        // 计算方向并忽略Y轴高度
+                        _lookInputVector = mouseWorldPosition - _materialGun.Muzzle.position;
+                        _lookInputVector.y = 0;
+                    }
+                    else
+                    {
+                        // 如果没有找到交点，使用枪口的前方方向作为默认值
+                        _lookInputVector = _materialGun.Muzzle.forward;
+                        Debug.LogWarning("Mouse not on plane, defaulting to muzzle's forward direction.");
+                    }
+                    // Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    // if (Physics.Raycast(mouseRay.origin - mouseRay.direction * 5, mouseRay.direction,
+                    //         out var mouseHitInfo, 1000f))
+                    // {
+                    //     Debug.Log(mouseHitInfo.point);
+                    //     _lookInputVector = mouseHitInfo.point - Motor.transform.position;
+                    //     _lookInputVector.y = 0;
+                    // }
+                    // else
+                    // {
+                    //     Vector3 mouseWorldPosition =
+                    //         Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+                    //     Debug.Log(mouseWorldPosition);
+                    //     _lookInputVector = mouseWorldPosition - _materialGun.Muzzle.position;
+                    //     _lookInputVector.y = 0;
+                    // }
+
+                    return;
+            }
         }
 
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            if (_lookInputVector.sqrMagnitude > 0f && _fsm.CurrentState.name != EPlayerState.Climb)
+            switch (_cameraMode)
             {
-                currentRotation = Quaternion.LookRotation(_lookInputVector, Motor.CharacterUp);
+                case ECameraMode.FirstPerson:
+                    if (_lookInputVector.sqrMagnitude > 0f && _fsm.CurrentState.name != EPlayerState.Climb)
+                    {
+                        currentRotation = Quaternion.LookRotation(_lookInputVector, Motor.CharacterUp);
+                    }
+
+                    break;
+                case ECameraMode.TopDownShot:
+                    if (_lookInputVector.sqrMagnitude > 0f && _fsm.CurrentState.name != EPlayerState.Climb)
+                    {
+                        currentRotation = Quaternion.LookRotation(_lookInputVector, Motor.CharacterUp);
+                    }
+
+                    break;
             }
         }
 
@@ -410,9 +518,15 @@ namespace Tencent
         private void OnMouseGainChange()
         {
             if (!Application.isPlaying) return;
-            var inputAxis = _cinemachine.GetComponent<CinemachineInputAxisController>();
-            inputAxis.Controllers[0].Input.Gain = MouseGain;
-            inputAxis.Controllers[1].Input.Gain = -MouseGain;
+            AGameManager.Instance.PlayerCamera.SetInputAxisGain(MouseGain);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (!Application.isPlaying) return;
+            // Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            // Gizmos.DrawSphere(mouseRay.origin, 0.3f);
+            // Gizmos.DrawRay(mouseRay.origin, (mouseRay.origin - _materialGun.Muzzle.position));
         }
 
         #endregion
