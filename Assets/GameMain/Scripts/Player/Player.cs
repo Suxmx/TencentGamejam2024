@@ -53,10 +53,12 @@ namespace Tencent
         #region 子物体
 
         private Transform _graphics;
+        private Vector3 _graphicsDelta;
         private Transform _foot;
         private Transform _root;
         private Transform _eye;
         private Transform _topDownGunPos;
+        private Transform _directionPointer;
 
         #endregion
 
@@ -114,6 +116,13 @@ namespace Tencent
         {
             base.OnLateUpdate(deltaTime);
             _playerTrigger.transform.position = _root.position;
+            _directionPointer.transform.position = _root.position + Vector3.up * 0.02f;
+            if (_moveInputVector.sqrMagnitude != 0)
+            {
+                _directionPointer.rotation = Quaternion.LookRotation(_moveInputVector, Motor.CharacterUp) *
+                                             Quaternion.Euler(90, 0, 0);
+            }
+            
         }
 
         #region 收集
@@ -157,7 +166,9 @@ namespace Tencent
 
             _eye = transform.Find("Root/Eye");
             _graphics = transform.Find("Root/Graphics");
+            _graphicsDelta = _graphics.localPosition;
             _foot = transform.Find("Root/Foot");
+            _directionPointer = transform.Find("DirectionPointer");
 
             _playerTrigger.Init(this);
             _playerTrigger.ResetCollider(Vector3.up * StandUpHeight / 2f, 0.245f, StandUpHeight);
@@ -266,7 +277,7 @@ namespace Tencent
                 Debug.Log(_curHeight);
                 Motor.SetCapsuleDimensions(0.245f, _curHeight, _curHeight / 2f);
                 _graphics.localScale = new Vector3(0.5f, _curHeight / 2f, 0.5f);
-                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0);
+                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0) + _graphicsDelta;
                 var eyePos = _eye.transform.localPosition;
                 eyePos.y = _curHeight;
                 _eye.localPosition = eyePos;
@@ -285,7 +296,7 @@ namespace Tencent
                 Debug.Log(_curHeight);
                 Motor.SetCapsuleDimensions(0.245f, _curHeight, _curHeight / 2f);
                 _graphics.localScale = new Vector3(0.5f, _curHeight / 2f, 0.5f);
-                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0);
+                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0) + _graphicsDelta;
                 var eyePos = _eye.transform.localPosition;
                 eyePos.y = _curHeight;
                 _eye.localPosition = eyePos;
@@ -318,6 +329,7 @@ namespace Tencent
 
             return false;
         }
+
         private void HandleCharacterInput()
         {
             PlayerCharacterInputs inputs = new PlayerCharacterInputs();
@@ -419,7 +431,6 @@ namespace Tencent
                     {
                         currentRotation = Quaternion.LookRotation(_lookInputVector, Motor.CharacterUp);
                     }
-
                     break;
             }
         }
