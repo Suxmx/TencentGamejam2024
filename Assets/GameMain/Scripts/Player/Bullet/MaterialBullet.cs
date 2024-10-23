@@ -78,7 +78,8 @@ namespace Tencent
         {
             var changeable = other.GetComponent<ChangeableItem>();
             if (changeable is null) return;
-
+            var bulletHitVfx = AGameManager.Entity.Spawn<DestroyAfterTimeVfx>("BulletHitVFX", EEntityGroup.VFX, null, 1f);
+            bulletHitVfx.transform.position = transform.position-_fireDirection*0.05f;
             changeable.OnHitMaterialBullet(_materialType,_objMaterial);
             UnspawnObj();
         }

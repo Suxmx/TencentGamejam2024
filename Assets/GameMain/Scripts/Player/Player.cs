@@ -399,7 +399,6 @@ namespace Tencent
                     {
                         // 如果没有找到交点，使用枪口的前方方向作为默认值
                         _lookInputVector = Vector3.zero;
-                        Debug.LogWarning("Mouse not on plane, defaulting to muzzle's forward direction.");
                     }
 
 
