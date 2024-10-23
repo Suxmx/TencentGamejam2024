@@ -15,7 +15,7 @@ namespace Framework
             transform.sizeDelta = Vector2.zero;
         }
 
-        public virtual void OnOpen()
+        public virtual void OnOpen(object userData)
         {
             
         }

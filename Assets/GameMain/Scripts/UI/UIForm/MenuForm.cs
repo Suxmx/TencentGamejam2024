@@ -10,9 +10,9 @@ namespace GameMain
             GetBindComponents(gameObject);
         }
 
-        public override void OnOpen()
+        public override void OnOpen(object userData)
         {
-            base.OnOpen();
+            base.OnOpen(userData);
             m_btn_start.onClick.AddListener(OnClickStart);
         }
 

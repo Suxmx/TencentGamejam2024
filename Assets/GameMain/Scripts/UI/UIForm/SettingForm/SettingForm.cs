@@ -38,9 +38,9 @@ namespace GameMain
             }
         }
 
-        public override void OnOpen()
+        public override void OnOpen(object userData)
         {
-            base.OnOpen();
+            base.OnOpen(userData);
             ChooseIndex(_currentIndex, (_settingPages.Count) / 2, true);
         }
 
