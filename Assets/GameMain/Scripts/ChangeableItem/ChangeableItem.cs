@@ -1,4 +1,5 @@
 ﻿using System;
+using Framework;
 using MyTimer;
 using Sirenix.OdinInspector;
 using Tencent;
@@ -11,6 +12,8 @@ namespace GameMain
     public class ChangeableItem : MonoBehaviour
     {
         [SerializeField, LabelText("果冻跳跃高度")] private float _jellyJumpHeight = 5f;
+        private Collider _collider;
+        private bool _isTouchingWithPlayer;
 
         public EMaterial CurrentMaterial
         {
@@ -32,6 +35,7 @@ namespace GameMain
         private void Awake()
         {
             _mr = GetComponent<MeshRenderer>();
+            _collider = GetComponent<Collider>();
             _currentMaterial = EMaterial.WhiteError;
         }
 
@@ -55,6 +59,12 @@ namespace GameMain
                     break;
                 case EMaterial.Climbable:
                     break;
+                case EMaterial.Dangerous:
+                    if (_isTouchingWithPlayer)
+                    {
+                        AGameManager.Instance.PlayerDie();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -62,18 +72,34 @@ namespace GameMain
 
         private void OnCollisionEnter(Collision other)
         {
-            if (_currentMaterial == EMaterial.Jelly)
+            if (other.gameObject.TryGetComponent<PlayerTrigger>(out var playerTrigger))
             {
-                if (other.gameObject.TryGetComponent<PlayerTrigger>(out var playerTrigger))
+                _isTouchingWithPlayer = true;
+                switch (_currentMaterial)
                 {
-                    foreach (ContactPoint contact in other.contacts)
-                    {
-                        if (Vector3.Dot(contact.normal, Vector3.up) < -0.9f)
+                    case EMaterial.Jelly:
+                        foreach (ContactPoint contact in other.contacts)
                         {
-                            playerTrigger.Player.SuperJump(_jellyJumpHeight);
+                            if (Vector3.Dot(contact.normal, Vector3.up) < -0.9f)
+                            {
+                                playerTrigger.Player.SuperJump(_jellyJumpHeight);
+                            }
                         }
-                    }
+
+                        break;
+                    case EMaterial.Dangerous:
+                        AGameManager.Instance.PlayerDie();
+                        break;
                 }
+            }
+            
+        }
+
+        private void OnCollisionExit(Collision other)
+        {
+            if (other.gameObject.TryGetComponent<PlayerTrigger>(out var playerTrigger))
+            {
+                _isTouchingWithPlayer = false;
             }
         }
     }

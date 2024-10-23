@@ -114,7 +114,7 @@ namespace Services
                 return false;
 
             bool ret = false;
-            Debugger.LogWarning($"服务发生冲突,旧服务{oldService.Informantion};\n新服务{newService.Informantion};解决方式为{solution}", EMessageType.Service);
+            // Debugger.LogWarning($"服务发生冲突,旧服务{oldService.Informantion};\n新服务{newService.Informantion};解决方式为{solution}", EMessageType.Service);
             switch (solution)
             {
                 case EConflictSolution.DestroyOld:
