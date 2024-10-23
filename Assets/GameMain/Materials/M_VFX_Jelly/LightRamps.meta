@@ -1,6 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/GameMain/Materials/M_VFX_Jelly/LightRamps.meta
+guid: 2b08e92f04c5ae3408811a3c838f7907
+folderAsset: yes
+========
+guid: 49605bc0bff813c498f4cd35ab7f4ece
+>>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041:Assets/GameMain/Materials/M_VFX_disslove/Community Dissolve Burn/Dissolve Burn.unity.meta
+=======
 guid: b0c4b3e582578fc4295114eccd63b51f
 folderAsset: yes
+>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041
 DefaultImporter:
   externalObjects: {}
   userData: 
