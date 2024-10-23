@@ -480,6 +480,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: -10
   m_TargetDisplay: 0
+--- !u!4 &432849276 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2081149232745741754, guid: c20ecdabdefc12442b068bccb3d7ad73, type: 3}
+  m_PrefabInstance: {fileID: 79873242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &490848535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,7 +1239,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 432849276}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:

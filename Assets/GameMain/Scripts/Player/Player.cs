@@ -169,7 +169,7 @@ namespace Tencent
 
             _curHeight = StandUpHeight;
 
-            AGameManager.Instance.PlayerCamera.Init(ECameraMode.FirstPerson, _eye, _topDownGunPos, _materialGun);
+            AGameManager.Instance.PlayerCamera.Init(AGameManager.CameraMode, _eye, _topDownGunPos, _materialGun);
             AGameManager.Instance.PlayerCamera.ChangeCameraMode(AGameManager.CameraMode);
             // OnMouseGainChange();
         }
