@@ -15,13 +15,13 @@ namespace Tencent
         private Sequence _changeTween;
         private MaterialGun _gun;
 
-        public void Init(ECameraMode mode, Transform eye,Transform topdownGunPos, MaterialGun gun)
+        public void Init(ECameraMode mode, Transform eye, Transform topdownGunPos, MaterialGun gun)
         {
             FirstPersonCinemachine = transform.Find("FirstPerson").GetComponent<CinemachineCamera>();
             TopDownShotCinemachine = transform.Find("TopDownShot").GetComponent<CinemachineCamera>();
             FirstPersonCinemachine.Follow = eye;
             FirstPersonCinemachine.LookAt = eye;
-            
+
             TopDownShotCinemachine.Follow = eye;
             TopDownShotCinemachine.LookAt = eye;
             _inputAxis = FirstPersonCinemachine.GetComponent<CinemachineInputAxisController>();
@@ -46,8 +46,12 @@ namespace Tencent
         {
             if (mode == ECameraMode.FirstPerson)
             {
-                AGameManager.Player.transform.Find("Root/Graphics").gameObject.layer =
-                    LayerMask.NameToLayer("CameraIgnore");
+                var graphics = AGameManager.Player.transform.Find("Root/Graphics");
+                foreach (var trans in graphics.GetComponentsInChildren<Transform>())
+                {
+                    trans.gameObject.layer = LayerMask.NameToLayer("CameraIgnore");
+                }
+
                 TopDownShotCinemachine.gameObject.SetActive(false);
                 FirstPersonCinemachine.gameObject.SetActive(true);
                 _gun.transform.SetParent(_firstPersonGunPos);
@@ -57,7 +61,12 @@ namespace Tencent
             }
             else if (mode == ECameraMode.TopDownShot)
             {
-                AGameManager.Player.transform.Find("Root/Graphics").gameObject.layer = LayerMask.NameToLayer("Default");
+                var graphics = AGameManager.Player.transform.Find("Root/Graphics");
+                foreach (var trans in graphics.GetComponentsInChildren<Transform>())
+                {
+                    trans.gameObject.layer = LayerMask.NameToLayer("Player");
+                }
+
                 FirstPersonCinemachine.gameObject.SetActive(false);
                 TopDownShotCinemachine.gameObject.SetActive(true);
                 _gun.transform.SetParent(_topDownGunPos);

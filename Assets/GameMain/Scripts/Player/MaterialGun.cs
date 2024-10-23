@@ -84,9 +84,14 @@ namespace Tencent
             }
 
             FireMoveGun();
-            UpdateDebugSphere();
+            
 
             HandleMovingObj();
+        }
+
+        private void LateUpdate()
+        {
+            UpdateDebugSphere();
         }
 
         private void HandleMovingObj()

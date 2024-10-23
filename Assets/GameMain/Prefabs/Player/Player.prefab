@@ -697,6 +697,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7487310169346588241}
     m_Modifications:
+    - target: {fileID: 401734489281874610, guid: 7d0cfd9e9c6dece4e9dc43b84ec2d6cb, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 401734489281874610, guid: 7d0cfd9e9c6dece4e9dc43b84ec2d6cb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7239874329344752312, guid: 31337227c8e09c547a993870defc9dad, type: 3}
     - target: {fileID: 432631506601484329, guid: 7d0cfd9e9c6dece4e9dc43b84ec2d6cb, type: 3}
       propertyPath: Muzzle
       value: 
@@ -752,6 +760,10 @@ PrefabInstance:
     - target: {fileID: 7139072700855333125, guid: 7d0cfd9e9c6dece4e9dc43b84ec2d6cb, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527821324344717109, guid: 7d0cfd9e9c6dece4e9dc43b84ec2d6cb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
