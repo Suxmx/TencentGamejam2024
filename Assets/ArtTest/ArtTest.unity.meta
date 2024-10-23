@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameMain/Materials/M_VFX_Jelly.meta
+guid: 6a363ea2b3d70f24bb3c7ce00095f97d
+folderAsset: yes
+========
 guid: 44b386de92c07aa41afdd42ea0ef7573
+>>>>>>>> 03b7d779fb0e05d40bb096fd5892fc9e8967e041:Assets/ArtTest/ArtTest.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
