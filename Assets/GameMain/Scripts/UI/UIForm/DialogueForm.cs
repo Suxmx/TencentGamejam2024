@@ -7,6 +7,8 @@ namespace GameMain
     {
         private MMDialogue_Data _curDialogueData;
         private DataMMDialogueNode _currentNode = null;
+        private int _curWordIndex;
+        private int _curWordsLength;
         public override void OnInit()
         {
             base.OnInit();
@@ -40,11 +42,17 @@ namespace GameMain
         private void StartDialogue()
         {
             _currentNode = _curDialogueData.m_DialoguePartDatas[0].GetFirstNode();
+            ParseNode(_currentNode);
         }
 
         private void ParseNode(DataMMDialogueNode node)
         {
-            
+            switch (node.DataNodeID.m_NODETYPE)
+            {
+                case NODETYPE.DIALOGUE:
+                    
+                    break;
+            }
         }
     }
 }
