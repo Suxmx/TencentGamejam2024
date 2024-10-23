@@ -1,23 +1,27 @@
 ﻿using System;
+using System.Collections;
 using Framework;
+using Framework.Args;
+using Framework.Develop;
 using GameMain;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Serialization;
 
 namespace Tencent
 {
     public class MaterialGun : MonoBehaviour
     {
         [SerializeField] private GameObject _materialBulletPrefab;
-        [SerializeField] private Transform _muzzle;
+        [SerializeField] public Transform Muzzle;
         [SerializeField] private LayerMask _shootingMask;
         private static string _configPath = "Assets/GameMain/Configs/ChangeableConfig.asset";
 
         private EMaterial _currentMaterial;
         private ChangeableConfigSO _config;
         private GameObject _debugSphere;
-        private Camera _mainCamera;
+        private UnityEngine.Camera _mainCamera;
         private Player _player;
         private Animator _animator;
 
@@ -38,8 +42,19 @@ namespace Tencent
             _currentMaterial = EMaterial.Cloud;
         }
 
-        private void Start()
+        private void OnEnable()
         {
+            GameEntry.Event.Subscribe(OnGameManagerInitedArg.EventId, AfterMgrInited);
+        }
+
+        private void OnDisable()
+        {
+            GameEntry.Event.Unsubscribe(OnGameManagerInitedArg.EventId, AfterMgrInited);
+        }
+
+        private void AfterMgrInited(object sender, GameEventArgs e)
+        {
+            Debug.Log("AfterMgrInited");
             GameEntry.Event.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
         }
 
@@ -67,6 +82,7 @@ namespace Tencent
             {
                 _animator.SetTrigger("fire");
             }
+
             FireMoveGun();
             UpdateDebugSphere();
 
@@ -110,14 +126,14 @@ namespace Tencent
         {
             Debug.Log("fire");
             var targetPos = RaycastFromCursor();
-            var direction = (targetPos - _muzzle.transform.position).normalized;
+            var direction = (targetPos - Muzzle.transform.position).normalized;
 
             Material bulletMaterial = _config.MaterialDict[_currentMaterial].BulletMaterial;
             Material objMaterial = _config.MaterialDict[_currentMaterial].ObjMaterial;
             var initInfo = new MaterialBulletInfo(_currentMaterial, bulletMaterial, objMaterial, direction);
             var bullet =
                 AGameManager.Entity.Spawn<MaterialBullet>("MaterialBullet", EEntityGroup.Bullet, null, initInfo);
-            bullet.transform.position = _muzzle.position;
+            bullet.transform.position = Muzzle.position;
         }
 
         /// <summary>
@@ -126,15 +142,32 @@ namespace Tencent
         /// <returns></returns>
         private Vector3 RaycastFromCursor()
         {
-            Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-            Ray ray = _mainCamera.ScreenPointToRay(screenCenter);
-            if (Physics.Raycast(ray.origin, ray.direction, out var info, 10f,
-                    _shootingMask, QueryTriggerInteraction.UseGlobal))
+            switch (AGameManager.CameraMode)
             {
-                return info.point;
+                case ECameraMode.FirstPerson:
+                    Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+                    Ray screenCenterRay = _mainCamera.ScreenPointToRay(screenCenter);
+                    if (Physics.Raycast(screenCenterRay.origin, screenCenterRay.direction, out var screenCenterInfo,
+                            10f,
+                            _shootingMask, QueryTriggerInteraction.UseGlobal))
+                    {
+                        return screenCenterInfo.point;
+                    }
+
+                    return screenCenterRay.origin + screenCenterRay.direction * 10;
+                case ECameraMode.TopDownShot:
+                    Ray mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(mouseRay.origin - mouseRay.direction * 5, mouseRay.direction,
+                            out var mouseHitInfo, 1000f,
+                            _shootingMask, QueryTriggerInteraction.UseGlobal))
+                    {
+                        return mouseHitInfo.point;
+                    }
+
+                    return Vector3.zero;
             }
 
-            return ray.origin + ray.direction * 10;
+            return Vector3.zero;
         }
 
         private void LoadConfig()
@@ -168,8 +201,8 @@ namespace Tencent
             Ray screenRay = _mainCamera.ScreenPointToRay(screenCenter);
 
             var target = RaycastFromCursor();
-            var direction = (target - _muzzle.transform.position).normalized;
-            Ray muzzleRay = new Ray(_muzzle.transform.position, direction);
+            var direction = (target - Muzzle.transform.position).normalized;
+            Ray muzzleRay = new Ray(Muzzle.transform.position, direction);
             if (Physics.Raycast(muzzleRay, out var info, 10f, _shootingMask, QueryTriggerInteraction.UseGlobal))
             {
                 Debug.DrawLine(muzzleRay.origin, info.point, Color.red);
@@ -180,6 +213,7 @@ namespace Tencent
             Debug.DrawLine(muzzleRay.origin, (screenRay.origin + screenRay.direction * 10), Color.red);
             _debugSphere.transform.position = muzzleRay.origin + muzzleRay.direction * 10;
         }
+        
 
         #endregion
     }

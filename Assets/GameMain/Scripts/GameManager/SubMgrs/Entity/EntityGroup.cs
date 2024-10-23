@@ -10,7 +10,8 @@ namespace Framework
     /// </summary>
     public enum EEntityGroup
     {
-        Bullet
+        Bullet,
+        Player
     }
 
     public class EntityGroup : MonoBehaviour

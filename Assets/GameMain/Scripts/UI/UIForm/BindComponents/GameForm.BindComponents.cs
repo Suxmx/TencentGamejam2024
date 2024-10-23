@@ -1,16 +1,15 @@
 using Autobind;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-//自动生成于：2024/10/22 21:01:10
+//自动生成于：2024/10/23 15:28:46
 namespace GameMain
 {
 
 	public partial class GameForm
 	{
 
-		private Image m_img_cusor;
+		private RectTransform m_rect_cusor;
 		private RectTransform m_trans_keys;
 		private TextMeshProUGUI m_tmp_curMaterial;
 
@@ -18,7 +17,7 @@ namespace GameMain
 		{
 			ComponentAutoBindTool autoBindTool = go.GetComponent<ComponentAutoBindTool>();
 
-			m_img_cusor = autoBindTool.GetBindComponent<Image>(0);
+			m_rect_cusor = autoBindTool.GetBindComponent<RectTransform>(0);
 			m_trans_keys = autoBindTool.GetBindComponent<RectTransform>(1);
 			m_tmp_curMaterial = autoBindTool.GetBindComponent<TextMeshProUGUI>(2);
 		}

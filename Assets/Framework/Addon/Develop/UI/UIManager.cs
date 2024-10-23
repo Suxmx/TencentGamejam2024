@@ -31,12 +31,12 @@ namespace Framework
             {
                 _resource = GameEntry.Resource;
             }
+            _uiRoot = GetComponentInChildren<Canvas>();
         }
         protected override void Start()
         {
             base.Start();
             _resource = ServiceLocator.Get<IAssetLoader>();
-            
         }
 
         /// <summary>

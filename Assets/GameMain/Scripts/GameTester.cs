@@ -3,6 +3,7 @@ using System.Collections;
 using Framework;
 using Framework.Develop;
 using Services.Asset;
+using Services.SceneManagement;
 using UnityEngine;
 
 namespace GameMain
@@ -12,6 +13,9 @@ namespace GameMain
     {
         private void Awake()
         {
+            if (FindObjectsByType<GameTester>(FindObjectsSortMode.None).Length > 1)
+                Destroy(gameObject);
+            DontDestroyOnLoad(gameObject);
             if (GameEntry.Resource is null)
             {
                 GameEntry.Resource = GetComponent<AssetLoader>();
@@ -32,21 +36,36 @@ namespace GameMain
 
             if (GameEntry.UI is null)
             {
-                GameEntry.UI = GetComponent<UIManager>();
+                GameEntry.UI = GetComponentInChildren<UIManager>();
                 (GameEntry.UI as UIManager).InitImmediately();
             }
             else
             {
-                GetComponent<UIManager>().enabled = false;
+                GetComponentInChildren<UIManager>().enabled = false;
                 transform.Find("UI").gameObject.SetActive(false);
             }
 
-            
+            if (GameEntry.Scene is null)
+            {
+                GameEntry.Scene = GetComponent<SceneControllerBase>();
+            }
+
+            if (GameEntry.Procedure is null)
+            {
+                GameEntry.Procedure = gameObject.AddComponent<ProcedureManager>();
+                (GameEntry.Procedure as ProcedureManager).AddProcedure<ProcedureMain>();
+                (GameEntry.Procedure as ProcedureManager).AddProcedure<ProcedureMenu>();
+                (GameEntry.Procedure as ProcedureManager).AddProcedure<ProcedureChangeScene>();
+                (GameEntry.Procedure as ProcedureManager).SetStartProcedure<ProcedureMain>();
+
+                (GameEntry.Procedure as ProcedureManager).SetValue("Level", 1);
+                (GameEntry.Procedure as ProcedureManager).StartImmediately();
+            }
         }
 
         private void Start()
         {
-            AGameManager.Instance.OnEnter();
+            // AGameManager.Instance.OnEnter();
         }
     }
 }

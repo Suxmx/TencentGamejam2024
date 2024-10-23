@@ -1,17 +1,19 @@
 ﻿using Framework;
+using UnityEngine.SceneManagement;
 
 namespace GameMain
 {
     public class ProcedureMain : ProcedureBase
     {
         private const int LEVELMAX = 3;
-        
+
         private int _levelIndex;
+
         public override void OnEnter()
         {
             base.OnEnter();
             _levelIndex = Owner.GetValue<int>("Level");
-            AGameManager.Instance.OnEnter();
+            AGameManager.OnEnter();
         }
 
         public override void OnExit()
@@ -25,8 +27,8 @@ namespace GameMain
             if (_levelIndex < LEVELMAX)
             {
                 _levelIndex++;
-                Owner.SetValue("Level",_levelIndex);
-                Owner.SetValue("NextScene",$"Level{_levelIndex}");
+                Owner.SetValue("Level", _levelIndex);
+                Owner.SetValue("NextScene", $"Level{_levelIndex}");
                 ChangeState<ProcedureChangeScene>();
             }
             else
@@ -37,7 +39,7 @@ namespace GameMain
 
         public void PlayerDie()
         {
-            Owner.SetValue("NextScene",$"Level{_levelIndex}");
+            Owner.SetValue("NextScene", SceneManager.GetActiveScene().name);
             ChangeState<ProcedureChangeScene>();
         }
     }

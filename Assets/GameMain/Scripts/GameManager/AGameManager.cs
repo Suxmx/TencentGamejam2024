@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using Framework;
+using Framework.Args;
 using GameMain;
 using Services;
+using Tencent;
 using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Framework
 {
+    public class PlayerSpawnInfo
+    {
+        public Vector3 Position;
+        public Quaternion Rotation;
+        
+    }
+    
     /// <summary>
     /// 由该Manager作为唯一的Mono去Update其他的Manager
     /// </summary>
@@ -19,11 +28,6 @@ namespace Framework
         {
             get
             {
-                if (_instance is null)
-                {
-                    GameObject obj = new GameObject("AGameManager");
-                    _instance = obj.AddComponent<AGameManager>();
-                }
 
                 return _instance;
             }
@@ -33,12 +37,35 @@ namespace Framework
 
         public static GameEntityManager Entity { get; private set; }
 
+        public static Player Player
+        {
+            get
+            {
+                return _player;
+            }
+            
+        }
+
+        private static Player _player;
+        public static ECameraMode CameraMode;
+
         #endregion
         
         private List<IManager> _managers = new();
         private List<IUpdatable> _updatables = new();
-        public CinemachineCamera CinemachineCamera => FindAnyObjectByType<CinemachineCamera>();
-        
+
+        public PlayerCamera PlayerCamera
+        {
+            get
+            {
+                if(_playerCamera is null)
+                    _playerCamera=FindAnyObjectByType<PlayerCamera>();
+                return _playerCamera;
+            }
+        }
+
+        public PlayerSpawnInfo SpawnInfo;
+        private PlayerCamera _playerCamera;
         private bool _running = false;
         private bool _entered = false;
         private bool _gameEnd = false;
@@ -74,20 +101,36 @@ namespace Framework
         /// <summary>
         /// 由ProcedureMain Enter时去调用
         /// </summary>
-        public void OnEnter()
+        public static void OnEnter()
         {
-            if (_entered) return;
-            _entered = true;
-            _running = true;
-            _gameEnd = false;
-            InitManagers();
-            foreach (var mgr in _managers)
+            GameObject obj = new GameObject("AGameManager");
+            _instance = obj.AddComponent<AGameManager>();
+            _instance._entered = true;
+            _instance._running = true;
+            _instance._gameEnd = false;
+            _instance.InitManagers();
+            foreach (var mgr in _instance._managers)
             {
                 mgr.OnEnter();
             }
-            Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             GameEntry.UI.OpenUIForm(UIFormId.GameForm);
+            
+            GameEntry.Event.Fire(null,OnGameManagerInitedArg.Create());
+
+            CameraMode = ECameraMode.FirstPerson;
+            _instance.SpawnPlayer();
+        }
+
+        private void SpawnPlayer()
+        {
+            var spawnPoint = FindAnyObjectByType<PlayerSpawnPoint>();
+            var player=Entity.Spawn<Player>("Player", EEntityGroup.Player);
+            player.transform.SetParent(null);
+            player.transform.localScale = Vector3.one;
+            player.transform.rotation = spawnPoint.transform.rotation;
+            player.transform.position = spawnPoint.transform.position;
+            _player = player;
         }
 
         /// <summary>
@@ -100,7 +143,8 @@ namespace Framework
                 mgr.OnExit();
             }
             _running = false;
-            _instance = null;
+            _playerCamera = null;
+            _player = null;
             _managers.Clear();
             _updatables.Clear();
         }
@@ -119,8 +163,16 @@ namespace Framework
             {
                 if (_settingOpen)
                 {
-                    Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
+                    switch (CameraMode)
+                    {
+                        case ECameraMode.FirstPerson:
+                            Cursor.lockState = CursorLockMode.Locked;
+                            break;
+                        case ECameraMode.TopDownShot:
+                            Cursor.lockState = CursorLockMode.Confined;
+                            break;
+                    }
                     GameEntry.UI.OpenUIForm(UIFormId.GameForm);
                     GameEntry.UI.CloseUIForm(UIFormId.SettingForm);
                 }
@@ -143,6 +195,12 @@ namespace Framework
             if (Input.GetKeyDown(KeyCode.I))
             {
                 LevelWin();
+            }
+
+            if (Input.GetMouseButtonDown(2))
+            {
+                CameraMode = CameraMode == ECameraMode.FirstPerson ? ECameraMode.TopDownShot : ECameraMode.FirstPerson;
+                PlayerCamera.ChangeCameraMode(CameraMode);
             }
         }
 
