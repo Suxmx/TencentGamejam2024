@@ -71,3 +71,19 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 10x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 12x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 14x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 15x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 16x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 17x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 10x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 12x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 14x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 15x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 16x.unitypackage.meta
+Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/URP 17x.unitypackage.meta
+Assets/INab Studio/Stylized Assets/Toon Pro/Built-In.unitypackage.meta
+Assets/INab Studio/Stylized Assets/Toon Pro/URP.unitypackage.meta
+Assets/INab Studio/Stylized Assets/Toon Pro/2021 Packages/Built-in 2021 - Only Shader.unitypackage.meta
+Assets/INab Studio/Stylized Assets/Toon Pro/2021 Packages/URP 2021 - Only Shader.unitypackage.meta
