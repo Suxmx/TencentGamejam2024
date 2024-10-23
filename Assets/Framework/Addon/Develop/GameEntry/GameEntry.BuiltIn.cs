@@ -14,7 +14,7 @@ namespace Framework
 
         public static IUIManager UI;
 
-        public static IClassEventSystem NewEvent;
+        public static IClassEventSystem Event;
 
         public static IProcedureManager Procedure;
 
@@ -26,7 +26,7 @@ namespace Framework
             Scene = ServiceLocator.Get<ISceneController>();
             Resource = ServiceLocator.Get<IAssetLoader>();
             UI = ServiceLocator.Get<IUIManager>();
-            NewEvent = ServiceLocator.Get<IClassEventSystem>();
+            Event = ServiceLocator.Get<IClassEventSystem>();
             Procedure = ServiceLocator.Get<IProcedureManager>();
             Save = ServiceLocator.Get<ISaveManager>();
 

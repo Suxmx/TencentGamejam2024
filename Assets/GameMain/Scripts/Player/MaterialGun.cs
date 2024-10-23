@@ -40,7 +40,7 @@ namespace Tencent
 
         private void Start()
         {
-            GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
+            GameEntry.Event.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
         }
 
         private void Update()
@@ -51,7 +51,7 @@ namespace Tencent
                 int index = (int)_currentMaterial;
                 index = index - 1 < 0 ? count - 1 : index - 1;
                 _currentMaterial = (EMaterial)index;
-                GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
+                GameEntry.Event.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -60,7 +60,7 @@ namespace Tencent
                 int index = (int)_currentMaterial;
                 index = index + 1 >= count ? 0 : index + 1;
                 _currentMaterial = (EMaterial)index;
-                GameEntry.NewEvent.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
+                GameEntry.Event.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
             }
 
             if (InputData.HasEventStart(InputEvent.Fire))

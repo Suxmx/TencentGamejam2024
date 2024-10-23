@@ -21,9 +21,9 @@ namespace GameMain
                 GetComponent<AssetLoader>().enabled = false;
             }
 
-            if (GameEntry.NewEvent is null)
+            if (GameEntry.Event is null)
             {
-                GameEntry.NewEvent = GetComponent<ClassEventSystem>();
+                GameEntry.Event = GetComponent<ClassEventSystem>();
             }
             else
             {

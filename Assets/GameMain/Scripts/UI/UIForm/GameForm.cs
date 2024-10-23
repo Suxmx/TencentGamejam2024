@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using Framework;
 using Framework.Develop;
 using Tencent;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameMain
 {
     public partial class GameForm : UGuiForm
     {
+        [SerializeField]private GameObject _keyIconPrefab;
+        
+        private Dictionary<string, GameObject> _keyDict = new();
+        
         public override void OnInit()
         {
             base.OnInit();
@@ -17,15 +23,36 @@ namespace GameMain
         public override void OnOpen()
         {
             base.OnOpen();
-            GameEntry.NewEvent.Subscribe(OnGunMaterialChangeArg.EventId, OnMaterialChange);
+            GameEntry.Event.Subscribe(OnGunMaterialChangeArg.EventId, OnMaterialChange);
+            GameEntry.Event.Subscribe(OnGetKeyArgs.EventId,OnGetKey);
+            GameEntry.Event.Subscribe(OnUseKeyArgs.EventId,OnUseKey);
         }
 
         public override void OnClose()
         {
             base.OnClose();
-            GameEntry.NewEvent.Unsubscribe(OnGunMaterialChangeArg.EventId, OnMaterialChange);
+            GameEntry.Event.Unsubscribe(OnGunMaterialChangeArg.EventId, OnMaterialChange);
+            GameEntry.Event.Unsubscribe(OnGetKeyArgs.EventId,OnGetKey);
+            GameEntry.Event.Unsubscribe(OnUseKeyArgs.EventId,OnUseKey);
         }
 
+        private void OnGetKey(object sender, GameEventArgs arg)
+        {
+            var e = (OnGetKeyArgs)arg;
+            var keyobj = Instantiate(_keyIconPrefab, m_trans_keys, true);
+            if (e.KeySprite is not null)
+            {
+                keyobj.GetComponent<Image>().sprite = e.KeySprite;
+            }
+            _keyDict.Add(e.Key,keyobj);
+        }
+
+        private void OnUseKey(object sender, GameEventArgs arg)
+        {
+            var e = (OnUseKeyArgs)arg;
+            Destroy(_keyDict[e.Key]);
+        }
+        
         private void OnMaterialChange(object sender, GameEventArgs arg)
         {
             var e = (OnGunMaterialChangeArg)arg;

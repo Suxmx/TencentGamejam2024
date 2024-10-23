@@ -1,5 +1,8 @@
 ﻿using DG.Tweening;
+using Framework;
+using Framework.Develop;
 using Sirenix.OdinInspector;
+using Tencent.Args;
 using UnityEngine;
 
 namespace Tencent
@@ -9,10 +12,17 @@ namespace Tencent
         [SerializeField, LabelText("开门上升最高点")] private Transform _targetPoint;
         [SerializeField, LabelText("开门时间")] private float _openTime = 1f;
 
+        private bool _locked=false;
         private float _openSpeed;
         private float _initHeight;
         private float _targetHeight;
         private Tween _openTween;
+        private bool _shouldOpen;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+        }
 
         protected override void InitState(bool enable)
         {
@@ -37,10 +47,28 @@ namespace Tencent
             _openTween = transform.DOMoveY(target, time);
         }
 
+        public void Lock()
+        {
+            _locked = true;
+        }
+        public void Unlock()
+        {
+            _locked = false;
+            if (_shouldOpen)
+            {
+                DoMove(_targetHeight);
+            }
+            else
+            {
+                DoMove(_initHeight);
+            }
+        }
+        
         protected override void OnTriggerStateChange(bool enable)
         {
-            enable = !_initState ? enable : !enable;
-            if (enable)
+            _shouldOpen = !_initState ? enable : !enable;
+            if (_locked) return;
+            if (_shouldOpen)
             {
                 DoMove(_targetHeight);
             }

@@ -41,7 +41,7 @@ namespace Tencent
         private void OnStartPressed()
         {
             _pressed = true;
-            GameEntry.NewEvent.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, true));
+            GameEntry.Event.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, true));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Tencent
         private void OnPressEnd()
         {
             _pressed = false;
-            GameEntry.NewEvent.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, false));
+            GameEntry.Event.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, false));
         }
 
         private void OnCollisionStay(Collision other)

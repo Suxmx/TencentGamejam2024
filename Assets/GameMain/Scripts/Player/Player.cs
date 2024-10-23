@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Framework;
@@ -76,6 +77,24 @@ namespace Tencent
         }
 
         #region 收集
+
+        private List<KeyInfo> _keyInfos = new();
+
+        public void GetKey(KeyInfo info)
+        {
+            _keyInfos.Add(info);
+            GameEntry.Event.Fire(this, OnGetKeyArgs.Create(info.KeyString, info.KeyIcon));
+        }
+
+        public bool TryUseKey(string key)
+        {
+            int index = _keyInfos.FindIndex(x => x.KeyString == key);
+            if (index < 0)
+                return false;
+            _keyInfos.RemoveAt(index);
+            GameEntry.Event.Fire(this,OnUseKeyArgs.Create(key));
+            return true;
+        }
 
         #endregion
 
@@ -283,7 +302,7 @@ namespace Tencent
 
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            if (_lookInputVector.sqrMagnitude > 0f)
+            if (_lookInputVector.sqrMagnitude > 0f && _fsm.CurrentState.name != EPlayerState.Climb)
             {
                 currentRotation = Quaternion.LookRotation(_lookInputVector, Motor.CharacterUp);
             }

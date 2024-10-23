@@ -18,13 +18,13 @@ namespace Tencent
 
         protected virtual void OnEnable()
         {
-            GameEntry.NewEvent.Subscribe(OnPressurePlateStateChangeArg.EventId,OnPressurePlateTriggered);
+            GameEntry.Event.Subscribe(OnPressurePlateStateChangeArg.EventId,OnPressurePlateTriggered);
             InitState(_initState);
         }
 
         protected virtual void OnDisable()
         {
-            GameEntry.NewEvent.Unsubscribe(OnPressurePlateStateChangeArg.EventId,OnPressurePlateTriggered);
+            GameEntry.Event.Unsubscribe(OnPressurePlateStateChangeArg.EventId,OnPressurePlateTriggered);
         }
 
         /// <summary>

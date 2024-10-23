@@ -20,14 +20,14 @@ namespace GameMain
             string nextScene = Owner.GetValue<string>("NextScene");
             _toMenu = string.CompareOrdinal(nextScene, "Menu") == 0;
             
-            GameEntry.NewEvent.Subscribe(OnAfterSceneLoadArgs.EventId,OnAfterLoadScene);
+            GameEntry.Event.Subscribe(OnAfterSceneLoadArgs.EventId,OnAfterLoadScene);
             GameEntry.Scene.LoadScene(nextScene);
         }
 
         public override void OnExit()
         {
             base.OnExit();
-            GameEntry.NewEvent.Unsubscribe(OnAfterSceneLoadArgs.EventId,OnAfterLoadScene);
+            GameEntry.Event.Unsubscribe(OnAfterSceneLoadArgs.EventId,OnAfterLoadScene);
         }
 
         private void OnAfterLoadScene(object sender,GameEventArgs e)
