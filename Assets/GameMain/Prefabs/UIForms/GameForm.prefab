@@ -29,7 +29,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 868977662899593283}
+  - {fileID: 4898954403436934024}
   m_Father: {fileID: 3068419810787352345}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1001 &7118777339815167077
+--- !u!1001 &3258730090239367086
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -349,35 +349,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1648407726086410717, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
       propertyPath: m_Name
-      value: item
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986604273810932367, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
-      propertyPath: m_Pivot.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986604273810932367, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986604273810932367, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986604273810932367, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986604273810932367, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: -0.65982056
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986604273810932367, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986604273810932367, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 351
+      value: MaterialItem
       objectReference: {fileID: 0}
     - target: {fileID: 7981997925379712038, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
       propertyPath: m_Pivot.x
@@ -464,8 +436,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
---- !u!224 &868977662899593283 stripped
+--- !u!224 &4898954403436934024 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7981997925379712038, guid: 2838aab6b3d80414db2f8e96b8372aaf, type: 3}
-  m_PrefabInstance: {fileID: 7118777339815167077}
+  m_PrefabInstance: {fileID: 3258730090239367086}
   m_PrefabAsset: {fileID: 0}

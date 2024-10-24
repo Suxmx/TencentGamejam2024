@@ -87,10 +87,12 @@ namespace GameMain
                 EMaterial eMaterial = _uiEMaterialList[i];
                 item.Init(eMaterial, i);
                 item.transform.SetParent(m_rect_materials);
-                item.gameObject.SetActive(false);
+                
+                _materialUIItems.Add(item);
             }
-
+            
             _curChooseMaterialIndex = _uiEMaterialList.Count / 2;
+            _materialUIItems[_curChooseMaterialIndex].Choose();
         }
 
         private void Update()
