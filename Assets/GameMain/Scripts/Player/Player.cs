@@ -39,7 +39,7 @@ namespace Tencent
 
         public float ClimbInput => _climbUp;
 
-        private ECameraMode _cameraMode = ECameraMode.FirstPerson;
+        private ECameraMode _cameraMode => AGameManager.CameraMode;
 
         private PlayerInput _input;
 
@@ -48,7 +48,7 @@ namespace Tencent
         private PlayerFsm _fsm;
 
 
-        private MaterialGun _materialGun;
+        public MaterialGun _materialGun;
         private PlayerTrigger _playerTrigger;
 
         #region 子物体
@@ -57,22 +57,12 @@ namespace Tencent
         private Vector3 _graphicsDelta;
         private Transform _foot;
         private Transform _root;
-        private Transform _eye;
-        private Transform _topDownGunPos;
+        public Transform _eye;
+        public Transform _topDownGunPos;
         private Transform _directionPointer;
         private Quaternion _targetDirectionPtrDir = Quaternion.Euler(90, 0, 0);
 
         #endregion
-
-        private void OnCameraModeChange(object sender, GameEventArgs arg)
-        {
-            var e = (OnCameraModeChangeArg)arg;
-            _cameraMode = e.Mode;
-            if (_cameraMode == ECameraMode.FirstPerson)
-                Cursor.lockState = CursorLockMode.Locked;
-            else
-                Cursor.lockState = CursorLockMode.Confined;
-        }
 
         private void OnDialoguePlay(object sender, GameEventArgs arg)
         {
@@ -93,15 +83,15 @@ namespace Tencent
             base.OnInit();
             _motor = GetComponent<KinematicCharacterMotor>();
             _motor.enabled = false;
+            InitVariables();
+            InitComponents();
+            InitFsm();
         }
 
         public override void OnShow(object userData)
         {
             base.OnShow(userData);
-            InitVariables();
-            InitComponents();
-            InitFsm();
-            GameEntry.Event.Subscribe(OnCameraModeChangeArg.EventId, OnCameraModeChange);
+
             GameEntry.Event.Subscribe(OnDialoguePlayArg.EventId, OnDialoguePlay);
         }
 
@@ -110,7 +100,6 @@ namespace Tencent
             base.OnHide();
             if (_crouchTween is not null)
                 _crouchTween.Kill();
-            GameEntry.Event.Unsubscribe(OnCameraModeChangeArg.EventId, OnCameraModeChange);
             GameEntry.Event.Unsubscribe(OnDialoguePlayArg.EventId, OnDialoguePlay);
         }
 
@@ -213,8 +202,7 @@ namespace Tencent
 
             _curHeight = StandUpHeight;
 
-            AGameManager.Instance.PlayerCamera.Init(AGameManager.CameraMode, _eye, _topDownGunPos, _materialGun);
-            AGameManager.Instance.PlayerCamera.ChangeCameraMode(AGameManager.CameraMode);
+
             // OnMouseGainChange();
         }
 
@@ -447,9 +435,11 @@ namespace Tencent
 
                     break;
                 case ECameraMode.TopDownShot:
+                    Debug.Log(_lookInputVector);
                     if (_lookInputVector.sqrMagnitude > 0f && _fsm.CurrentState.name != EPlayerState.Climb)
                     {
-                        Vector3 smoothedLookInputDirection = Vector3.Slerp(Motor.CharacterForward, _lookInputVector, 1 - Mathf.Exp(-10 * deltaTime)).normalized;
+                        Vector3 smoothedLookInputDirection = Vector3.Slerp(Motor.CharacterForward, _lookInputVector,
+                            1 - Mathf.Exp(-10 * deltaTime)).normalized;
                         currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, Motor.CharacterUp);
                     }
 
@@ -555,5 +545,15 @@ namespace Tencent
         }
 
         #endregion
+
+        public void GetMaterialBullet(EMaterial eMaterial)
+        {
+            _materialGun.GetMaterialBullet(eMaterial);
+        }
+
+        public void ChangeMaterialGunMat(EMaterial eMaterial)
+        {
+            _materialGun.ChangeMaterialGunMat(eMaterial);
+        }
     }
 }

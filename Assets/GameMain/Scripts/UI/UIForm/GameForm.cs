@@ -14,6 +14,8 @@ namespace GameMain
         [SerializeField] private GameObject _keyIconPrefab;
         [SerializeField] private GameObject _materialItem;
 
+        private bool _inited=false;
+
         /// <summary>
         /// UI列表中要显示的材质枚举，包括顺序
         /// </summary>
@@ -46,6 +48,8 @@ namespace GameMain
             GameEntry.Event.Subscribe(OnGunMaterialChangeArg.EventId, OnMaterialChange);
             GameEntry.Event.Subscribe(OnGetKeyArgs.EventId, OnGetKey);
             GameEntry.Event.Subscribe(OnUseKeyArgs.EventId, OnUseKey);
+            GameEntry.Event.Subscribe(OnBulletNumChangeArg.EventId, OnMaterialBulletNumChange);
+            _inited = true;
         }
 
         public override void OnClose()
@@ -54,6 +58,7 @@ namespace GameMain
             GameEntry.Event.Unsubscribe(OnGunMaterialChangeArg.EventId, OnMaterialChange);
             GameEntry.Event.Unsubscribe(OnGetKeyArgs.EventId, OnGetKey);
             GameEntry.Event.Unsubscribe(OnUseKeyArgs.EventId, OnUseKey);
+            GameEntry.Event.Unsubscribe(OnBulletNumChangeArg.EventId, OnMaterialBulletNumChange);
         }
 
         private void OnGetKey(object sender, GameEventArgs arg)
@@ -96,10 +101,12 @@ namespace GameMain
 
             _curChooseMaterialIndex = _uiEMaterialList.Count / 2;
             _materialUIItems[_curChooseMaterialIndex].Choose();
+            AGameManager.Player.ChangeMaterialGunMat(_materialUIItems[_curChooseMaterialIndex].MaterialType);
         }
 
         private void Update()
         {
+            if(!_inited) return;
             float scroll = Input.GetAxis("Mouse ScrollWheel") * -10;
             scroll = scroll < 0 ? -1 : (scroll > 0) ? 1 : 0;
             int pre = _curChooseMaterialIndex;
@@ -115,23 +122,6 @@ namespace GameMain
             {
                 _curChooseMaterialIndex = pre;
             }
-            // if (Input.GetKeyDown(KeyCode.Q))
-            // {
-            //     int pre = _curChooseMaterialIndex;
-            //     _curChooseMaterialIndex = _curChooseMaterialIndex - 1 < 0
-            //         ? _uiEMaterialList.Count - 1
-            //         : _curChooseMaterialIndex - 1;
-            //     ChooseMaterialItem(pre, _curChooseMaterialIndex);
-            // }
-
-            // if (Input.GetKeyDown(KeyCode.E))
-            // {
-            //     int pre = _curChooseMaterialIndex;
-            //     _curChooseMaterialIndex = _curChooseMaterialIndex + 1 >= _uiEMaterialList.Count
-            //         ? 0
-            //         : _curChooseMaterialIndex + 1;
-            //     ChooseMaterialItem(pre, _curChooseMaterialIndex);
-            // }
         }
 
         private void ChooseMaterialItem(int pre, int after)
@@ -139,6 +129,13 @@ namespace GameMain
             MaterialUIItem preItem = _materialUIItems[pre], afterItem = _materialUIItems[after];
             preItem.CancelChoose();
             afterItem.Choose();
+            AGameManager.Player.ChangeMaterialGunMat(_materialUIItems[after].MaterialType);
+        }
+
+        private void OnMaterialBulletNumChange(object sender, GameEventArgs arg)
+        {
+            var e = (OnBulletNumChangeArg)arg;
+            _materialUIItems.Find(x => x.MaterialType == e.MaterialType).OnBulletNumChange(e.BulletNum);
         }
     }
 }
