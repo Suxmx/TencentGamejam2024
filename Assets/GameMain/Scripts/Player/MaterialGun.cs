@@ -132,7 +132,7 @@ namespace Tencent
             //震屏
             AGameManager.Instance.PlayerCamera.Impulse(0.2f);
             var targetPos = RaycastFromCursor();
-            var direction = (targetPos - Muzzle.transform.position).normalized;
+            var direction = (targetPos+0.1f*Vector3.up - Muzzle.transform.position).normalized;
 
             Material bulletMaterial = _config.MaterialDict[_currentMaterial].BulletMaterial;
             Material objMaterial = _config.MaterialDict[_currentMaterial].ObjMaterial;

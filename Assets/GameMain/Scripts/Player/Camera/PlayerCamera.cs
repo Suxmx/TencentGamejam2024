@@ -103,7 +103,8 @@ namespace Tencent
             var offset = new Vector2(-mousePosition.x / Screen.width, mousePosition.y / Screen.height);
             offset.x = Mathf.Clamp(offset.x, -0.3f, 0.3f);
             offset.y = Mathf.Clamp(offset.y, -0.3f, 0.3f);
-            _topdownPosComposer.Composition.ScreenPosition = offset;
+            _topdownPosComposer.Composition.ScreenPosition =
+                Vector2.Lerp(_topdownPosComposer.Composition.ScreenPosition, offset, Time.deltaTime*5);
         }
     }
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7100848581428724913}
   - component: {fileID: 2798514810111447251}
   - component: {fileID: 4264357517778682249}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: MaterialBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,6 +122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0fa45d50ff495caa75f03e92cefacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Group: 0
+  EntityName: 
+  SpawnByPool: 0
+  Inited: 0
 --- !u!54 &4264357517778682249
 Rigidbody:
   m_ObjectHideFlags: 0

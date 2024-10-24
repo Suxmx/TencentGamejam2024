@@ -9,7 +9,8 @@ namespace Tencent
 {
     public class MaterialBulletInfo
     {
-        public MaterialBulletInfo(EMaterial materialType, Material bulletMaterial,Material objMaterial, Vector3 direction)
+        public MaterialBulletInfo(EMaterial materialType, Material bulletMaterial, Material objMaterial,
+            Vector3 direction)
         {
             MaterialType = materialType;
             BulletMaterial = bulletMaterial;
@@ -40,7 +41,7 @@ namespace Tencent
             _rigid = GetComponent<Rigidbody>();
 
             _destroyTimer = new();
-            _destroyTimer.Initialize(_bulletDestroyTime,false);
+            _destroyTimer.Initialize(_bulletDestroyTime, false);
             _destroyTimer.AfterCompelete += _ => UnspawnObj();
         }
 
@@ -76,11 +77,15 @@ namespace Tencent
 
         protected virtual void OnTriggerEnter(Collider other)
         {
+            var bulletHitVfx =
+                AGameManager.Entity.Spawn<DestroyAfterTimeVfx>("BulletHitVFX", EEntityGroup.VFX, null, 1f);
+            bulletHitVfx.transform.position = transform.position - _fireDirection * 0.05f;
             var changeable = other.GetComponent<ChangeableItem>();
-            if (changeable is null) return;
-            var bulletHitVfx = AGameManager.Entity.Spawn<DestroyAfterTimeVfx>("BulletHitVFX", EEntityGroup.VFX, null, 1f);
-            bulletHitVfx.transform.position = transform.position-_fireDirection*0.05f;
-            changeable.OnHitMaterialBullet(_materialType,_objMaterial);
+            if (changeable is not null)
+            {
+                changeable.OnHitMaterialBullet(_materialType, _objMaterial);
+            }
+
             UnspawnObj();
         }
     }
