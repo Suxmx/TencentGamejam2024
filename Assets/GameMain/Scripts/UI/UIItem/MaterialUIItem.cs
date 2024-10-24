@@ -5,7 +5,6 @@ namespace GameMain
 {
     public class MaterialUIItem : MonoBehaviour
     {
-        [SerializeField] private Material _materialSelectMat;
         public EMaterial MaterialType;
         public int Index;
 
@@ -13,7 +12,7 @@ namespace GameMain
         private RawImage _3dShowRawImage;
 
         private Transform _bg;
-        private Transform _circle;
+        // private Transform _circle;
 
         public void Init(EMaterial eMaterial, int index)
         {
@@ -21,7 +20,7 @@ namespace GameMain
             Index = index;
 
             _bg = transform.Find("Bg");
-            _circle = transform.Find("Circle");
+            // _circle = transform.Find("Circle");
             // var offsetMax = _bg.GetComponent<RectTransform>().offsetMax;
             // offsetMax.x = 350;
             // var offsetMin = _bg.GetComponent<RectTransform>().offsetMin;
@@ -38,7 +37,7 @@ namespace GameMain
             var stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
             float time = Mathf.Clamp01(stateInfo.normalizedTime);
             _animator.Play("OnSelectMaterial", 0, 1 - time);
-            _circle.GetComponent<Image>().material = _materialSelectMat;
+            // _circle.GetComponent<Image>().material = _materialSelectMat;
         }
 
         public void CancelChoose()
@@ -46,7 +45,7 @@ namespace GameMain
             var stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
             float time = Mathf.Clamp01(stateInfo.normalizedTime);
             _animator.Play("OnUnSelectMaterial", 0, 1 - time);
-            _circle.GetComponent<Image>().material = null;
+            // _circle.GetComponent<Image>().material = null;
         }
     }
 }

@@ -85,9 +85,11 @@ namespace GameMain
             for (int i = 0; i < _uiEMaterialList.Count; i++)
             {
                 var item = Instantiate(_materialItem).GetComponent<MaterialUIItem>();
+                var localScale = item.transform.localScale;
                 EMaterial eMaterial = _uiEMaterialList[i];
                 item.Init(eMaterial, i);
                 item.transform.SetParent(m_rect_materials);
+                item.transform.localScale = localScale;
 
                 _materialUIItems.Add(item);
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Framework;
 using Framework.Args;
 using Framework.Develop;
@@ -18,6 +19,17 @@ namespace Tencent
         [SerializeField] private LayerMask _shootingMask;
         private static string _configPath = "Assets/GameMain/Configs/ChangeableConfig.asset";
 
+        private static List<EMaterial> _canCollectMat = new()
+        {
+            EMaterial.WhiteError,
+            EMaterial.Jelly,
+            EMaterial.Climbable,
+            EMaterial.Cloud,
+            EMaterial.Hover,
+        };
+
+        private Dictionary<EMaterial, int> _bulletDict = new();
+
         private EMaterial _currentMaterial;
         private ChangeableConfigSO _config;
         private GameObject _debugSphere;
@@ -31,6 +43,10 @@ namespace Tencent
         public void Init(Player player)
         {
             _player = player;
+            foreach (var emat in _canCollectMat)
+            {
+                _bulletDict.Add(emat, 0);
+            }
         }
 
         private void Awake()
@@ -84,14 +100,14 @@ namespace Tencent
             }
 
             FireMoveGun();
-            
+
 
             HandleMovingObj();
         }
 
         private void LateUpdate()
         {
-            UpdateDebugSphere();
+            UpdateCrossHair();
         }
 
         private void HandleMovingObj()
@@ -132,7 +148,7 @@ namespace Tencent
             //震屏
             AGameManager.Instance.PlayerCamera.Impulse(0.2f);
             var targetPos = RaycastFromCursor();
-            var direction = (targetPos+0.1f*Vector3.up - Muzzle.transform.position).normalized;
+            var direction = (targetPos + 0.1f * Vector3.up - Muzzle.transform.position).normalized;
 
             Material bulletMaterial = _config.MaterialDict[_currentMaterial].BulletMaterial;
             Material objMaterial = _config.MaterialDict[_currentMaterial].ObjMaterial;
@@ -201,9 +217,9 @@ namespace Tencent
         #endregion
 
 
-        #region DEBUG
 
-        private void UpdateDebugSphere()
+
+        private void UpdateCrossHair()
         {
             if (_debugSphere is null) return;
             Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
@@ -223,7 +239,5 @@ namespace Tencent
             _debugSphere.transform.position = muzzleRay.origin + muzzleRay.direction * 10;
         }
         
-
-        #endregion
     }
 }
