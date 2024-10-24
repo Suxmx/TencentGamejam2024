@@ -51,7 +51,7 @@ namespace GameMain
             GameEntry.Event.Subscribe(OnGetKeyArgs.EventId, OnGetKey);
             GameEntry.Event.Subscribe(OnUseKeyArgs.EventId, OnUseKey);
             GameEntry.Event.Subscribe(OnBulletNumChangeArg.EventId, OnMaterialBulletNumChange);
-            GameEntry.Event.Subscribe(OnShowGuideTextArgs.EventId,OnShowGuideText);
+            GameEntry.Event.Subscribe(OnShowGuideTextArgs.EventId, OnShowGuideText);
             _inited = true;
             m_group_guide.alpha = 0;
         }
@@ -63,7 +63,7 @@ namespace GameMain
             GameEntry.Event.Unsubscribe(OnGetKeyArgs.EventId, OnGetKey);
             GameEntry.Event.Unsubscribe(OnUseKeyArgs.EventId, OnUseKey);
             GameEntry.Event.Unsubscribe(OnBulletNumChangeArg.EventId, OnMaterialBulletNumChange);
-            GameEntry.Event.Unsubscribe(OnShowGuideTextArgs.EventId,OnShowGuideText);
+            GameEntry.Event.Unsubscribe(OnShowGuideTextArgs.EventId, OnShowGuideText);
         }
 
         private void OnGetKey(object sender, GameEventArgs arg)
@@ -115,9 +115,35 @@ namespace GameMain
             float scroll = Input.GetAxis("Mouse ScrollWheel") * -10;
             scroll = scroll < 0 ? -1 : (scroll > 0) ? 1 : 0;
             int pre = _curChooseMaterialIndex;
-            _curChooseMaterialIndex += Mathf.FloorToInt(scroll);
-            while (_curChooseMaterialIndex >= _uiEMaterialList.Count) _curChooseMaterialIndex -= _uiEMaterialList.Count;
-            while (_curChooseMaterialIndex < 0) _curChooseMaterialIndex += _uiEMaterialList.Count;
+            if (Input.GetKeyDown(KeyCode.Alpha1) && _uiEMaterialList.Count >= 1)
+            {
+                _curChooseMaterialIndex = 0;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && _uiEMaterialList.Count >= 2)
+            {
+                _curChooseMaterialIndex = 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && _uiEMaterialList.Count >= 3)
+            {
+                _curChooseMaterialIndex = 2;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4) && _uiEMaterialList.Count >= 4)
+            {
+                _curChooseMaterialIndex = 3;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5) && _uiEMaterialList.Count >= 5)
+            {
+                _curChooseMaterialIndex = 4;
+            }
+            else
+            {
+                _curChooseMaterialIndex += Mathf.FloorToInt(scroll);
+                while (_curChooseMaterialIndex >= _uiEMaterialList.Count)
+                    _curChooseMaterialIndex -= _uiEMaterialList.Count;
+                while (_curChooseMaterialIndex < 0) _curChooseMaterialIndex += _uiEMaterialList.Count;
+            }
+
+
             if (pre != _curChooseMaterialIndex && _scrollTimer.Completed)
             {
                 ChooseMaterialItem(pre, _curChooseMaterialIndex);
@@ -140,7 +166,11 @@ namespace GameMain
         private void OnMaterialBulletNumChange(object sender, GameEventArgs arg)
         {
             var e = (OnBulletNumChangeArg)arg;
-            _materialUIItems.Find(x => x.MaterialType == e.MaterialType).OnBulletNumChange(e.BulletNum);
+            var index = _materialUIItems.FindIndex(x => x.MaterialType == e.MaterialType);
+            _materialUIItems[index].OnBulletNumChange(e.BulletNum);
+            int pre = _curChooseMaterialIndex;
+            _curChooseMaterialIndex = index;
+            ChooseMaterialItem(pre, _curChooseMaterialIndex);
         }
 
         private const float fadeSpeed = 2f;
