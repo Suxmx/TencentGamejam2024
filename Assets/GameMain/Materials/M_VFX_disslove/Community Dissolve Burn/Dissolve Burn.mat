@@ -101,14 +101,14 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DisolveAmount: 0.451
-    - _DissolveAmount: 0.085
+    - _DissolveAmount: 0
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _Float0: 11.89
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Intensity: 0.87
+    - _Intensity: 4
     - _MaskClipValue: 0
     - _Metallic: 0
     - _Mode: 0
