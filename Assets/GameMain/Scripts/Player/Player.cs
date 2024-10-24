@@ -204,9 +204,6 @@ namespace Tencent
             _motor.enabled = true;
 
             _curHeight = StandUpHeight;
-
-
-            OnMouseGainChange();
         }
 
         private void InitFsm()
@@ -360,7 +357,7 @@ namespace Tencent
 
             inputs.MoveAxisForward = InputData.MoveInput.y;
             inputs.MoveAxisRight = InputData.MoveInput.x;
-            inputs.CameraRotation = AGameManager.Instance.PlayerCamera.GetCameraRotation();
+            // inputs.CameraRotation = AGameManager.Instance.PlayerCamera.GetCameraRotation();
             Vector3 moveInputVector = Vector3.zero, cameraPlanarDirection = Vector3.zero;
             switch (_cameraMode)
             {
@@ -438,7 +435,6 @@ namespace Tencent
 
                     break;
                 case ECameraMode.TopDownShot:
-                    Debug.Log(_lookInputVector);
                     if (_lookInputVector.sqrMagnitude > 0f && _fsm.CurrentState.name != EPlayerState.Climb)
                     {
                         Vector3 smoothedLookInputDirection = Vector3.Slerp(Motor.CharacterForward, _lookInputVector,

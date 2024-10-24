@@ -5,6 +5,7 @@ using Framework;
 using Framework.Args;
 using Framework.Develop;
 using GameMain;
+using MyTimer;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -40,6 +41,8 @@ namespace Tencent
         private MoveableCube _movingCube = null;
         private float _distance;
 
+        private TimerOnly _cd = new();
+
         public void Init(Player player)
         {
             _player = player;
@@ -48,6 +51,8 @@ namespace Tencent
                 _bulletDict.Add(emat, 0);
                 GameEntry.Event.Fire(this, OnBulletNumChangeArg.Create(emat, 0));
             }
+
+            _cd.Initialize(0.8f, true);
         }
 
         private void Awake()
@@ -97,7 +102,9 @@ namespace Tencent
 
             if (InputData.HasEventStart(InputEvent.Fire))
             {
+                if (!_cd.Completed) return;
                 _animator.SetTrigger("fire");
+                _cd.Restart();
             }
 
             FireMoveGun();
