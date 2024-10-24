@@ -2,9 +2,10 @@
 {
     public enum UIFormId
     {
-        MenuForm=1,
-        GameForm=2,
-        SettingForm=3,
-        DialogueForm=4
+        MenuForm = 1,
+        GameForm = 2,
+        SettingForm = 3,
+        DialogueForm = 4,
+        FakeMenuForm=5
     }
 }

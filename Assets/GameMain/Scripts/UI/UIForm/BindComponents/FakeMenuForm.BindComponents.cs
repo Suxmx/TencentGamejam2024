@@ -2,7 +2,7 @@ using Autobind;
 using UnityEngine;
 using UnityEngine.UI;
 
-//自动生成于：2024/10/25 1:37:08
+//自动生成于：2024/10/25 4:00:04
 namespace GameMain
 {
 
@@ -13,6 +13,8 @@ namespace GameMain
 		private Button m_btn_continueGame;
 		private Button m_btn_setting;
 		private Button m_btn_makers;
+		private Button m_btn_exit;
+		private RectTransform m_rect_selector;
 
 		private void GetBindComponents(GameObject go)
 		{
@@ -22,6 +24,8 @@ namespace GameMain
 			m_btn_continueGame = autoBindTool.GetBindComponent<Button>(1);
 			m_btn_setting = autoBindTool.GetBindComponent<Button>(2);
 			m_btn_makers = autoBindTool.GetBindComponent<Button>(3);
+			m_btn_exit = autoBindTool.GetBindComponent<Button>(4);
+			m_rect_selector = autoBindTool.GetBindComponent<RectTransform>(5);
 		}
 
 		private void ReleaseBindComponents()

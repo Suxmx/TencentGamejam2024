@@ -17,7 +17,7 @@ namespace GameMain
 
         public void SplashAnimEnd()
         {
-            Owner.SetValue("NextScene","Menu");
+            Owner.SetValue("NextScene","FakeMenu");
             ChangeState<ProcedureChangeScene>();
         }
     }

@@ -1,9 +1,35 @@
-﻿using Framework;
+﻿using System;
+using System.Collections.Generic;
+using DG.Tweening;
+using Framework;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GameMain
 {
     public partial class FakeMenuForm : UGuiForm
     {
+        private Tween _selectorTween;
+        private void Update()
+        {
+            PointerEventData pointerData = new PointerEventData(EventSystem.current);
+            pointerData.position = Input.mousePosition;
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            GraphicRaycaster raycaster = (GameEntry.UI as UIManager).UIRoot.GetComponent<GraphicRaycaster>();
+            raycaster.Raycast(pointerData, results);
+
+            foreach (RaycastResult result in results)
+            {
+                Debug.Log(result.gameObject.name);
+                if (result.gameObject.GetComponent<ButtonHover>())
+                {
+                    OnHoverButton(result.gameObject.transform as RectTransform);
+                }
+            }
+        }
+
         public override void OnInit()
         {
             base.OnInit();
@@ -40,17 +66,25 @@ namespace GameMain
 
         private void OnClickNewGame()
         {
-            
         }
 
         private void OnClickContinueGame()
         {
-            
         }
 
         private void OnClickShowMakers()
         {
-            
+        }
+
+        public void OnHoverButton(RectTransform rect)
+        {
+            if (_selectorTween is not null && _selectorTween.active)
+            {
+                _selectorTween.Kill();
+            }
+
+            m_rect_selector.DOMoveY(rect.position.y,0.3f);
+
         }
 
         private void OnClickSettings()

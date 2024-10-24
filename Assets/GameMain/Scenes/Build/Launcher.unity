@@ -618,10 +618,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8643058471001199190, guid: 135fb33bf71850345a3dd384848da5d5, type: 3}
       propertyPath: m_AvailableProcedureTypeNames.Array.size
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8643058471001199190, guid: 135fb33bf71850345a3dd384848da5d5, type: 3}
+      propertyPath: 'm_AvailableProcedureTypeNames.Array.data[2]'
+      value: GameMain.ProcedureFakeMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8643058471001199190, guid: 135fb33bf71850345a3dd384848da5d5, type: 3}
+      propertyPath: 'm_AvailableProcedureTypeNames.Array.data[3]'
+      value: GameMain.ProcedureMain
       objectReference: {fileID: 0}
     - target: {fileID: 8643058471001199190, guid: 135fb33bf71850345a3dd384848da5d5, type: 3}
       propertyPath: 'm_AvailableProcedureTypeNames.Array.data[4]'
+      value: GameMain.ProcedureMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8643058471001199190, guid: 135fb33bf71850345a3dd384848da5d5, type: 3}
+      propertyPath: 'm_AvailableProcedureTypeNames.Array.data[5]'
       value: GameMain.ProcedureSplash
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -10,6 +10,7 @@ namespace Framework
     public class UIManager : Service, IUIManager
     {
         public UIConfig Config;
+        public Canvas UIRoot=>_uiRoot;
 
         private Dictionary<UIFormId, UGuiForm> _uiInstanceDict = new();
         private Canvas _uiRoot;

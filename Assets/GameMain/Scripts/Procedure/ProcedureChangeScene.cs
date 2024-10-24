@@ -8,8 +8,9 @@ namespace GameMain
     public class ProcedureChangeScene : ProcedureBase
     {
         private bool _toMenu = false;
-        private bool _toMain= false;
-        private bool _toSplash= false;
+        private bool _toMain = false;
+        private bool _toSplash = false;
+        private bool _toFakeMenu = false;
         public Animator LoaderAnim;
 
         public override void OnEnter()
@@ -32,6 +33,7 @@ namespace GameMain
             //开始加载场景
             string nextScene = Owner.GetValue<string>("NextScene");
             _toMenu = string.CompareOrdinal(nextScene, "Menu") == 0;
+            _toFakeMenu = string.CompareOrdinal(nextScene, "FakeMenu") == 0;
             _toSplash = nextScene.Contains("Splash");
             _toMain = nextScene.Contains("Level") || nextScene.Contains("Main");
 
@@ -84,13 +86,17 @@ namespace GameMain
             {
                 ChangeState<ProcedureMenu>();
             }
-            else if(_toMain)
+            else if (_toMain)
             {
                 ChangeState<ProcedureMain>();
             }
             else if (_toSplash)
             {
                 ChangeState<ProcedureSplash>();
+            }
+            else if (_toFakeMenu)
+            {
+                ChangeState<ProcedureFakeMenu>();
             }
         }
     }

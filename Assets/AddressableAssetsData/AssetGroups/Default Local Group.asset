@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52a72cf345918204a9fe36551b6b4c32
+    m_Address: Assets/GameMain/Prefabs/UIForms/FakeMenuForm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 726f95af27c1ced44979a5d5cb69df41
     m_Address: Assets/GameMain/Prefabs/VFX/MuzzleVFX.prefab
     m_ReadOnly: 0

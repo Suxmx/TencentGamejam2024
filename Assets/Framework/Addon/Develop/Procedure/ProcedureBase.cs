@@ -20,6 +20,7 @@ namespace Framework
         {
         }
 
-        protected void ChangeState<T>() => Owner.ChangeState<T>();
+        protected void ChangeState<T>() where T : ProcedureBase
+            => Owner.ChangeState<T>();
     }
 }

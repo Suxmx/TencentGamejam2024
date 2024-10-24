@@ -22,3 +22,5 @@ MonoBehaviour:
     Path: SettingForm
   - Id: 4
     Path: DialogueForm
+  - Id: 5
+    Path: FakeMenuForm
