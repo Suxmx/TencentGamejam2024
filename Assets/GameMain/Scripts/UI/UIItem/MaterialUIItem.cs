@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace GameMain
@@ -10,7 +11,7 @@ namespace GameMain
 
         private Animator _animator;
         private RawImage _3dShowRawImage;
-
+        private TextMeshProUGUI _bulletNum;
         private Transform _bg;
         // private Transform _circle;
 
@@ -20,6 +21,7 @@ namespace GameMain
             Index = index;
 
             _bg = transform.Find("Bg");
+            _bulletNum = _bg.Find("BulletNum").GetComponentInChildren<TextMeshProUGUI>();
             // _circle = transform.Find("Circle");
             // var offsetMax = _bg.GetComponent<RectTransform>().offsetMax;
             // offsetMax.x = 350;
@@ -46,6 +48,11 @@ namespace GameMain
             float time = Mathf.Clamp01(stateInfo.normalizedTime);
             _animator.Play("OnUnSelectMaterial", 0, 1 - time);
             // _circle.GetComponent<Image>().material = null;
+        }
+
+        public void OnBulletNumChange(int num)
+        {
+            _bulletNum.text = num.ToString();
         }
     }
 }

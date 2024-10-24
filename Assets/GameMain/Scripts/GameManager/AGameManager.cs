@@ -14,9 +14,8 @@ namespace Framework
     {
         public Vector3 Position;
         public Quaternion Rotation;
-        
     }
-    
+
     /// <summary>
     /// 由该Manager作为唯一的Mono去Update其他的Manager
     /// </summary>
@@ -26,11 +25,7 @@ namespace Framework
 
         public static AGameManager Instance
         {
-            get
-            {
-
-                return _instance;
-            }
+            get { return _instance; }
         }
 
         private static AGameManager _instance;
@@ -39,18 +34,14 @@ namespace Framework
 
         public static Player Player
         {
-            get
-            {
-                return _player;
-            }
-            
+            get { return _player; }
         }
 
         private static Player _player;
         public static ECameraMode CameraMode;
 
         #endregion
-        
+
         private List<IManager> _managers = new();
         private List<IUpdatable> _updatables = new();
 
@@ -58,8 +49,8 @@ namespace Framework
         {
             get
             {
-                if(_playerCamera is null)
-                    _playerCamera=FindAnyObjectByType<PlayerCamera>();
+                if (_playerCamera is null)
+                    _playerCamera = FindAnyObjectByType<PlayerCamera>();
                 return _playerCamera;
             }
         }
@@ -111,19 +102,22 @@ namespace Framework
             {
                 mgr.OnEnter();
             }
-            GameEntry.UI.OpenUIForm(UIFormId.GameForm);
-            
-            GameEntry.Event.Fire(null,OnGameManagerInitedArg.Create());
+
+            GameEntry.Event.Fire(null, OnGameManagerInitedArg.Create());
 
             CameraMode = ECameraMode.TopDownShot;
             _instance.SpawnPlayer();
+            Instance.PlayerCamera.Init(AGameManager.CameraMode, _player._eye, _player._topDownGunPos,
+                _player._materialGun);
+            Instance.PlayerCamera.ChangeCameraMode(AGameManager.CameraMode);
+            GameEntry.UI.OpenUIForm(UIFormId.GameForm);
         }
 
         private void SpawnPlayer()
         {
             Debug.Log("spawn player");
             var spawnPoint = FindAnyObjectByType<PlayerSpawnPoint>();
-            var player=Entity.Spawn<Player>("Player", EEntityGroup.Player);
+            var player = Entity.Spawn<Player>("Player", EEntityGroup.Player);
             player.transform.SetParent(null);
             player.transform.localScale = Vector3.one;
             player.transform.rotation = spawnPoint.transform.rotation;
@@ -141,6 +135,7 @@ namespace Framework
             {
                 mgr.OnExit();
             }
+
             _running = false;
             _playerCamera = null;
             _player = null;
@@ -191,9 +186,10 @@ namespace Framework
                 CameraMode = CameraMode == ECameraMode.FirstPerson ? ECameraMode.TopDownShot : ECameraMode.FirstPerson;
                 PlayerCamera.ChangeCameraMode(CameraMode);
             }
+
             if (Input.GetKeyDown(KeyCode.L))
             {
-                GameEntry.UI.OpenUIForm(UIFormId.DialogueForm,FindAnyObjectByType<GameTester>()._dialogueData);
+                GameEntry.UI.OpenUIForm(UIFormId.DialogueForm, FindAnyObjectByType<GameTester>()._dialogueData);
             }
         }
 
@@ -232,11 +228,12 @@ namespace Framework
             _gameEnd = true;
             (GameEntry.Procedure.CurrentProcedure as ProcedureMain).LevelWin();
         }
+
         #endregion
 
         #region Cusor
 
-        public static void FreeCursor(bool visible=false)
+        public static void FreeCursor(bool visible = false)
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = visible;

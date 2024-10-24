@@ -46,6 +46,7 @@ namespace Tencent
             foreach (var emat in _canCollectMat)
             {
                 _bulletDict.Add(emat, 0);
+                GameEntry.Event.Fire(this, OnBulletNumChangeArg.Create(emat, 0));
             }
         }
 
@@ -216,7 +217,16 @@ namespace Tencent
 
         #endregion
 
+        public void GetMaterialBullet(EMaterial eMaterial)
+        {
+            _bulletDict[eMaterial]++;
+            GameEntry.Event.Fire(this,OnBulletNumChangeArg.Create(eMaterial,_bulletDict[eMaterial]));
+        }
 
+        public void ChangeMaterialGunMat(EMaterial eMaterial)
+        {
+            _currentMaterial = eMaterial;
+        }
 
 
         private void UpdateCrossHair()

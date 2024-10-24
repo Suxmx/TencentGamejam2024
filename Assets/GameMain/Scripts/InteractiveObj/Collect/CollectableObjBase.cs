@@ -10,7 +10,7 @@ namespace GameMain
         protected Transform _graphics;
         private Sequence _loopTween;
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             _graphics = transform.Find("Graphics");
             float initHeight = _graphics.position.y;
@@ -29,6 +29,7 @@ namespace GameMain
         public virtual void OnCollected(Player player)
         {
             _loopTween.Kill();
+            Destroy(gameObject);
         }
 
         private void OnDestroy()
