@@ -1,4 +1,5 @@
 ﻿using Framework;
+using GameMain.Metagame;
 
 namespace GameMain
 {
@@ -11,6 +12,7 @@ namespace GameMain
             _enterGame = false;
             //打开UI
             GameEntry.UI.OpenUIForm(UIFormId.MenuForm);
+            // WindowIconChanger.Instance.ChangeICON("icon1.ico");
         }
 
         public override void OnLogic(float deltaTime)

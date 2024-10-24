@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Ground
   - Player
-  - CameraIgnore
+  - Bullet
   - Environment
   - Cloud
   - Climbable
@@ -36,7 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - CameraIgnore
   m_SortingLayers:
   - name: Default
     uniqueID: 0

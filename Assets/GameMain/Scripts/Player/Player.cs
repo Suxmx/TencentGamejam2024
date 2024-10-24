@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using Framework;
+using Framework.Args;
 using Framework.Develop;
 using GameMain;
 using KinematicCharacterController;
@@ -53,10 +54,13 @@ namespace Tencent
         #region 子物体
 
         private Transform _graphics;
+        private Vector3 _graphicsDelta;
         private Transform _foot;
         private Transform _root;
         private Transform _eye;
         private Transform _topDownGunPos;
+        private Transform _directionPointer;
+        private Quaternion _targetDirectionPtrDir = Quaternion.Euler(90, 0, 0);
 
         #endregion
 
@@ -68,6 +72,19 @@ namespace Tencent
                 Cursor.lockState = CursorLockMode.Locked;
             else
                 Cursor.lockState = CursorLockMode.Confined;
+        }
+
+        private void OnDialoguePlay(object sender, GameEventArgs arg)
+        {
+            var e = (OnDialoguePlayArg)arg;
+            if (e.Start)
+            {
+                Pause();
+            }
+            else
+            {
+                Resume();
+            }
         }
 
 
@@ -85,6 +102,7 @@ namespace Tencent
             InitComponents();
             InitFsm();
             GameEntry.Event.Subscribe(OnCameraModeChangeArg.EventId, OnCameraModeChange);
+            GameEntry.Event.Subscribe(OnDialoguePlayArg.EventId, OnDialoguePlay);
         }
 
         public override void OnHide()
@@ -93,6 +111,7 @@ namespace Tencent
             if (_crouchTween is not null)
                 _crouchTween.Kill();
             GameEntry.Event.Unsubscribe(OnCameraModeChangeArg.EventId, OnCameraModeChange);
+            GameEntry.Event.Unsubscribe(OnDialoguePlayArg.EventId, OnDialoguePlay);
         }
 
         public override void OnUpdate(float deltaTime)
@@ -108,12 +127,34 @@ namespace Tencent
             _fsm.OnLogic();
             //set gun anim
             _materialGun.SetBool("walk", Motor.Velocity.magnitude > 0.1f);
+            AGameManager.Instance.PlayerCamera.SetMouseOffset(Input.mousePosition);
         }
 
         public override void OnLateUpdate(float deltaTime)
         {
             base.OnLateUpdate(deltaTime);
             _playerTrigger.transform.position = _root.position;
+            _directionPointer.transform.position = _root.position + Vector3.up * 0.02f;
+            if (_moveInputVector.sqrMagnitude != 0)
+            {
+                _targetDirectionPtrDir = Quaternion.LookRotation(_moveInputVector, Motor.CharacterUp) *
+                                         Quaternion.Euler(90, 0, 0);
+            }
+
+            _directionPointer.rotation = Quaternion.Slerp(_directionPointer.rotation, _targetDirectionPtrDir
+                , Time.deltaTime * 10);
+        }
+
+        public void Pause()
+        {
+            Motor.enabled = false;
+            _input.InputMap.Disable();
+        }
+
+        public void Resume()
+        {
+            Motor.enabled = true;
+            _input.InputMap.Enable();
         }
 
         #region 收集
@@ -157,7 +198,10 @@ namespace Tencent
 
             _eye = transform.Find("Root/Eye");
             _graphics = transform.Find("Root/Graphics");
+            _graphicsDelta = _graphics.localPosition;
             _foot = transform.Find("Root/Foot");
+            _directionPointer = transform.Find("DirectionPointer");
+            _directionPointer.SetParent(null);
 
             _playerTrigger.Init(this);
             _playerTrigger.ResetCollider(Vector3.up * StandUpHeight / 2f, 0.245f, StandUpHeight);
@@ -265,8 +309,8 @@ namespace Tencent
             {
                 Debug.Log(_curHeight);
                 Motor.SetCapsuleDimensions(0.245f, _curHeight, _curHeight / 2f);
-                _graphics.localScale = new Vector3(0.5f, _curHeight / 2f, 0.5f);
-                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0);
+                _graphics.localScale = new Vector3(1, _curHeight, 1);
+                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0) + _graphicsDelta / 2f;
                 var eyePos = _eye.transform.localPosition;
                 eyePos.y = _curHeight;
                 _eye.localPosition = eyePos;
@@ -284,8 +328,8 @@ namespace Tencent
             {
                 Debug.Log(_curHeight);
                 Motor.SetCapsuleDimensions(0.245f, _curHeight, _curHeight / 2f);
-                _graphics.localScale = new Vector3(0.5f, _curHeight / 2f, 0.5f);
-                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0);
+                _graphics.localScale = new Vector3(1, _curHeight, 1);
+                _graphics.localPosition = new Vector3(0, _curHeight / 2f, 0) + _graphicsDelta / 2f;
                 var eyePos = _eye.transform.localPosition;
                 eyePos.y = _curHeight;
                 _eye.localPosition = eyePos;
@@ -318,6 +362,7 @@ namespace Tencent
 
             return false;
         }
+
         private void HandleCharacterInput()
         {
             PlayerCharacterInputs inputs = new PlayerCharacterInputs();
@@ -363,41 +408,28 @@ namespace Tencent
                     }
 
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    Plane groundPlane = new Plane(Vector3.up, Vector3.zero); // Y=0 的水平面
+                    Plane groundPlane = new Plane(Vector3.up, new Vector3(0, Motor.transform.position.y, 0));
 
                     float distance;
                     if (groundPlane.Raycast(ray, out distance))
                     {
                         // 计算射线与水平面的交点
                         Vector3 mouseWorldPosition = ray.GetPoint(distance);
-                        Debug.Log($"Mouse on Plane: {mouseWorldPosition}");
 
                         // 计算方向并忽略Y轴高度
-                        _lookInputVector = mouseWorldPosition - _materialGun.Muzzle.position;
+                        _lookInputVector = mouseWorldPosition - Motor.Transform.position;
                         _lookInputVector.y = 0;
+                        if (_lookInputVector.sqrMagnitude < 0.16f)
+                        {
+                            _lookInputVector = Vector3.zero;
+                        }
                     }
                     else
                     {
                         // 如果没有找到交点，使用枪口的前方方向作为默认值
-                        _lookInputVector = _materialGun.Muzzle.forward;
-                        Debug.LogWarning("Mouse not on plane, defaulting to muzzle's forward direction.");
+                        _lookInputVector = Vector3.zero;
                     }
-                    // Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    // if (Physics.Raycast(mouseRay.origin - mouseRay.direction * 5, mouseRay.direction,
-                    //         out var mouseHitInfo, 1000f))
-                    // {
-                    //     Debug.Log(mouseHitInfo.point);
-                    //     _lookInputVector = mouseHitInfo.point - Motor.transform.position;
-                    //     _lookInputVector.y = 0;
-                    // }
-                    // else
-                    // {
-                    //     Vector3 mouseWorldPosition =
-                    //         Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
-                    //     Debug.Log(mouseWorldPosition);
-                    //     _lookInputVector = mouseWorldPosition - _materialGun.Muzzle.position;
-                    //     _lookInputVector.y = 0;
-                    // }
+
 
                     return;
             }
@@ -417,7 +449,8 @@ namespace Tencent
                 case ECameraMode.TopDownShot:
                     if (_lookInputVector.sqrMagnitude > 0f && _fsm.CurrentState.name != EPlayerState.Climb)
                     {
-                        currentRotation = Quaternion.LookRotation(_lookInputVector, Motor.CharacterUp);
+                        Vector3 smoothedLookInputDirection = Vector3.Slerp(Motor.CharacterForward, _lookInputVector, 1 - Mathf.Exp(-10 * deltaTime)).normalized;
+                        currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, Motor.CharacterUp);
                     }
 
                     break;
@@ -519,14 +552,6 @@ namespace Tencent
         {
             if (!Application.isPlaying) return;
             AGameManager.Instance.PlayerCamera.SetInputAxisGain(MouseGain);
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (!Application.isPlaying) return;
-            // Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            // Gizmos.DrawSphere(mouseRay.origin, 0.3f);
-            // Gizmos.DrawRay(mouseRay.origin, (mouseRay.origin - _materialGun.Muzzle.position));
         }
 
         #endregion

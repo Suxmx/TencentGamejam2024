@@ -17,6 +17,7 @@ namespace Framework
         [ReadOnly] public string EntityName;
 
         [ReadOnly] public bool SpawnByPool;
+        [ReadOnly] public bool Inited=false;
 
         /// <summary>
         /// 仅在被Instantiate时会被调用

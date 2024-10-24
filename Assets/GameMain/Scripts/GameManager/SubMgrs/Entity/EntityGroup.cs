@@ -11,7 +11,8 @@ namespace Framework
     public enum EEntityGroup
     {
         Bullet,
-        Player
+        Player,
+        VFX
     }
 
     public class EntityGroup : MonoBehaviour
@@ -63,7 +64,11 @@ namespace Framework
             entity.SpawnByPool = true;
             // _activeEntities.Add(entity);
             WaitToOnShow(entity, userData);
-            entity.OnInit();
+            if(!entity.Inited)
+            {
+                entity.OnInit();
+                entity.Inited = true;
+            }
             // entity.OnShow(userData);
             return entity;
         }
@@ -71,6 +76,7 @@ namespace Framework
         public void Unspawn(GameEntityBase entity)
         {
             entity.OnHide();
+            if (!_activeEntities.Contains(entity)) return;
             _activeEntities.Remove(entity);
             if (entity.SpawnByPool)
             {

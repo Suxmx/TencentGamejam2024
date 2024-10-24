@@ -30,13 +30,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 627080974bc686e45bf274582fa00008
+  - m_GUID: 726f95af27c1ced44979a5d5cb69df41
+    m_Address: Assets/GameMain/Prefabs/VFX/MuzzleVFX.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88bda8afdbe2fd34f81955f71e4f1cc5
     m_Address: Assets/GameMain/Prefabs/Player/Player.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9d2f6b3f6473fad4e9c1d4029d134653
+    m_Address: Assets/GameMain/Prefabs/VFX/BulletHitVFX.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d21c6d32fdcb81046a3c4143b88b0e68
     m_Address: Assets/GameMain/Prefabs/Bullet/MaterialBullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d791d620d0503414c9cbcf2471711ef7
+    m_Address: Assets/GameMain/Prefabs/UIForms/DialogueForm.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

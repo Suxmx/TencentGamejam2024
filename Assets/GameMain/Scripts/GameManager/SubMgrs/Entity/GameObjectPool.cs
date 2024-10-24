@@ -48,7 +48,7 @@ namespace Framework
         {
             Vector3 originScale = obj.transform.localScale;
             obj.transform.SetParent(_parent);
-            obj.transform.localScale = originScale;
+
             obj.SetActive(false);
             _pool.Enqueue(obj);
         }

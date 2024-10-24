@@ -84,9 +84,14 @@ namespace Tencent
             }
 
             FireMoveGun();
-            UpdateDebugSphere();
+            
 
             HandleMovingObj();
+        }
+
+        private void LateUpdate()
+        {
+            UpdateDebugSphere();
         }
 
         private void HandleMovingObj()
@@ -124,9 +129,10 @@ namespace Tencent
 
         private void FireMaterialBullet()
         {
-            Debug.Log("fire");
+            //震屏
+            AGameManager.Instance.PlayerCamera.Impulse(0.2f);
             var targetPos = RaycastFromCursor();
-            var direction = (targetPos - Muzzle.transform.position).normalized;
+            var direction = (targetPos+0.1f*Vector3.up - Muzzle.transform.position).normalized;
 
             Material bulletMaterial = _config.MaterialDict[_currentMaterial].BulletMaterial;
             Material objMaterial = _config.MaterialDict[_currentMaterial].ObjMaterial;
@@ -134,6 +140,9 @@ namespace Tencent
             var bullet =
                 AGameManager.Entity.Spawn<MaterialBullet>("MaterialBullet", EEntityGroup.Bullet, null, initInfo);
             bullet.transform.position = Muzzle.position;
+            var muzzleVFX = AGameManager.Entity.Spawn<DestroyAfterTimeVfx>("MuzzleVFX", EEntityGroup.VFX, Muzzle, 1f);
+            muzzleVFX.transform.position = Muzzle.position;
+            muzzleVFX.transform.forward = Muzzle.transform.right;
         }
 
         /// <summary>
