@@ -562,7 +562,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 				float temp_output_130_0 = ( 1.0 - clampResult113 );
 				float2 appendResult115 = (float2(temp_output_130_0 , 0.0));
 				
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
@@ -1118,7 +1118,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 
 				float2 uv_DisolveGuide = input.ase_texcoord3.xy * _DisolveGuide_ST.xy + _DisolveGuide_ST.zw;
 				float temp_output_73_0 = ( (-0.7 + (( 1.0 - (( _AnimateDissolve )?( saturate( _TimeParameters.y ) ):( _DissolveAmount )) ) - 0.0) * (0.7 - -0.7) / (1.0 - 0.0)) + tex2D( _DisolveGuide, uv_DisolveGuide ).r );
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				float Alpha = clampResult159;
@@ -1426,7 +1426,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 
 				float2 uv_DisolveGuide = input.ase_texcoord3.xy * _DisolveGuide_ST.xy + _DisolveGuide_ST.zw;
 				float temp_output_73_0 = ( (-0.7 + (( 1.0 - (( _AnimateDissolve )?( saturate( _TimeParameters.y ) ):( _DissolveAmount )) ) - 0.0) * (0.7 - -0.7) / (1.0 - 0.0)) + tex2D( _DisolveGuide, uv_DisolveGuide ).r );
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				float Alpha = clampResult159;
@@ -1738,7 +1738,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 				float temp_output_130_0 = ( 1.0 - clampResult113 );
 				float2 appendResult115 = (float2(temp_output_130_0 , 0.0));
 				
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
@@ -2020,7 +2020,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 
 				float2 uv_DisolveGuide = input.ase_texcoord2.xy * _DisolveGuide_ST.xy + _DisolveGuide_ST.zw;
 				float temp_output_73_0 = ( (-0.7 + (( 1.0 - (( _AnimateDissolve )?( saturate( _TimeParameters.y ) ):( _DissolveAmount )) ) - 0.0) * (0.7 - -0.7) / (1.0 - 0.0)) + tex2D( _DisolveGuide, uv_DisolveGuide ).r );
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
@@ -2340,7 +2340,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 				
 				float2 uv_DisolveGuide = input.ase_texcoord5.xy * _DisolveGuide_ST.xy + _DisolveGuide_ST.zw;
 				float temp_output_73_0 = ( (-0.7 + (( 1.0 - (( _AnimateDissolve )?( saturate( _TimeParameters.y ) ):( _DissolveAmount )) ) - 0.0) * (0.7 - -0.7) / (1.0 - 0.0)) + tex2D( _DisolveGuide, uv_DisolveGuide ).r );
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				float3 Normal = UnpackNormalScale( tex2D( _Normal, uv_Normal ), 1.0f );
@@ -2772,7 +2772,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 				float temp_output_130_0 = ( 1.0 - clampResult113 );
 				float2 appendResult115 = (float2(temp_output_130_0 , 0.0));
 				
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				float3 BaseColor = float3(0.5, 0.5, 0.5);
@@ -3131,7 +3131,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 
 				float2 uv_DisolveGuide = input.ase_texcoord.xy * _DisolveGuide_ST.xy + _DisolveGuide_ST.zw;
 				float temp_output_73_0 = ( (-0.7 + (( 1.0 - (( _AnimateDissolve )?( saturate( _TimeParameters.y ) ):( _DissolveAmount )) ) - 0.0) * (0.7 - -0.7) / (1.0 - 0.0)) + tex2D( _DisolveGuide, uv_DisolveGuide ).r );
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				surfaceDescription.Alpha = clampResult159;
@@ -3395,7 +3395,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 
 				float2 uv_DisolveGuide = input.ase_texcoord.xy * _DisolveGuide_ST.xy + _DisolveGuide_ST.zw;
 				float temp_output_73_0 = ( (-0.7 + (( 1.0 - (( _AnimateDissolve )?( saturate( _TimeParameters.y ) ):( _DissolveAmount )) ) - 0.0) * (0.7 - -0.7) / (1.0 - 0.0)) + tex2D( _DisolveGuide, uv_DisolveGuide ).r );
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				surfaceDescription.Alpha = clampResult159;
@@ -3603,7 +3603,7 @@ Shader "AmplifyShaderPack/Community/Dissolve Burn"
 
 				float2 uv_DisolveGuide = input.ase_texcoord2.xy * _DisolveGuide_ST.xy + _DisolveGuide_ST.zw;
 				float temp_output_73_0 = ( (-0.7 + (( 1.0 - (( _AnimateDissolve )?( saturate( _TimeParameters.y ) ):( _DissolveAmount )) ) - 0.0) * (0.7 - -0.7) / (1.0 - 0.0)) + tex2D( _DisolveGuide, uv_DisolveGuide ).r );
-				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.03 );
+				float clampResult159 = clamp( temp_output_73_0 , 0.0 , 0.001 );
 				
 
 				float Alpha = clampResult159;
@@ -3646,7 +3646,7 @@ Node;AmplifyShaderEditor.TFHCRemapNode;111;-560,592;Inherit;False;5;0;FLOAT;0;Fa
 Node;AmplifyShaderEditor.CommentaryNode;129;-892.9326,49.09825;Inherit;False;814.5701;432.0292;Burn Effect - Emission;6;113;126;115;114;112;130;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;73;-319.6845,566.4299;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.CommentaryNode;132;144.1929,26.72195;Inherit;False;765.1592;493.9802;Created by The Four Headed Cat @fourheadedcat - www.twitter.com/fourheadedcat;4;134;135;150;141;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;160;-53.98694,742.2592;Inherit;False;Constant;_Float1;Float 0;10;0;Create;True;0;0;0;False;0;False;0.03;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;160;-53.98694,742.2592;Inherit;False;Constant;_Float1;Float 0;10;0;Create;True;0;0;0;False;0;False;0.001;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;158;-224,704;Inherit;False;Constant;_Float0;Float 0;10;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;112;-864,256;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;-4;False;4;FLOAT;4;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode;113;-868,96;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
@@ -3703,4 +3703,4 @@ WireConnection;141;2;133;0
 WireConnection;141;6;159;0
 WireConnection;141;7;151;0
 ASEEND*/
-//CHKSM=DAC2520F4C754D8ECEB4065051D66FF02CA5FC76
+//CHKSM=13A43A735103B445EA1BCC76A96CAC7EFCAFBADD
