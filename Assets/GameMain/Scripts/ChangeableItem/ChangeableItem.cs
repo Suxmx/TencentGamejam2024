@@ -13,8 +13,15 @@ namespace GameMain
     public class ChangeableItem : MonoBehaviour
     {
         [SerializeField, LabelText("果冻跳跃高度")] private float _jellyJumpHeight = 5f;
+
+        private MeshRenderer _mainMr;
+        private MeshRenderer _changeMr;
+        private float _curDissolveValue = 0;
+
         private Collider _collider;
         private bool _isTouchingWithPlayer;
+        private Material _curMeshMaterial;
+        private Sequence _materialChangeTween;
 
         public EMaterial CurrentMaterial
         {
@@ -33,28 +40,51 @@ namespace GameMain
         private float _initHeight;
         private EMaterial _currentMaterial;
         private Tween _hoverTween;
-        private MeshRenderer _mr;
 
         private void Awake()
         {
-            _mr = GetComponent<MeshRenderer>();
+            var mainObj = gameObject;
+            var changeObj = transform.Find("ChangeGraphics");
+            _mainMr = mainObj.GetComponent<MeshRenderer>();
+            _changeMr = changeObj.GetComponent<MeshRenderer>();
+            _changeMr.gameObject.SetActive(false);
             _collider = GetComponent<Collider>();
             _currentMaterial = EMaterial.WhiteError;
             _initHeight = transform.position.y;
         }
 
-        public virtual void OnHitMaterialBullet(EMaterial materialType, Material _material)
+        public virtual void OnHitMaterialBullet(EMaterial materialType, Material material)
         {
-            if (_material is not null)
-            {
-                _mr.material = _material;
-            }
-
+            _curMeshMaterial = material;
             CurrentMaterial = materialType;
+        }
+
+        private void DoChangeMaterial(Material material)
+        {
+            _mainMr.material = material;
         }
 
         protected void OnChangeMaterial(EMaterial materialType)
         {
+            if (_curMeshMaterial is not null)
+            {
+                if (_materialChangeTween is not null && _materialChangeTween.active)
+                {
+                    _materialChangeTween.Kill();
+                }
+
+                _changeMr.gameObject.SetActive(true);
+                _changeMr.material.SetFloat("_DissolveAmount", 0);
+
+                _materialChangeTween = DOTween.Sequence().SetTarget(this);
+                _materialChangeTween.Append(DOTween.To(() => _changeMr.material.GetFloat("_DissolveAmount"),
+                        x => _changeMr.material.SetFloat("_DissolveAmount", x), 0.5f, 1f)
+                    .OnComplete(() => DoChangeMaterial(_curMeshMaterial)));
+                _materialChangeTween.Append(DOTween.To(() => _changeMr.material.GetFloat("_DissolveAmount"),
+                    x => _changeMr.material.SetFloat("_DissolveAmount", x), 1, 2f).OnComplete(()=>_changeMr.gameObject.SetActive(false)));
+            }
+
+
             gameObject.layer = LayerMask.NameToLayer("Environment");
             if (_hoverTween is not null)
             {
@@ -90,6 +120,7 @@ namespace GameMain
 
         private void OnCollisionEnter(Collision other)
         {
+            Debug.Log("collision enter");
             if (other.gameObject.TryGetComponent<PlayerTrigger>(out var playerTrigger))
             {
                 _isTouchingWithPlayer = true;

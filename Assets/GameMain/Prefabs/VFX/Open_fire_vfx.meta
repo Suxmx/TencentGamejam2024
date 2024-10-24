@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameMain/Prefabs/VFX/Open_fire_vfx.meta
 guid: 4c820a314881a234485034d7cd40c58f
 folderAsset: yes
+========
+guid: 2cb36ca52afb42941823d5bd90c5cb4d
+>>>>>>>> 89b21ac3a175202206bd1e563c85ab00735aab1b:Assets/Plugins/AllIn1SpriteShader/2DRenderer-URP-pre2021.2.unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

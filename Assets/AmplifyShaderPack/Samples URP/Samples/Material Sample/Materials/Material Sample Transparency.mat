@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Material Sample Transparency
   m_Shader: {fileID: 4800000, guid: 79bb1ec08594440aae8b021eddf58b59, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
@@ -18,6 +20,7 @@ Material:
   stringTagMap:
     MotionVector: User
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -46,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Distortion:
-        m_Texture: {fileID: 2800000, guid: 161b0899cec643d9b2a5b72bb8e1788b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6e76a0f7f0b1492b82fdecf6df56c9d8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -203,3 +206,4 @@ Material:
     - _UVOffset0: {r: 0.32, g: 0.1, b: 0.1, a: 0}
     - _UVOffset1: {r: -0.19, g: -0.1, b: -0.1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
