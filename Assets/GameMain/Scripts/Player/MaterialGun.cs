@@ -60,23 +60,23 @@ namespace Tencent
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                int count = Enum.GetValues(typeof(EMaterial)).Length;
-                int index = (int)_currentMaterial;
-                index = index - 1 < 0 ? count - 1 : index - 1;
-                _currentMaterial = (EMaterial)index;
-                GameEntry.Event.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                int count = Enum.GetValues(typeof(EMaterial)).Length;
-                int index = (int)_currentMaterial;
-                index = index + 1 >= count ? 0 : index + 1;
-                _currentMaterial = (EMaterial)index;
-                GameEntry.Event.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
-            }
+            // if (Input.GetKeyDown(KeyCode.Q))
+            // {
+            //     int count = Enum.GetValues(typeof(EMaterial)).Length;
+            //     int index = (int)_currentMaterial;
+            //     index = index - 1 < 0 ? count - 1 : index - 1;
+            //     _currentMaterial = (EMaterial)index;
+            //     GameEntry.Event.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
+            // }
+            //
+            // if (Input.GetKeyDown(KeyCode.E))
+            // {
+            //     int count = Enum.GetValues(typeof(EMaterial)).Length;
+            //     int index = (int)_currentMaterial;
+            //     index = index + 1 >= count ? 0 : index + 1;
+            //     _currentMaterial = (EMaterial)index;
+            //     GameEntry.Event.Fire(this, OnGunMaterialChangeArg.Create(_currentMaterial));
+            // }
 
             if (InputData.HasEventStart(InputEvent.Fire))
             {
