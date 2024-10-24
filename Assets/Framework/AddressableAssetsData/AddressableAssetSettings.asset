@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: 41b719f6999c0e8418179c801d188ab9
+  m_DefaultGroup: fae328cb2a7c9d2418292c6d48dd341b
   m_currentHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -62,6 +62,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c0af4105eb69df49ba379be4b2e2a01, type: 2}
   - {fileID: 11400000, guid: 4cfd03ae07e14b34d83fc3bb4a9d36ee, type: 2}
   - {fileID: 11400000, guid: b5062d065b7d137488d8bed7e97df462, type: 2}
+  - {fileID: 11400000, guid: 6928e94c9cfea31499824225b1b98c7d, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
