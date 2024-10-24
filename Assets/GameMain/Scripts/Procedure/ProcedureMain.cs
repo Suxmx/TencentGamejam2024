@@ -1,4 +1,5 @@
 ﻿using Framework;
+using GameMain.Metagame;
 using UnityEngine.SceneManagement;
 
 namespace GameMain
@@ -13,6 +14,7 @@ namespace GameMain
         {
             base.OnEnter();
             _levelIndex = Owner.GetValue<int>("Level");
+            // WindowIconChanger.SetWindowIcon("Assets/Icon/icon2.ico");
             AGameManager.OnEnter();
         }
 
