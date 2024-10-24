@@ -127,6 +127,7 @@ namespace Tencent
             _fsm.OnLogic();
             //set gun anim
             _materialGun.SetBool("walk", Motor.Velocity.magnitude > 0.1f);
+            AGameManager.Instance.PlayerCamera.SetMouseOffset(Input.mousePosition);
         }
 
         public override void OnLateUpdate(float deltaTime)

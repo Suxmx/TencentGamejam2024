@@ -121,6 +121,7 @@ namespace Framework
 
         private void SpawnPlayer()
         {
+            Debug.Log("spawn player");
             var spawnPoint = FindAnyObjectByType<PlayerSpawnPoint>();
             var player=Entity.Spawn<Player>("Player", EEntityGroup.Player);
             player.transform.SetParent(null);

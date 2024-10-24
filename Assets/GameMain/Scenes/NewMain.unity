@@ -2055,14 +2055,14 @@ Transform:
   m_GameObject: {fileID: 679613794}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.7926359, y: -0.34367052, z: -1.0369561}
+  m_LocalPosition: {x: 0, y: -1.3436705, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 108814068}
   - {fileID: 2105149019}
   - {fileID: 1034472109}
-  m_Father: {fileID: 1539216892}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &693602844
 GameObject:
@@ -2307,6 +2307,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: -10
   m_TargetDisplay: 0
+--- !u!4 &1041730877 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4786715531739548409, guid: 0f89abec86d131e48b58551e8ee2fd7d, type: 3}
+  m_PrefabInstance: {fileID: 1105044449}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1105044449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3959,7 +3964,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 574391877}
-  - {fileID: 679613799}
   - {fileID: 1121252994}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4051,7 +4055,7 @@ Transform:
   m_GameObject: {fileID: 1748100973}
   serializedVersion: 2
   m_LocalRotation: {x: 0.42443642, y: 0, z: 0, w: 0.9054578}
-  m_LocalPosition: {x: -0.00000023841858, y: 4.6044226, z: -3.5725372}
+  m_LocalPosition: {x: -0.00000023841858, y: 4.604422, z: -3.522537}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4427,7 +4431,7 @@ Transform:
   m_GameObject: {fileID: 2116299127}
   serializedVersion: 2
   m_LocalRotation: {x: 0.42443642, y: 0, z: 0, w: 0.9054578}
-  m_LocalPosition: {x: -0.00052664126, y: -0.08798647, z: 0.79201436}
+  m_LocalPosition: {x: -0.00052666664, y: -0.087986946, z: 0.8420143}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4457,7 +4461,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 0.02, z: -0.6}
+  TargetOffset: {x: 0, y: 0.02, z: -0.55}
   Damping: {x: 1, y: 1, z: 1}
   Lookahead:
     Enabled: 0
@@ -4484,7 +4488,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 1041730877}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -4539,6 +4543,7 @@ SceneRoots:
   - {fileID: 1296398527}
   - {fileID: 1970003742}
   - {fileID: 1244056802}
+  - {fileID: 679613799}
   - {fileID: 1539216892}
   - {fileID: 193881080}
   - {fileID: 227774651}
