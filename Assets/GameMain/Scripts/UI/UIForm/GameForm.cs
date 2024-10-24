@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Framework;
 using Framework.Develop;
+using MyTimer;
 using Tencent;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,11 +20,9 @@ namespace GameMain
         private static List<EMaterial> _uiEMaterialList = new List<EMaterial>()
         {
             EMaterial.WhiteError,
-            EMaterial.BlackError,
             EMaterial.Jelly,
             EMaterial.Climbable,
             EMaterial.Cloud,
-            EMaterial.Dangerous,
             EMaterial.Hover,
         };
 
@@ -31,12 +30,14 @@ namespace GameMain
         private List<MaterialUIItem> _materialUIItems = new();
         private int _curChooseMaterialIndex = 0;
         private ECameraMode _cameraMode;
+        private TimerOnly _scrollTimer = new();
 
         public override void OnInit()
         {
             base.OnInit();
             GetBindComponents(gameObject);
             InitMaterialItems();
+            _scrollTimer.Initialize(0.1f);
         }
 
         public override void OnOpen(object userData)
@@ -87,33 +88,48 @@ namespace GameMain
                 EMaterial eMaterial = _uiEMaterialList[i];
                 item.Init(eMaterial, i);
                 item.transform.SetParent(m_rect_materials);
-                
+
                 _materialUIItems.Add(item);
             }
-            
+
             _curChooseMaterialIndex = _uiEMaterialList.Count / 2;
             _materialUIItems[_curChooseMaterialIndex].Choose();
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            float scroll = Input.GetAxis("Mouse ScrollWheel") * -10;
+            scroll = scroll < 0 ? -1 : (scroll > 0) ? 1 : 0;
+            int pre = _curChooseMaterialIndex;
+            _curChooseMaterialIndex += Mathf.FloorToInt(scroll);
+            while (_curChooseMaterialIndex >= _uiEMaterialList.Count) _curChooseMaterialIndex -= _uiEMaterialList.Count;
+            while (_curChooseMaterialIndex < 0) _curChooseMaterialIndex += _uiEMaterialList.Count;
+            if (pre != _curChooseMaterialIndex && _scrollTimer.Completed)
             {
-                int pre = _curChooseMaterialIndex;
-                _curChooseMaterialIndex = _curChooseMaterialIndex - 1 < 0
-                    ? _uiEMaterialList.Count - 1
-                    : _curChooseMaterialIndex - 1;
                 ChooseMaterialItem(pre, _curChooseMaterialIndex);
+                _scrollTimer.Restart();
             }
+            else
+            {
+                _curChooseMaterialIndex = pre;
+            }
+            // if (Input.GetKeyDown(KeyCode.Q))
+            // {
+            //     int pre = _curChooseMaterialIndex;
+            //     _curChooseMaterialIndex = _curChooseMaterialIndex - 1 < 0
+            //         ? _uiEMaterialList.Count - 1
+            //         : _curChooseMaterialIndex - 1;
+            //     ChooseMaterialItem(pre, _curChooseMaterialIndex);
+            // }
 
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                int pre = _curChooseMaterialIndex;
-                _curChooseMaterialIndex = _curChooseMaterialIndex + 1 >= _uiEMaterialList.Count
-                    ? 0
-                    : _curChooseMaterialIndex + 1;
-                ChooseMaterialItem(pre, _curChooseMaterialIndex);
-            }
+            // if (Input.GetKeyDown(KeyCode.E))
+            // {
+            //     int pre = _curChooseMaterialIndex;
+            //     _curChooseMaterialIndex = _curChooseMaterialIndex + 1 >= _uiEMaterialList.Count
+            //         ? 0
+            //         : _curChooseMaterialIndex + 1;
+            //     ChooseMaterialItem(pre, _curChooseMaterialIndex);
+            // }
         }
 
         private void ChooseMaterialItem(int pre, int after)
