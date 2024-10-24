@@ -22,26 +22,15 @@ namespace Tencent
 
         public void StartMove()
         {
-            _collider.enabled = false;
+            _collider.enabled = true;
             _rigid.useGravity = false;
             _moving = true;
+            gameObject.layer = LayerMask.NameToLayer("Cloud");
             // _dotTimer.OnTick += OnTimerTick;
             // _dotTimer.AfterCompelete += OnTimerEnd;
             // _dotTimer.Restart();
         }
 
-        private void OnTimerTick(float t)
-        {
-            transform.position = Vector3.Lerp(transform.position, AGameManager.Player.transform.position +
-                                                                  AGameManager.Player.Motor.CharacterForward *
-                                                                  (0.3f + _collider.size.x / 2f) +
-                                                                  Vector3.up * 0.5f, Time.deltaTime * 5);
-        }
-
-        private void OnTimerEnd(float t)
-        {
-            _moving = true;
-        }
 
         private void LateUpdate()
         {
@@ -59,10 +48,7 @@ namespace Tencent
             _collider.enabled = true;
             _rigid.useGravity = true;
             _moving = false;
-            //     _dotTimer.Paused = true;
-            //     _dotTimer.OnTick -= OnTimerTick;
-            //     _dotTimer.AfterCompelete -= OnTimerEnd;
-            // }
+            gameObject.layer = LayerMask.NameToLayer("Environment");
         }
     }
 }

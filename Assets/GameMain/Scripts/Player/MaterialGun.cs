@@ -39,6 +39,7 @@ namespace Tencent
         private Animator _animator;
 
         private MoveableCube _movingCube = null;
+        private MoveableCube _previewMovingCube;
         private float _distance;
 
         private TimerOnly _cd = new();
@@ -118,6 +119,8 @@ namespace Tencent
 
         private void FireMoveGun()
         {
+            var targetPos = RaycastFromCursor(out var hit);
+
             if (!Input.GetMouseButtonDown(1))
                 return;
             if (_movingCube is not null)
@@ -127,11 +130,12 @@ namespace Tencent
                 return;
             }
 
-            var targetPos = RaycastFromCursor(out var hit);
+
             if (Vector3.Distance(Muzzle.transform.position, targetPos) > 2f)
             {
                 return;
             }
+
             if (hit.transform.TryGetComponent<MoveableCube>(out var cube))
             {
                 _movingCube = cube;
@@ -226,7 +230,7 @@ namespace Tencent
                     Ray mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(mouseRay.origin - mouseRay.direction * 5, mouseRay.direction,
                             out var mouseHitInfo, 1000f,
-                            _shootingMask, QueryTriggerInteraction.UseGlobal))
+                            _shootingMask, QueryTriggerInteraction.Ignore))
                     {
                         hit = mouseHitInfo;
                         return mouseHitInfo.point;
@@ -280,14 +284,12 @@ namespace Tencent
             var target = RaycastFromCursor();
             var direction = (target - Muzzle.transform.position).normalized;
             Ray muzzleRay = new Ray(Muzzle.transform.position, direction);
-            if (Physics.Raycast(muzzleRay, out var info, 10f, _shootingMask, QueryTriggerInteraction.UseGlobal))
+            if (Physics.Raycast(muzzleRay, out var info, 20, _shootingMask, QueryTriggerInteraction.UseGlobal))
             {
-                Debug.DrawLine(muzzleRay.origin, info.point, Color.red);
                 _debugSphere.transform.position = info.point;
                 return;
             }
 
-            Debug.DrawLine(muzzleRay.origin, (screenRay.origin + screenRay.direction * 10), Color.red);
             _debugSphere.transform.position = muzzleRay.origin + muzzleRay.direction * 10;
         }
 
