@@ -2,7 +2,7 @@ using Autobind;
 using TMPro;
 using UnityEngine;
 
-//自动生成于：2024/10/24 10:55:08
+//自动生成于：2024/10/24 18:43:27
 namespace GameMain
 {
 
@@ -11,6 +11,7 @@ namespace GameMain
 
 		private RectTransform m_trans_keys;
 		private TextMeshProUGUI m_tmp_curMaterial;
+		private RectTransform m_rect_materials;
 
 		private void GetBindComponents(GameObject go)
 		{
@@ -18,6 +19,7 @@ namespace GameMain
 
 			m_trans_keys = autoBindTool.GetBindComponent<RectTransform>(0);
 			m_tmp_curMaterial = autoBindTool.GetBindComponent<TextMeshProUGUI>(1);
+			m_rect_materials = autoBindTool.GetBindComponent<RectTransform>(2);
 		}
 
 		private void ReleaseBindComponents()
