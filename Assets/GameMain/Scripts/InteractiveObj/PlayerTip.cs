@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using Framework;
 using MyTimer;
 using UnityEngine;
 
@@ -9,36 +10,53 @@ namespace GameMain
     {
         [SerializeField] private Sprite _noBullet;
         [SerializeField] private Sprite _getBullet;
+        [SerializeField] private Color _crossColor;
+        [SerializeField] private Color _getBulletColor;
+        private Vector3 _delta;
 
         private Camera _camera;
         private SpriteRenderer _sr;
-        private TimerOnly _activeTimer = new();
+        private Animator _animator;
 
         private void Awake()
         {
             _camera = Camera.main;
+            transform.forward = _camera.transform.position - transform.position;
         }
 
-        private void Update()
+
+        private void LateUpdate()
         {
-            if (_camera is null) return;
-            transform.forward = _camera.transform.position - transform.position;
+            if (_camera is null || AGameManager.Player is null) return;
+            transform.position = AGameManager.Player.transform.position + _delta;
         }
 
         public void Init()
         {
-            _sr = GetComponent<SpriteRenderer>();
-            _activeTimer.Initialize(1f, false);
+            _sr = GetComponentInChildren<SpriteRenderer>();
+            // _activeTimer.Initialize(1f, false);
+            // _activeTimer.AfterCompelete += _ => gameObject.SetActive(false);
+            _delta = transform.position - transform.parent.transform.position;
+            transform.SetParent(null);
+            _animator = GetComponent<Animator>();
         }
 
         public void ShowNoBulletIcon()
         {
             gameObject.SetActive(true);
+            _animator.Play("NoBullet", 0, 0);
+            _sr.sprite = _noBullet;
+            _sr.color = _crossColor;
+            // _activeTimer.Restart();
         }
 
         public void ShowGetBulletIcon()
         {
             gameObject.SetActive(true);
+            _animator.Play("NoBullet", 0, 0);
+            _sr.sprite = _getBullet;
+            _sr.color = _getBulletColor;
+            // _activeTimer.Restart();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Framework;
 using Framework.Develop;
 using MyTimer;
@@ -14,7 +15,7 @@ namespace GameMain
         [SerializeField] private GameObject _keyIconPrefab;
         [SerializeField] private GameObject _materialItem;
 
-        private bool _inited=false;
+        private bool _inited = false;
 
         /// <summary>
         /// UI列表中要显示的材质枚举，包括顺序
@@ -33,6 +34,7 @@ namespace GameMain
         private int _curChooseMaterialIndex = 0;
         private ECameraMode _cameraMode;
         private TimerOnly _scrollTimer = new();
+        private Tween _guideTween;
 
         public override void OnInit()
         {
@@ -49,7 +51,9 @@ namespace GameMain
             GameEntry.Event.Subscribe(OnGetKeyArgs.EventId, OnGetKey);
             GameEntry.Event.Subscribe(OnUseKeyArgs.EventId, OnUseKey);
             GameEntry.Event.Subscribe(OnBulletNumChangeArg.EventId, OnMaterialBulletNumChange);
+            GameEntry.Event.Subscribe(OnShowGuideTextArgs.EventId,OnShowGuideText);
             _inited = true;
+            m_group_guide.alpha = 0;
         }
 
         public override void OnClose()
@@ -59,6 +63,7 @@ namespace GameMain
             GameEntry.Event.Unsubscribe(OnGetKeyArgs.EventId, OnGetKey);
             GameEntry.Event.Unsubscribe(OnUseKeyArgs.EventId, OnUseKey);
             GameEntry.Event.Unsubscribe(OnBulletNumChangeArg.EventId, OnMaterialBulletNumChange);
+            GameEntry.Event.Unsubscribe(OnShowGuideTextArgs.EventId,OnShowGuideText);
         }
 
         private void OnGetKey(object sender, GameEventArgs arg)
@@ -106,7 +111,7 @@ namespace GameMain
 
         private void Update()
         {
-            if(!_inited) return;
+            if (!_inited) return;
             float scroll = Input.GetAxis("Mouse ScrollWheel") * -10;
             scroll = scroll < 0 ? -1 : (scroll > 0) ? 1 : 0;
             int pre = _curChooseMaterialIndex;
@@ -136,6 +141,29 @@ namespace GameMain
         {
             var e = (OnBulletNumChangeArg)arg;
             _materialUIItems.Find(x => x.MaterialType == e.MaterialType).OnBulletNumChange(e.BulletNum);
+        }
+
+        private const float fadeSpeed = 2f;
+
+        private void OnShowGuideText(object sender, GameEventArgs arg)
+        {
+            var e = (OnShowGuideTextArgs)arg;
+            if (_guideTween is not null && _guideTween.active)
+            {
+                _guideTween.Kill();
+            }
+
+            if (e.Show)
+            {
+                float time = (1 - m_group_guide.alpha) / fadeSpeed;
+                _guideTween = m_group_guide.DOFade(1, time);
+                m_tmp_guideTxt.text = e.GuideText;
+            }
+            else
+            {
+                float time = (m_group_guide.alpha) / fadeSpeed;
+                _guideTween = m_group_guide.DOFade(0, time);
+            }
         }
     }
 }
