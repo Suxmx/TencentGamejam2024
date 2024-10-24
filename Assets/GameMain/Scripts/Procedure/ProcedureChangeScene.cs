@@ -8,6 +8,8 @@ namespace GameMain
     public class ProcedureChangeScene : ProcedureBase
     {
         private bool _toMenu = false;
+        private bool _toMain= false;
+        private bool _toSplash= false;
         public Animator LoaderAnim;
 
         public override void OnEnter()
@@ -30,12 +32,13 @@ namespace GameMain
             //开始加载场景
             string nextScene = Owner.GetValue<string>("NextScene");
             _toMenu = string.CompareOrdinal(nextScene, "Menu") == 0;
-
+            _toSplash = nextScene.Contains("Splash");
+            _toMain = nextScene.Contains("Level") || nextScene.Contains("Main");
 
             GameEntry.Event.Subscribe(OnAfterSceneLoadArgs.EventId, OnAfterLoadScene);
 
             //是否要播放转场动画
-            if (!_toMenu)
+            if (_toMain)
             {
                 GameEntry.Event.Subscribe(OnLoaderAnimStartArg.EventId, StartLoad);
                 if (LoaderAnim is not null)
@@ -56,7 +59,7 @@ namespace GameMain
         public override void OnExit()
         {
             base.OnExit();
-            if (!_toMenu)
+            if (_toMain)
             {
                 if (LoaderAnim is not null)
                 {
@@ -81,9 +84,13 @@ namespace GameMain
             {
                 ChangeState<ProcedureMenu>();
             }
-            else
+            else if(_toMain)
             {
                 ChangeState<ProcedureMain>();
+            }
+            else if (_toSplash)
+            {
+                
             }
         }
     }
