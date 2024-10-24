@@ -32,12 +32,16 @@ namespace GameMain
 
         public void Choose()
         {
-            _animator.Play("OnSelectMaterial");
+            var stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            float time = Mathf.Clamp01(stateInfo.normalizedTime);
+            _animator.Play("OnSelectMaterial", 0, 1 - time);
         }
 
         public void CancelChoose()
         {
-            _animator.Play("OnUnSelectMaterial");
+            var stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            float time = Mathf.Clamp01(stateInfo.normalizedTime);
+            _animator.Play("OnUnSelectMaterial", 0, 1 - time);
         }
     }
 }
