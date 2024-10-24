@@ -16,9 +16,13 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 2100000, guid: 4e27ee09e9075cf4ba697b188e1bd2ff, type: 2}
     - {fileID: 2100000, guid: 9563376a24680bd4e8c9242d50295096, type: 2}
+    - {fileID: 2100000, guid: ace8af15a7ca424419da3fc8c3ddc074, type: 2}
     - {fileID: 2100000, guid: 6f06bcb2a7b31e14cb3e5bd16c55bcf4, type: 2}
+    - {fileID: 2100000, guid: c6d53391c93617e478eb3f2335fea1c4, type: 2}
     - {fileID: 2100000, guid: 289d58a0e0936b64fb0882c52077b98b, type: 2}
+    - {fileID: 2100000, guid: 0973dac605b959f40ba035f30f329b08, type: 2}
     - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
     - {fileID: 2100000, guid: 2808692119bf2f04c9b7fb883d47c4dd, type: 2}
     - {fileID: 2100000, guid: cb1d4a6cf363b3744b8730b1fcb1e397, type: 2}
@@ -64,37 +68,9 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
     - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: BulletMaterial
       Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 7
-      Data: 4|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ObjMaterials
-      Entry: 7
-      Data: 5|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
-        mscorlib
-    - Name: 
-      Entry: 12
       Data: 0
     - Name: 
       Entry: 13
@@ -116,6 +92,40 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 4|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterials
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BulletMaterial
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
       Data: 3
     - Name: $v
       Entry: 7
@@ -126,7 +136,10 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 4
     - Name: 
       Entry: 13
       Data: 
@@ -135,7 +148,7 @@ MonoBehaviour:
       Data: 
     - Name: BulletMaterial
       Entry: 10
-      Data: 2
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -157,7 +170,10 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 6
     - Name: 
       Entry: 13
       Data: 
@@ -166,7 +182,7 @@ MonoBehaviour:
       Data: 
     - Name: BulletMaterial
       Entry: 10
-      Data: 3
+      Data: 7
     - Name: 
       Entry: 8
       Data: 
@@ -188,7 +204,10 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 8
     - Name: 
       Entry: 13
       Data: 
@@ -197,7 +216,7 @@ MonoBehaviour:
       Data: 
     - Name: BulletMaterial
       Entry: 10
-      Data: 4
+      Data: 8
     - Name: 
       Entry: 8
       Data: 
@@ -219,13 +238,10 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 6
-      Data: 
+      Data: 9
     - Name: 
       Entry: 13
       Data: 
@@ -234,7 +250,7 @@ MonoBehaviour:
       Data: 
     - Name: BulletMaterial
       Entry: 10
-      Data: 6
+      Data: 10
     - Name: 
       Entry: 8
       Data: 
@@ -256,7 +272,10 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 11
     - Name: 
       Entry: 13
       Data: 
@@ -265,7 +284,7 @@ MonoBehaviour:
       Data: 
     - Name: BulletMaterial
       Entry: 10
-      Data: 7
+      Data: 11
     - Name: 
       Entry: 8
       Data: 

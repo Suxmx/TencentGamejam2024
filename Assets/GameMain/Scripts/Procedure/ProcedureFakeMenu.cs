@@ -12,7 +12,8 @@ namespace GameMain
 
         public void EnterGame()
         {
-            
+            Owner.SetValue("NextScene", "Menu");
+            ChangeState<ProcedureChangeScene>();
         }
     }
 }

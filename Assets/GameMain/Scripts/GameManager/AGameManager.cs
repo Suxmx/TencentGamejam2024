@@ -122,6 +122,9 @@ namespace Framework
             player.transform.localScale = Vector3.one;
             player.transform.rotation = spawnPoint.transform.rotation;
             player.transform.position = spawnPoint.transform.position;
+            player.Motor.SetPosition(spawnPoint.transform.position);
+            player.Motor.SetRotation(spawnPoint.transform.rotation);
+            Debug.Log($"player spawn:{player.transform.position}");
             _player = player;
             spawnPoint.gameObject.SetActive(false);
         }

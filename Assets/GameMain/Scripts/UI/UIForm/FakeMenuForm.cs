@@ -66,6 +66,7 @@ namespace GameMain
 
         private void OnClickNewGame()
         {
+            (GameEntry.Procedure.CurrentProcedure as ProcedureFakeMenu).EnterGame();
         }
 
         private void OnClickContinueGame()
@@ -74,6 +75,7 @@ namespace GameMain
 
         private void OnClickShowMakers()
         {
+            
         }
 
         public void OnHoverButton(RectTransform rect)
