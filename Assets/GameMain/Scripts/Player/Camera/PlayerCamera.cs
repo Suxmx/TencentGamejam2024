@@ -8,8 +8,8 @@ namespace Tencent
 {
     public class PlayerCamera : MonoBehaviour
     {
-        public CinemachineCamera FirstPersonCinemachine;
-        public CinemachineCamera TopDownShotCinemachine;
+        [NoSaveDuringPlay] public CinemachineCamera FirstPersonCinemachine;
+        [NoSaveDuringPlay] public CinemachineCamera TopDownShotCinemachine;
         private CinemachineInputAxisController _inputAxis;
         private Transform _topDownGunPos, _firstPersonGunPos;
         private Sequence _changeTween;
@@ -104,7 +104,7 @@ namespace Tencent
             offset.x = Mathf.Clamp(offset.x, -0.3f, 0.3f);
             offset.y = Mathf.Clamp(offset.y, -0.3f, 0.3f);
             _topdownPosComposer.Composition.ScreenPosition =
-                Vector2.Lerp(_topdownPosComposer.Composition.ScreenPosition, offset, Time.deltaTime*5);
+                Vector2.Lerp(_topdownPosComposer.Composition.ScreenPosition, offset, Time.deltaTime * 5);
         }
     }
 }
