@@ -15,7 +15,8 @@ namespace GameMain
     [Serializable]
     public class ChangeableConfigUnit
     {
-        [FormerlySerializedAs("ItemMaterial")] [LabelText("物体材质")] public Material ObjMaterial;
+        [LabelText("物体材质")] public List<Material> ObjMaterials;
+
         [LabelText("子弹材质")] public Material BulletMaterial;
     }
 }

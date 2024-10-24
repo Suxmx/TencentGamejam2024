@@ -20,7 +20,7 @@ namespace GameMain
 
         private Collider _collider;
         private bool _isTouchingWithPlayer;
-        private Material _curMeshMaterial;
+        private Material[] _curMeshMaterials;
         private Sequence _materialChangeTween;
 
         public EMaterial CurrentMaterial
@@ -53,20 +53,20 @@ namespace GameMain
             _initHeight = transform.position.y;
         }
 
-        public virtual void OnHitMaterialBullet(EMaterial materialType, Material material)
+        public virtual void OnHitMaterialBullet(EMaterial materialType, Material[] materials)
         {
-            _curMeshMaterial = material;
+            _curMeshMaterials = materials;
             CurrentMaterial = materialType;
         }
 
-        private void DoChangeMaterial(Material material)
+        private void DoChangeMaterial(Material[] materials)
         {
-            _mainMr.material = material;
+            _mainMr.materials = materials;
         }
 
         protected void OnChangeMaterial(EMaterial materialType)
         {
-            if (_curMeshMaterial is not null)
+            if (_curMeshMaterials is not null)
             {
                 if (_materialChangeTween is not null && _materialChangeTween.active)
                 {
@@ -79,7 +79,7 @@ namespace GameMain
                 _materialChangeTween = DOTween.Sequence().SetTarget(this);
                 _materialChangeTween.Append(DOTween.To(() => _changeMr.material.GetFloat("_DissolveAmount"),
                         x => _changeMr.material.SetFloat("_DissolveAmount", x), 0.5f, 1f)
-                    .OnComplete(() => DoChangeMaterial(_curMeshMaterial)));
+                    .OnComplete(() => DoChangeMaterial(_curMeshMaterials)));
                 _materialChangeTween.Append(DOTween.To(() => _changeMr.material.GetFloat("_DissolveAmount"),
                     x => _changeMr.material.SetFloat("_DissolveAmount", x), 1, 2f).OnComplete(()=>_changeMr.gameObject.SetActive(false)));
             }

@@ -1,4 +1,7 @@
 ﻿using System;
+using DG.Tweening;
+using Framework;
+using MyTimer;
 using UnityEngine;
 
 namespace Tencent
@@ -6,45 +9,60 @@ namespace Tencent
     public class MoveableCube : MonoBehaviour
     {
         private Rigidbody _rigid;
+        private BoxCollider _collider;
+        private bool _moving = false;
+        // private TimerOnly _dotTimer = new();
 
         private void Awake()
         {
+            _collider = GetComponent<BoxCollider>();
             _rigid = GetComponent<Rigidbody>();
+            // _dotTimer.Initialize(0.5f, false);
         }
 
         public void StartMove()
         {
+            _collider.enabled = false;
             _rigid.useGravity = false;
+            _moving = true;
+            // _dotTimer.OnTick += OnTimerTick;
+            // _dotTimer.AfterCompelete += OnTimerEnd;
+            // _dotTimer.Restart();
+        }
+
+        private void OnTimerTick(float t)
+        {
+            transform.position = Vector3.Lerp(transform.position, AGameManager.Player.transform.position +
+                                                                  AGameManager.Player.Motor.CharacterForward *
+                                                                  (0.3f + _collider.size.x / 2f) +
+                                                                  Vector3.up * 0.5f, Time.deltaTime * 5);
+        }
+
+        private void OnTimerEnd(float t)
+        {
+            _moving = true;
+        }
+
+        private void LateUpdate()
+        {
+            if (_moving)
+            {
+                transform.position = Vector3.Lerp(transform.position, AGameManager.Player.transform.position +
+                                                                      AGameManager.Player.Motor.CharacterForward *
+                                                                      (1.5f) +
+                                                                      Vector3.up * 0.5f, Time.deltaTime * 5);
+            }
         }
 
         public void EndMove()
         {
-            _rigid.linearVelocity = Vector3.zero;
+            _collider.enabled = true;
             _rigid.useGravity = true;
-        }
-
-        public void SetTargetPosition(Vector3 position)
-        {
-            var dist = (transform.position - position).magnitude;
-            float speed = 0;
-            if (dist > 5)
-            {
-                speed = Mathf.Clamp(dist, 6, 9f);
-            }
-            else if (dist > 2)
-            {
-                speed = 3f;
-            }
-            else if (dist > 1.5f)
-            {
-                speed = 2f;
-            }
-            else
-            {
-                speed = Mathf.Clamp(dist, 0, 1)*2;
-            }
-
-            _rigid.linearVelocity = (position - transform.position).normalized * speed;
+            _moving = false;
+            //     _dotTimer.Paused = true;
+            //     _dotTimer.OnTick -= OnTimerTick;
+            //     _dotTimer.AfterCompelete -= OnTimerEnd;
+            // }
         }
     }
 }

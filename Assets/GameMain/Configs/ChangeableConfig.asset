@@ -21,6 +21,7 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 289d58a0e0936b64fb0882c52077b98b, type: 2}
     - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
     - {fileID: 2100000, guid: 2808692119bf2f04c9b7fb883d47c4dd, type: 2}
+    - {fileID: 2100000, guid: cb1d4a6cf363b3744b8730b1fcb1e397, type: 2}
     - {fileID: 2100000, guid: c45a7a22240672a41b767c77de2788ae, type: 2}
     - {fileID: 2100000, guid: 91b206d8f1676c04e9f0bf4c0be9d855, type: 2}
     SerializedBytesString: 
@@ -57,9 +58,19 @@ MonoBehaviour:
     - Name: $v
       Entry: 7
       Data: 2|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ObjMaterial
-      Entry: 10
+    - Name: ObjMaterials
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
       Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: BulletMaterial
       Entry: 10
       Data: 0
@@ -75,33 +86,53 @@ MonoBehaviour:
     - Name: $k
       Entry: 3
       Data: 2
-    - Name: $v
-      Entry: 7
-      Data: 3|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ObjMaterial
-      Entry: 10
-      Data: 1
-    - Name: BulletMaterial
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
     - Name: $v
       Entry: 7
       Data: 4|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ObjMaterial
+    - Name: ObjMaterials
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BulletMaterial
       Entry: 10
-      Data: 2
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 6|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterials
+      Entry: 7
+      Data: 7|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: BulletMaterial
       Entry: 10
       Data: 2
@@ -119,10 +150,20 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 7
-      Data: 5|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ObjMaterial
-      Entry: 10
-      Data: 3
+      Data: 8|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterials
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: BulletMaterial
       Entry: 10
       Data: 3
@@ -140,10 +181,20 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 7
-      Data: 6|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ObjMaterial
-      Entry: 10
-      Data: 4
+      Data: 10|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterials
+      Entry: 7
+      Data: 11|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: BulletMaterial
       Entry: 10
       Data: 4
@@ -161,13 +212,29 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 7|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ObjMaterial
+      Data: 12|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterials
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
       Entry: 10
       Data: 5
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: BulletMaterial
       Entry: 10
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 8
       Data: 
@@ -182,13 +249,23 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 7
-      Data: 8|GameMain.ChangeableConfigUnit, Assembly-CSharp
-    - Name: ObjMaterial
-      Entry: 10
-      Data: 6
+      Data: 14|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterials
+      Entry: 7
+      Data: 15|System.Collections.Generic.List`1[[UnityEngine.Material, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: BulletMaterial
       Entry: 10
-      Data: 6
+      Data: 7
     - Name: 
       Entry: 8
       Data: 

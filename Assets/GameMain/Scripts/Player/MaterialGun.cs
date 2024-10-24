@@ -108,9 +108,6 @@ namespace Tencent
             }
 
             FireMoveGun();
-
-
-            HandleMovingObj();
         }
 
         private void LateUpdate()
@@ -118,36 +115,28 @@ namespace Tencent
             UpdateCrossHair();
         }
 
-        private void HandleMovingObj()
-        {
-            if (_movingCube is null) return;
-            Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-            Ray ray = _mainCamera.ScreenPointToRay(screenCenter);
-            _movingCube.SetTargetPosition(ray.origin + ray.direction * _distance);
-        }
 
         private void FireMoveGun()
         {
-            if (!Input.GetMouseButtonDown(1)) return;
+            if (!Input.GetMouseButtonDown(1))
+                return;
             if (_movingCube is not null)
             {
                 _movingCube.EndMove();
                 _movingCube = null;
+                return;
             }
-            else
+
+            var targetPos = RaycastFromCursor(out var hit);
+            if (Vector3.Distance(Muzzle.transform.position, targetPos) > 2f)
             {
-                Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-                Ray ray = _mainCamera.ScreenPointToRay(screenCenter);
-                if (Physics.Raycast(ray.origin, ray.direction, out var info, 10f,
-                        _shootingMask, QueryTriggerInteraction.UseGlobal))
-                {
-                    if (info.transform.TryGetComponent<MoveableCube>(out var moveableCube))
-                    {
-                        _movingCube = moveableCube;
-                        _distance = info.distance;
-                        _movingCube.StartMove();
-                    }
-                }
+                return;
+            }
+            if (hit.transform.TryGetComponent<MoveableCube>(out var cube))
+            {
+                _movingCube = cube;
+                cube.StartMove();
+                Debug.Log("start move");
             }
         }
 
@@ -165,8 +154,8 @@ namespace Tencent
             var direction = (targetPos + 0.1f * Vector3.up - Muzzle.transform.position).normalized;
 
             Material bulletMaterial = _config.MaterialDict[_currentMaterial].BulletMaterial;
-            Material objMaterial = _config.MaterialDict[_currentMaterial].ObjMaterial;
-            var initInfo = new MaterialBulletInfo(_currentMaterial, bulletMaterial, objMaterial, direction);
+            Material[] objMaterials = _config.MaterialDict[_currentMaterial].ObjMaterials.ToArray();
+            var initInfo = new MaterialBulletInfo(_currentMaterial, bulletMaterial, objMaterials, direction);
             var bullet =
                 AGameManager.Entity.Spawn<MaterialBullet>("MaterialBullet", EEntityGroup.Bullet, null, initInfo);
             bullet.transform.position = Muzzle.position;
@@ -203,6 +192,43 @@ namespace Tencent
                             out var mouseHitInfo, 1000f,
                             _shootingMask, QueryTriggerInteraction.UseGlobal))
                     {
+                        return mouseHitInfo.point;
+                    }
+
+                    return Vector3.zero;
+            }
+
+            return Vector3.zero;
+        }
+
+        /// <summary>
+        /// 获得从准心射击得到的目标点
+        /// </summary>
+        /// <returns></returns>
+        private Vector3 RaycastFromCursor(out RaycastHit hit)
+        {
+            hit = default;
+            switch (AGameManager.CameraMode)
+            {
+                case ECameraMode.FirstPerson:
+                    Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+                    Ray screenCenterRay = _mainCamera.ScreenPointToRay(screenCenter);
+                    if (Physics.Raycast(screenCenterRay.origin, screenCenterRay.direction, out var screenCenterInfo,
+                            10f,
+                            _shootingMask, QueryTriggerInteraction.UseGlobal))
+                    {
+                        hit = screenCenterInfo;
+                        return screenCenterInfo.point;
+                    }
+
+                    return screenCenterRay.origin + screenCenterRay.direction * 10;
+                case ECameraMode.TopDownShot:
+                    Ray mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(mouseRay.origin - mouseRay.direction * 5, mouseRay.direction,
+                            out var mouseHitInfo, 1000f,
+                            _shootingMask, QueryTriggerInteraction.UseGlobal))
+                    {
+                        hit = mouseHitInfo;
                         return mouseHitInfo.point;
                     }
 
