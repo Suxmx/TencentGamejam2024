@@ -521,6 +521,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5823669045567995152, guid: f48fad852e7cbc74a8c415c80893ee3a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823669045567995152, guid: f48fad852e7cbc74a8c415c80893ee3a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -78.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7071494019578354058, guid: f48fad852e7cbc74a8c415c80893ee3a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2446,7 +2454,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
+  near clip plane: 1
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 0
@@ -2748,7 +2756,7 @@ MonoBehaviour:
   Lens:
     FieldOfView: 60.000004
     OrthographicSize: 5
-    NearClipPlane: 0.01
+    NearClipPlane: 1
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0

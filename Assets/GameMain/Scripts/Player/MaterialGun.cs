@@ -146,6 +146,12 @@ namespace Tencent
 
         private void FireMaterialBullet()
         {
+            if (_bulletDict[_currentMaterial] <= 0)
+            {
+                _player.OnHaveNoBullet();
+                return;
+            }
+
             //震屏
             AGameManager.Instance.PlayerCamera.Impulse(0.2f);
             var targetPos = RaycastFromCursor();
@@ -160,6 +166,9 @@ namespace Tencent
             var muzzleVFX = AGameManager.Entity.Spawn<DestroyAfterTimeVfx>("MuzzleVFX", EEntityGroup.VFX, Muzzle, 1f);
             muzzleVFX.transform.position = Muzzle.position;
             muzzleVFX.transform.forward = Muzzle.transform.right;
+            //消耗子弹
+            _bulletDict[_currentMaterial]--;
+            GameEntry.Event.Fire(this, OnBulletNumChangeArg.Create(_currentMaterial, _bulletDict[_currentMaterial]));
         }
 
         /// <summary>
@@ -220,7 +229,7 @@ namespace Tencent
         public void GetMaterialBullet(EMaterial eMaterial)
         {
             _bulletDict[eMaterial]++;
-            GameEntry.Event.Fire(this,OnBulletNumChangeArg.Create(eMaterial,_bulletDict[eMaterial]));
+            GameEntry.Event.Fire(this, OnBulletNumChangeArg.Create(eMaterial, _bulletDict[eMaterial]));
         }
 
         public void ChangeMaterialGunMat(EMaterial eMaterial)
@@ -248,6 +257,9 @@ namespace Tencent
             Debug.DrawLine(muzzleRay.origin, (screenRay.origin + screenRay.direction * 10), Color.red);
             _debugSphere.transform.position = muzzleRay.origin + muzzleRay.direction * 10;
         }
-        
+
+        private void OnHaveNoBullet()
+        {
+        }
     }
 }

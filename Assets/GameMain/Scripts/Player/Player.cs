@@ -61,6 +61,7 @@ namespace Tencent
         public Transform _topDownGunPos;
         private Transform _directionPointer;
         private Quaternion _targetDirectionPtrDir = Quaternion.Euler(90, 0, 0);
+        private PlayerTip _playerTip;
 
         #endregion
 
@@ -190,12 +191,14 @@ namespace Tencent
             _graphicsDelta = _graphics.localPosition;
             _foot = transform.Find("Root/Foot");
             _directionPointer = transform.Find("DirectionPointer");
+            _playerTip = transform.Find("Root/PlayerTip").GetComponent<PlayerTip>();
             _directionPointer.SetParent(null);
 
             _playerTrigger.Init(this);
             _playerTrigger.ResetCollider(Vector3.up * StandUpHeight / 2f, 0.245f, StandUpHeight);
 
             _materialGun.Init(this);
+            _playerTip.Init();
 
             _motor.CharacterController = this;
             _motor.enabled = true;
@@ -203,7 +206,7 @@ namespace Tencent
             _curHeight = StandUpHeight;
 
 
-            // OnMouseGainChange();
+            OnMouseGainChange();
         }
 
         private void InitFsm()
@@ -549,11 +552,20 @@ namespace Tencent
         public void GetMaterialBullet(EMaterial eMaterial)
         {
             _materialGun.GetMaterialBullet(eMaterial);
+            _playerTip.ShowGetBulletIcon();
         }
 
         public void ChangeMaterialGunMat(EMaterial eMaterial)
         {
             _materialGun.ChangeMaterialGunMat(eMaterial);
         }
+
+        public void OnHaveNoBullet()
+        {
+            _playerTip.ShowNoBulletIcon();
+        }
+        
+        
+        
     }
 }
