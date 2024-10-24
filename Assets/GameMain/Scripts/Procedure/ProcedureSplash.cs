@@ -8,7 +8,6 @@ namespace GameMain
         public override void OnEnter()
         {
             base.OnEnter();
-            var animator = GameObject.Find("SplashAnim").GetComponent<Animator>();
         }
 
         public override void OnExit()
@@ -18,7 +17,8 @@ namespace GameMain
 
         public void SplashAnimEnd()
         {
-            
+            Owner.SetValue("NextScene","Menu");
+            ChangeState<ProcedureChangeScene>();
         }
     }
 }

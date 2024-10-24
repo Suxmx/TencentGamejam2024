@@ -90,7 +90,7 @@ namespace GameMain
             }
             else if (_toSplash)
             {
-                
+                ChangeState<ProcedureSplash>();
             }
         }
     }

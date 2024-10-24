@@ -13,7 +13,7 @@ namespace GameMain
         public override void OnEnter()
         {
             base.OnEnter();
-            _levelIndex = Owner.GetValue<int>("Level");
+            // _levelIndex = Owner.GetValue<int>("Level");
             // WindowIconChanger.SetWindowIcon("Assets/Icon/icon2.ico");
             AGameManager.OnEnter();
         }
