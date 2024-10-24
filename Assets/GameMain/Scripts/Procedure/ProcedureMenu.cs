@@ -12,7 +12,7 @@ namespace GameMain
             _enterGame = false;
             //打开UI
             GameEntry.UI.OpenUIForm(UIFormId.MenuForm);
-            // WindowIconChanger.SetWindowIcon("icon1.ico");
+            // WindowIconChanger.Instance.ChangeICON("icon1.ico");
         }
 
         public override void OnLogic(float deltaTime)

@@ -22,6 +22,7 @@ MonoBehaviour:
     - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
     - {fileID: 2100000, guid: 2808692119bf2f04c9b7fb883d47c4dd, type: 2}
     - {fileID: 2100000, guid: c45a7a22240672a41b767c77de2788ae, type: 2}
+    - {fileID: 2100000, guid: 91b206d8f1676c04e9f0bf4c0be9d855, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -46,7 +47,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 6
+      Data: 7
     - Name: 
       Entry: 7
       Data: 
@@ -167,6 +168,27 @@ MonoBehaviour:
     - Name: BulletMaterial
       Entry: 10
       Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 6
+    - Name: $v
+      Entry: 7
+      Data: 8|GameMain.ChangeableConfigUnit, Assembly-CSharp
+    - Name: ObjMaterial
+      Entry: 10
+      Data: 6
+    - Name: BulletMaterial
+      Entry: 10
+      Data: 6
     - Name: 
       Entry: 8
       Data: 

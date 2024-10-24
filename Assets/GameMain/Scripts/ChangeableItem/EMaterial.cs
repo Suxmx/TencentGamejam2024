@@ -10,6 +10,7 @@
         Climbable,
         Dangerous,
         WhiteError,
-        BlackError
+        BlackError,
+        Hover
     }
 }

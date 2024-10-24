@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using Framework;
 using MyTimer;
 using Sirenix.OdinInspector;
@@ -29,7 +30,9 @@ namespace GameMain
             }
         }
 
+        private float _initHeight;
         private EMaterial _currentMaterial;
+        private Tween _hoverTween;
         private MeshRenderer _mr;
 
         private void Awake()
@@ -37,6 +40,7 @@ namespace GameMain
             _mr = GetComponent<MeshRenderer>();
             _collider = GetComponent<Collider>();
             _currentMaterial = EMaterial.WhiteError;
+            _initHeight = transform.position.y;
         }
 
         public virtual void OnHitMaterialBullet(EMaterial materialType, Material _material)
@@ -52,6 +56,16 @@ namespace GameMain
         protected void OnChangeMaterial(EMaterial materialType)
         {
             gameObject.layer = LayerMask.NameToLayer("Environment");
+            if (_hoverTween is not null)
+            {
+                _hoverTween.Kill();
+            }
+
+            if (_currentMaterial == EMaterial.Hover)
+            {
+                _hoverTween = transform.DOMoveY(_initHeight, 2f);
+            }
+
             switch (materialType)
             {
                 case EMaterial.Cloud:
@@ -64,6 +78,10 @@ namespace GameMain
                     {
                         AGameManager.Instance.PlayerDie();
                     }
+
+                    break;
+                case EMaterial.Hover:
+                    _hoverTween = transform.DOMoveY(_initHeight + 2, 2f);
                     break;
                 default:
                     break;
@@ -92,7 +110,6 @@ namespace GameMain
                         break;
                 }
             }
-            
         }
 
         private void OnCollisionExit(Collision other)
