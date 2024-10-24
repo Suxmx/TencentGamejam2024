@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameMain/SkyBox/sky_05_cubemap_(roblox)_2k/New Material.mat.meta
 guid: 41a02640fc71b46419bafd6ece6b9241
+========
+guid: 5fd9464e0c56c364d9ed2b38220e102f
+>>>>>>>> 23924167d298097da3e74bfcd4c7a701940b708c:Assets/ArtTest/Materials/floor 3_bee.mat.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000

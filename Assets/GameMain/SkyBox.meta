@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameMain/SkyBox.meta
 guid: 957d9e8ca1dba754ba259d0467b33f8b
+========
+guid: e227214351b4d284f8beee6206cd5dc2
+>>>>>>>> 23924167d298097da3e74bfcd4c7a701940b708c:Assets/ArtTest/Materials/floor texture.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

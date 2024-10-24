@@ -1,8 +1,14 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/GameMain/SkyBox/sky_05_cubemap_(roblox)_2k.meta
 guid: 9bce3dcd18a54444ea97030d8f549817
 folderAsset: yes
 DefaultImporter:
+========
+guid: d97d67d6d7d34e04d9afd2c361ace16a
+NativeFormatImporter:
+>>>>>>>> 23924167d298097da3e74bfcd4c7a701940b708c:Assets/ArtTest/Materials/floor 3_bee 1.mat.meta
   externalObjects: {}
+  mainObjectFileID: 2100000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
