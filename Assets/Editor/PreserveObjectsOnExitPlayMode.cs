@@ -14,7 +14,7 @@ public class PreserveChangesInPlayMode
         if (state == PlayModeStateChange.EnteredEditMode)
         {
             // 在此处执行保存逻辑，例如保存所有修改的对象
-            foreach (var obj in Object.FindObjectsOfType<GameObject>())
+            foreach (var obj in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
             {
                 EditorUtility.SetDirty(obj);
             }

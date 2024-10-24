@@ -67,7 +67,6 @@ namespace Framework
         public PlayerSpawnInfo SpawnInfo;
         private PlayerCamera _playerCamera;
         private bool _running = false;
-        private bool _entered = false;
         private bool _gameEnd = false;
 
         /// <summary>
@@ -105,7 +104,6 @@ namespace Framework
         {
             GameObject obj = new GameObject("AGameManager");
             _instance = obj.AddComponent<AGameManager>();
-            _instance._entered = true;
             _instance._running = true;
             _instance._gameEnd = false;
             _instance.InitManagers();
