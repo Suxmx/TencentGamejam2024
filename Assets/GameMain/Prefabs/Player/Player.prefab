@@ -804,7 +804,7 @@ MonoBehaviour:
   StandUpHeight: 1
   AirMoveSpeed: 1.5
   Gravity: {x: 0, y: -5, z: 0}
-  JumpHeight: 0.5
+  JumpHeight: 0.53
   JumpUpSpeed: 10
   CrouchedCapsuleHeight: 0.5
   CrouchMoveSpeed: 1
