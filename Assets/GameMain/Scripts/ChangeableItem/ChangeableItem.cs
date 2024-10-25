@@ -60,6 +60,9 @@ namespace GameMain
             _initHeight = transform.position.y;
             LoadConfig();
             DoChangeMaterial(_config.MaterialDict[_currentMaterial].ObjMaterials.ToArray());
+            OnChangeMaterial(_currentMaterial);
+            _hoverTween.Kill();
+            _changeMr.gameObject.SetActive(false);
         }
 
         public virtual void OnHitMaterialBullet(EMaterial materialType, Material[] materials)

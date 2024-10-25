@@ -35,7 +35,7 @@ namespace GameMain
             _toMenu = string.CompareOrdinal(nextScene, "Menu") == 0;
             _toFakeMenu = string.CompareOrdinal(nextScene, "FakeMenu") == 0;
             _toSplash = nextScene.Contains("Splash");
-            _toMain = nextScene.Contains("Level") || nextScene.Contains("Main");
+            _toMain = nextScene.Contains("Level") || nextScene.Contains("Main") || nextScene.Contains("Playground");
 
             GameEntry.Event.Subscribe(OnAfterSceneLoadArgs.EventId, OnAfterLoadScene);
 

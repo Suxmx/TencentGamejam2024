@@ -32,6 +32,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5792426325025246275}
+  - {fileID: 8552196032118921205}
   m_Father: {fileID: 3068419810787352345}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
@@ -123,8 +124,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 78.5}
-  m_SizeDelta: {x: 0.00012207, y: 157}
+  m_AnchoredPosition: {x: 0, y: 56}
+  m_SizeDelta: {x: 0.0001, y: 112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7547633689702937016
 CanvasRenderer:
@@ -250,16 +251,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5244941656290389691}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3068419810787352345}
+  m_Father: {fileID: 6900368096487845054}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 103.387054}
+  m_AnchoredPosition: {x: -711.3428, y: 52}
   m_SizeDelta: {x: 691.782, y: 206.7741}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1833676484493687900
@@ -322,8 +323,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -78.49997}
-  m_SizeDelta: {x: 0.00012207, y: 157}
+  m_AnchoredPosition: {x: -1.0001221, y: -56}
+  m_SizeDelta: {x: 0.00012207, y: 112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4741093458749674651
 CanvasRenderer:
@@ -529,7 +530,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8552196032118921205}
   - {fileID: 1113619162234281966}
   - {fileID: 7911546830970334046}
   - {fileID: 8051640838441582213}
@@ -557,6 +557,7 @@ MonoBehaviour:
   FormId: 0
   _keyIconPrefab: {fileID: 7612730845547361554, guid: 21f7bad1a4c24c14bb776f5a65a27084, type: 3}
   _materialItem: {fileID: 2597690291940019072, guid: cbc458edad25d4f4d99adeec37b02a71, type: 3}
+  _configSo: {fileID: 11400000, guid: 4bf8a885b2d16be49a0fbf1041d0a536, type: 2}
 --- !u!114 &2998379651277904085
 MonoBehaviour:
   m_ObjectHideFlags: 0

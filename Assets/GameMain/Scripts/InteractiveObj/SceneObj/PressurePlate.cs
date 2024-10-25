@@ -54,7 +54,7 @@ namespace Tencent
             }
 
             _materialTween = _red.GetComponent<MeshRenderer>().material
-                .DOColor(GetHrdColor(new Color(25 / 255f, 2 / 255f, 2 / 255f), 2), "_EmissionColor", 0.1f)
+                .DOColor(GetHrdColor(new Color(25 / 255f, 2 / 255f, 2 / 255f), 3), "_EmissionColor", 0.1f)
                 .OnUpdate(() => { Debug.Log(_red.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor")); });
             _pressed = true;
             GameEntry.Event.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, true));

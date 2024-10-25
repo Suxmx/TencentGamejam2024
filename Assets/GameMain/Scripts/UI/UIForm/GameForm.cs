@@ -5,6 +5,7 @@ using DG.Tweening;
 using Framework;
 using Framework.Develop;
 using MyTimer;
+using Sirenix.Serialization;
 using Tencent;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ namespace GameMain
     {
         [SerializeField] private GameObject _keyIconPrefab;
         [SerializeField] private GameObject _materialItem;
+
+        [SerializeField] private ChangeableConfigSO _configSo;
 
         private bool _inited = false;
 
@@ -81,6 +84,10 @@ namespace GameMain
                 _keyDict.Add(e.Key, new List<GameObject>());
                 _keyDict[e.Key].Add(keyobj);
             }
+            else
+            {
+                _keyDict[e.Key].Add(keyobj);
+            }
         }
 
         private void OnUseKey(object sender, GameEventArgs arg)
@@ -96,13 +103,16 @@ namespace GameMain
                         Destroy(go);
                     }
                 }
+
                 _keyDict.Clear();
                 return;
             }
+
             var list = _keyDict[e.Key];
-            for (int i = list.Count - 1; i > 0; i--)
+            for (int i = list.Count - 1; i >= 0; i--)
             {
                 Destroy(list[i]);
+                list.RemoveAt(i);
             }
         }
 
@@ -119,7 +129,7 @@ namespace GameMain
                 var item = Instantiate(_materialItem).GetComponent<MaterialUIItem>();
                 var localScale = item.transform.localScale;
                 EMaterial eMaterial = _uiEMaterialList[i];
-                item.Init(eMaterial, i);
+                item.Init(eMaterial, i, _configSo.MaterialDict[eMaterial].UIColor);
                 item.transform.SetParent(m_rect_materials);
                 item.transform.localScale = localScale;
 
