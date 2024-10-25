@@ -15,13 +15,14 @@ namespace GameMain
         private Transform _bg;
         // private Transform _circle;
 
-        public void Init(EMaterial eMaterial, int index)
+        public void Init(EMaterial eMaterial, int index,Color color)
         {
             MaterialType = eMaterial;
             Index = index;
 
             _bg = transform.Find("Bg");
             _bulletNum = _bg.Find("BulletNum").GetComponentInChildren<TextMeshProUGUI>();
+            transform.Find("Circle").GetComponent<Image>().color = color;
             // _circle = transform.Find("Circle");
             // var offsetMax = _bg.GetComponent<RectTransform>().offsetMax;
             // offsetMax.x = 350;

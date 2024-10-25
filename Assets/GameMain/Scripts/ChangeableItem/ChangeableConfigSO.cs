@@ -18,5 +18,6 @@ namespace GameMain
         [LabelText("物体材质")] public List<Material> ObjMaterials;
 
         [LabelText("子弹材质")] public Material BulletMaterial;
+        [LabelText("UI颜色")] public Color UIColor;
     }
 }

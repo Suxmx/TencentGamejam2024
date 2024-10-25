@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameMain/Scenes/Build/FakeMenu.unity
     guid: 8ffb451bde4224a4687f39543bc4837c
+  - enabled: 1
+    path: Assets/GameMain/Scenes/Build/Playground 1.unity
+    guid: b2f992ecf23f1104795fce25372ead79
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: de1f08cc84fcb90469d4b15b95702d39, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: d1a54d4857d9f13419f4b5c3fdc2c426, type: 3}
