@@ -60,6 +60,7 @@ namespace Framework
         private PlayerCamera _playerCamera;
         private bool _running = false;
         private bool _gameEnd = false;
+        private List<string> _starNames = new();
 
         /// <summary>
         /// 创建各个子Manager
@@ -112,6 +113,8 @@ namespace Framework
                 _player._materialGun);
             Instance.PlayerCamera.ChangeCameraMode(AGameManager.CameraMode);
             GameEntry.UI.OpenUIForm(UIFormId.GameForm);
+            Instance.FindAndDestroyStars();
+            GameEntry.Event.Fire(null, OnUseKeyArgs.Create(null, true));
         }
 
         private void SpawnPlayer()
@@ -133,6 +136,20 @@ namespace Framework
             foreach (var sp in spawnPoints)
             {
                 sp.gameObject.SetActive(false);
+            }
+        }
+
+        private void FindAndDestroyStars()
+        {
+            var stars = FindObjectsByType<CollectStar>(FindObjectsSortMode.None);
+            _starNames = stars.Select(x => x.StarName).ToList();
+            for (int i = stars.Length - 1; i >= 0; i--)
+            {
+                if (GameEntry.Procedure.TryGetValue<bool>(stars[i].StarName, out var c) && c)
+                {
+                    Destroy(stars[i].gameObject);
+                }
+                else Debug.Log(stars[i].StarName + " " + _starNames[i]);
             }
         }
 
@@ -236,6 +253,15 @@ namespace Framework
         {
             if (_gameEnd) return;
             _gameEnd = true;
+            int starcount = 0;
+            foreach (var star in _starNames)
+            {
+                if (GameEntry.Procedure.TryGetValue<bool>(star, out var c) && c)
+                {
+                    starcount++;
+                }
+            }
+
             (GameEntry.Procedure.CurrentProcedure as ProcedureMain).LevelWin();
         }
 
