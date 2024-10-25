@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Framework;
 using MyTimer;
 using Sirenix.OdinInspector;
@@ -16,6 +17,13 @@ namespace Tencent
 
         private HashSet<GameObject> _waitToAdd = new();
         private Dictionary<GameObject, TimerOnly> _addDict = new();
+        private Tween _materialTween;
+        private Transform _red;
+
+        private void Awake()
+        {
+            _red = transform;
+        }
 
         private void Update()
         {
@@ -40,6 +48,14 @@ namespace Tencent
         /// </summary>
         private void OnStartPressed()
         {
+            if (_materialTween is not null && _materialTween.active)
+            {
+                _materialTween.Kill();
+            }
+
+            _materialTween = _red.GetComponent<MeshRenderer>().material
+                .DOColor(GetHrdColor(new Color(25 / 255f, 2 / 255f, 2 / 255f), 2), "_EmissionColor", 0.1f)
+                .OnUpdate(() => { Debug.Log(_red.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor")); });
             _pressed = true;
             GameEntry.Event.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, true));
         }
@@ -57,7 +73,19 @@ namespace Tencent
         private void OnPressEnd()
         {
             _pressed = false;
+            if (_materialTween is not null && _materialTween.active)
+            {
+                _materialTween.Kill();
+            }
+
+            _materialTween = _red.GetComponent<MeshRenderer>().material
+                .DOColor(GetHrdColor(new Color(25 / 255f, 2 / 255f, 2 / 255f), 0), "_EmissionColor", 0.1f);
             GameEntry.Event.Fire(this, OnPressurePlateStateChangeArg.Create(_triggerKey, false));
+        }
+
+        private static Color GetHrdColor(Color c, float i)
+        {
+            return c * Mathf.Pow(2, i);
         }
 
         private void OnCollisionStay(Collision other)
@@ -118,7 +146,7 @@ namespace Tencent
         {
             if (_waitToAdd.Contains(go)) return;
             var timer = new TimerOnly();
-            timer.Initialize(0.25f);
+            timer.Initialize(0.1f);
             timer.AfterCompelete += _ => { OnAddTimerEnd(timer, go); };
             _waitToAdd.Add(go);
             _addDict.Add(go, timer);
