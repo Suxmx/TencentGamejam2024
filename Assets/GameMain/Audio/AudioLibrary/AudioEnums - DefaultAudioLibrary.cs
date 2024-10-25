@@ -8,4 +8,5 @@ namespace GameMain {
     }
 }
     public enum DefaultAudioLibraryMusic {
+        Bgm
     }

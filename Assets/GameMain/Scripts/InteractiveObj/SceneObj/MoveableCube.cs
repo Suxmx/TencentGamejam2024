@@ -39,7 +39,7 @@ namespace Tencent
                 transform.position = Vector3.Lerp(transform.position, AGameManager.Player.transform.position +
                                                                       AGameManager.Player.Motor.CharacterForward *
                                                                       (1.5f) +
-                                                                      Vector3.up * 0.5f, Time.deltaTime * 5);
+                                                                      Vector3.up * 0.8f, Time.deltaTime * 5);
             }
         }
 

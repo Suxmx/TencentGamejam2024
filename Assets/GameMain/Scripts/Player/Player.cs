@@ -485,6 +485,7 @@ namespace Tencent
             {
                 kcc.AfterCharacterUpdate(deltaTime);
             }
+            if(Motor.transform.position.y<-10)AGameManager.Instance.PlayerDie();
         }
 
         public bool IsColliderValidForCollisions(Collider coll)

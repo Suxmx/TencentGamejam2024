@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a4eae6395936e1459ac5deceb062e99
+    m_Address: Assets/GameMain/Audio/AudioLibrary/DefaultAudioLibrary.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4bf8a885b2d16be49a0fbf1041d0a536
     m_Address: Assets/GameMain/Configs/ChangeableConfig.asset
     m_ReadOnly: 0
@@ -57,6 +62,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d791d620d0503414c9cbcf2471711ef7
     m_Address: Assets/GameMain/Prefabs/UIForms/DialogueForm.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df6a6b3dd16c79541b7269d15a1ebfee
+    m_Address: Assets/GameMain/Audio/AudioLibrary/UIAudio Library.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

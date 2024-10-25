@@ -22,7 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a16babb8467e4cf49938cdb66c250a66, type: 2}
   - {fileID: 11400000, guid: ffa6e704b48941e4eaa05bbee2f21d3b, type: 2}
   - {fileID: 11400000, guid: 9e4c34d03d63f1e4bb4108068793156d, type: 2}
-  Music: []
+  Music:
+  - {fileID: 11400000, guid: 914452d31c4bb8c43aa0b7c34673bb97, type: 2}
   useCustomNames: 1
   generatedName: DefaultAudioLibrary
   musicEnum: DefaultAudioLibraryMusic
@@ -44,5 +45,6 @@ MonoBehaviour:
     foldout: 1
   musicCategoriesToList:
   - name: 
-    files: []
+    files:
+    - {fileID: 11400000, guid: 914452d31c4bb8c43aa0b7c34673bb97, type: 2}
     foldout: 1

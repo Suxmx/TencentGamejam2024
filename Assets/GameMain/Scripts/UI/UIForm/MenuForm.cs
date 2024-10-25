@@ -51,14 +51,15 @@ namespace GameMain
         {
             m_btn_newgame.onClick.AddListener(OnClickNewGame);
             m_btn_setting.onClick.AddListener(OnClickSettings);
-            m_btn_makers.onClick.AddListener(OnClickShowMakers);
+            m_btn_exit.onClick.AddListener(OnClickExit);
         }
 
         private void RemoveEvents()
         {
             m_btn_newgame.onClick.RemoveListener(OnClickNewGame);
             m_btn_setting.onClick.RemoveListener(OnClickSettings);
-            m_btn_makers.onClick.RemoveListener(OnClickShowMakers);
+
+            m_btn_exit.onClick.RemoveListener(OnClickExit);
         }
 
         private void OnClickNewGame()
@@ -66,8 +67,9 @@ namespace GameMain
             (GameEntry.Procedure.CurrentProcedure as ProcedureMenu).EnterGame();
         }
 
-        private void OnClickShowMakers()
+        private void OnClickExit()
         {
+            Application.Quit();
         }
 
         public void OnHoverButton(RectTransform rect)
