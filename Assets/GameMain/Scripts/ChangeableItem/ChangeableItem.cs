@@ -13,7 +13,7 @@ namespace GameMain
     public class ChangeableItem : MonoBehaviour
     {
         [SerializeField, LabelText("果冻跳跃高度")] private float _jellyJumpHeight = 5f;
-
+        [SerializeField, LabelText("初始材质枚举")] private EMaterial _initMat = EMaterial.WhiteError;
         private MeshRenderer _mainMr;
         private MeshRenderer _changeMr;
         private float _curDissolveValue = 0;
@@ -44,13 +44,22 @@ namespace GameMain
         private void Awake()
         {
             var mainObj = gameObject;
-            var changeObj = transform.Find("ChangeGraphics");
+            var changeObj = transform.GetChild(0);
             _mainMr = mainObj.GetComponent<MeshRenderer>();
-            _changeMr = changeObj.GetComponent<MeshRenderer>();
+            if(changeObj is not null)
+            {
+                _changeMr = changeObj.GetComponent<MeshRenderer>();
+            }
+            else
+            {
+                _changeMr = GetComponentInChildren<MeshRenderer>();
+            }
             _changeMr.gameObject.SetActive(false);
             _collider = GetComponent<Collider>();
-            _currentMaterial = EMaterial.WhiteError;
+            _currentMaterial = _initMat;
             _initHeight = transform.position.y;
+            LoadConfig();
+            DoChangeMaterial(_config.MaterialDict[_currentMaterial].ObjMaterials.ToArray());
         }
 
         public virtual void OnHitMaterialBullet(EMaterial materialType, Material[] materials)
@@ -62,6 +71,16 @@ namespace GameMain
         private void DoChangeMaterial(Material[] materials)
         {
             _mainMr.materials = materials;
+        }
+
+        private static string _configPath = "Assets/GameMain/Configs/ChangeableConfig.asset";
+        private ChangeableConfigSO _config;
+
+        private void LoadConfig()
+        {
+            AsyncOperationHandle<ChangeableConfigSO>
+                handle = Addressables.LoadAssetAsync<ChangeableConfigSO>(_configPath);
+            _config = handle.WaitForCompletion();
         }
 
         protected void OnChangeMaterial(EMaterial materialType)
@@ -81,7 +100,8 @@ namespace GameMain
                         x => _changeMr.material.SetFloat("_DissolveAmount", x), 0.5f, 1f)
                     .OnComplete(() => DoChangeMaterial(_curMeshMaterials)));
                 _materialChangeTween.Append(DOTween.To(() => _changeMr.material.GetFloat("_DissolveAmount"),
-                    x => _changeMr.material.SetFloat("_DissolveAmount", x), 1, 2f).OnComplete(()=>_changeMr.gameObject.SetActive(false)));
+                        x => _changeMr.material.SetFloat("_DissolveAmount", x), 1, 2f)
+                    .OnComplete(() => _changeMr.gameObject.SetActive(false)));
             }
 
 
