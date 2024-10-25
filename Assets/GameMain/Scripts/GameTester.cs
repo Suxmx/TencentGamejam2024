@@ -17,17 +17,19 @@ namespace GameMain
         public AudioLibrary L1, L2;
 
         private static bool _initAudio = false;
-        
+
         private void Awake()
         {
             if (FindObjectsByType<GameTester>(FindObjectsSortMode.None).Length > 1)
                 Destroy(gameObject);
-            if(!_initAudio)
+            Debug.Log($"init state:{_initAudio}");
+            if (!_initAudio)
             {
                 _initAudio = true;
                 AudioManager.InternalInstance.LoadAudioLibrary(L1);
                 AudioManager.InternalInstance.LoadAudioLibrary(L2);
             }
+
             DontDestroyOnLoad(gameObject);
             if (GameEntry.Resource is null)
             {
