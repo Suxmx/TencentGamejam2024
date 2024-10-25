@@ -61,6 +61,7 @@ namespace GameMain
                 (GameEntry.Procedure as ProcedureManager).SetStartProcedure<ProcedureMain>();
 
                 (GameEntry.Procedure as ProcedureManager).SetValue("Level", 1);
+                (GameEntry.Procedure as ProcedureManager).SetValue("PlayerSpawnPoint", 1);
                 (GameEntry.Procedure as ProcedureManager).StartImmediately();
             }
         }

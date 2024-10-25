@@ -21,6 +21,7 @@ namespace GameMain
 
         public void EnterGame()
         {
+            Owner.SetValue("PlayerSpawnPoint", 1);
             Owner.SetValue("NextScene", "NewMain");
             ChangeState<ProcedureChangeScene>();
         }

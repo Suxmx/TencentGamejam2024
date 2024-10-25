@@ -30,6 +30,7 @@ namespace GameMain
             {
                 _levelIndex++;
                 Owner.SetValue("Level", _levelIndex);
+                Owner.SetValue("PlayerSpawnPoint", 1);
                 Owner.SetValue("NextScene", $"Level{_levelIndex}");
                 ChangeState<ProcedureChangeScene>();
             }

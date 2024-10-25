@@ -134,6 +134,11 @@ namespace Framework
             _core.SetValue(name, value);
         }
 
+        public T GetValue<T>(string name)
+            => _core.GetValue<T>(name);
+        
+        
+
         public void AddProcedure<T>() where T : ProcedureBase
         {
             if (m_AvailableProcedureTypeNames is null)

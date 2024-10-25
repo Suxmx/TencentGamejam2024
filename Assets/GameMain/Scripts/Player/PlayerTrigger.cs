@@ -29,7 +29,6 @@ namespace Tencent
             if (other.TryGetComponent<ICollectable>(out var collect))
             {
                 collect.OnCollected(_player);
-                Debug.Log("on trigger enter");
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Framework;
 using Framework.Args;
 using GameMain;
@@ -115,8 +116,12 @@ namespace Framework
 
         private void SpawnPlayer()
         {
-            Debug.Log("spawn player");
-            var spawnPoint = FindAnyObjectByType<PlayerSpawnPoint>();
+            var spawnPointName =
+                $"PlayerSpawnPoint{(GameEntry.Procedure as ProcedureManager).GetValue<int>("PlayerSpawnPoint")}";
+            var spawnPoints = FindObjectsByType<PlayerSpawnPoint>(FindObjectsSortMode.None).ToList();
+            var spawnPoint = spawnPoints.Find(x => x.name == spawnPointName);
+            if (spawnPoint is null) spawnPoint = spawnPoints[0]; //fall back
+            Debug.Log("spawn player in " + spawnPoint.name);
             var player = Entity.Spawn<Player>("Player", EEntityGroup.Player);
             player.transform.SetParent(null);
             player.transform.localScale = Vector3.one;
@@ -124,9 +129,11 @@ namespace Framework
             player.transform.position = spawnPoint.transform.position;
             player.Motor.SetPosition(spawnPoint.transform.position);
             player.Motor.SetRotation(spawnPoint.transform.rotation);
-            Debug.Log($"player spawn:{player.transform.position}");
             _player = player;
-            spawnPoint.gameObject.SetActive(false);
+            foreach (var sp in spawnPoints)
+            {
+                sp.gameObject.SetActive(false);
+            }
         }
 
         /// <summary>
