@@ -15,7 +15,7 @@ namespace Tencent
 
         private void Update()
         {
-            var size = Physics.OverlapSphereNonAlloc(transform.position, 2, _cache, LayerMask.GetMask("Player"));
+            var size = Physics.OverlapSphereNonAlloc(transform.position, 1.2f, _cache, LayerMask.GetMask("Player"));
             for (int i = 0; i < Mathf.Min(size, 10); i++)
             {
                 if (_cache[i].gameObject.TryGetComponent<PlayerTrigger>(out var playerTrigger))
