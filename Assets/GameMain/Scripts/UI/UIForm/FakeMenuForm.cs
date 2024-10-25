@@ -11,6 +11,7 @@ namespace GameMain
     public partial class FakeMenuForm : UGuiForm
     {
         private Tween _selectorTween;
+
         private void Update()
         {
             PointerEventData pointerData = new PointerEventData(EventSystem.current);
@@ -51,7 +52,6 @@ namespace GameMain
         private void RegisterEvents()
         {
             m_btn_newgame.onClick.AddListener(OnClickNewGame);
-            m_btn_continueGame.onClick.AddListener(OnClickContinueGame);
             m_btn_setting.onClick.AddListener(OnClickSettings);
             m_btn_makers.onClick.AddListener(OnClickShowMakers);
         }
@@ -59,23 +59,18 @@ namespace GameMain
         private void RemoveEvents()
         {
             m_btn_newgame.onClick.RemoveListener(OnClickNewGame);
-            m_btn_continueGame.onClick.RemoveListener(OnClickContinueGame);
             m_btn_setting.onClick.RemoveListener(OnClickSettings);
             m_btn_makers.onClick.RemoveListener(OnClickShowMakers);
         }
 
         private void OnClickNewGame()
         {
-            (GameEntry.Procedure.CurrentProcedure as ProcedureFakeMenu).EnterGame();
-        }
-
-        private void OnClickContinueGame()
-        {
+            m_trans_loading.gameObject.SetActive(true);
+            m_trans_loading.GetComponent<Animator>().Play("FakeProgress");
         }
 
         private void OnClickShowMakers()
         {
-            
         }
 
         public void OnHoverButton(RectTransform rect)
@@ -85,8 +80,7 @@ namespace GameMain
                 _selectorTween.Kill();
             }
 
-            m_rect_selector.DOMoveY(rect.position.y,0.3f);
-
+            m_rect_selector.DOMoveY(rect.position.y, 0.3f);
         }
 
         private void OnClickSettings()

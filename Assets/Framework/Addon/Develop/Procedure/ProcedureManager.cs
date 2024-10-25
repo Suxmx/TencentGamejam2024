@@ -136,8 +136,7 @@ namespace Framework
 
         public T GetValue<T>(string name)
             => _core.GetValue<T>(name);
-        
-        
+
 
         public void AddProcedure<T>() where T : ProcedureBase
         {
@@ -162,6 +161,11 @@ namespace Framework
         public void SetStartProcedure<T>() where T : ProcedureBase
         {
             m_EntranceProcedureTypeName = typeof(T).ToString();
+        }
+
+        public bool TryGetValue<T>(string name, out T value)
+        {
+            return _core.TryGetValue<T>(name, out value);
         }
     }
 }

@@ -562,9 +562,10 @@ namespace Tencent
             _playerTip.ShowNoBulletIcon();
         }
 
-        public void OnCollectStar()
+        public void OnCollectStar(string starName)
         {
             _playerTip.ShowGetStarIcon();
+            GameEntry.Procedure.SetValue(starName, true);
         }
     }
 }

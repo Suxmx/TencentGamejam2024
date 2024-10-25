@@ -1,9 +1,34 @@
-﻿using Framework;
+﻿using System.Collections.Generic;
+using DG.Tweening;
+using Framework;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GameMain
 {
     public partial class MenuForm : UGuiForm
     {
+        private Tween _selectorTween;
+
+        private void Update()
+        {
+            PointerEventData pointerData = new PointerEventData(EventSystem.current);
+            pointerData.position = Input.mousePosition;
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            GraphicRaycaster raycaster = (GameEntry.UI as UIManager).UIRoot.GetComponent<GraphicRaycaster>();
+            raycaster.Raycast(pointerData, results);
+
+            foreach (RaycastResult result in results)
+            {
+                if (result.gameObject.GetComponent<ButtonHover>())
+                {
+                    OnHoverButton(result.gameObject.transform as RectTransform);
+                }
+            }
+        }
+
         public override void OnInit()
         {
             base.OnInit();
@@ -13,18 +38,51 @@ namespace GameMain
         public override void OnOpen(object userData)
         {
             base.OnOpen(userData);
-            m_btn_start.onClick.AddListener(OnClickStart);
+            RegisterEvents();
         }
 
         public override void OnClose()
         {
             base.OnClose();
-            m_btn_start.onClick.RemoveListener(OnClickStart);
+            RemoveEvents();
         }
 
-        private void OnClickStart()
+        private void RegisterEvents()
         {
-            ((ProcedureMenu)GameEntry.Procedure.CurrentProcedure).EnterGame();
+            m_btn_newgame.onClick.AddListener(OnClickNewGame);
+            m_btn_setting.onClick.AddListener(OnClickSettings);
+            m_btn_makers.onClick.AddListener(OnClickShowMakers);
+        }
+
+        private void RemoveEvents()
+        {
+            m_btn_newgame.onClick.RemoveListener(OnClickNewGame);
+            m_btn_setting.onClick.RemoveListener(OnClickSettings);
+            m_btn_makers.onClick.RemoveListener(OnClickShowMakers);
+        }
+
+        private void OnClickNewGame()
+        {
+            (GameEntry.Procedure.CurrentProcedure as ProcedureMenu).EnterGame();
+        }
+
+        private void OnClickShowMakers()
+        {
+        }
+
+        public void OnHoverButton(RectTransform rect)
+        {
+            if (_selectorTween is not null && _selectorTween.active)
+            {
+                _selectorTween.Kill();
+            }
+
+            m_rect_selector.DOMoveY(rect.position.y, 0.3f);
+        }
+
+        private void OnClickSettings()
+        {
+            GameEntry.UI.OpenUIForm(UIFormId.SettingForm);
         }
     }
 }

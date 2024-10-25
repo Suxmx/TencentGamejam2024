@@ -166,10 +166,22 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6662530792555743716, guid: c46c6d279d0ca8145a818da0988e7af5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 81f2bdd295f37124c847bab0783af154, type: 2}
+    - target: {fileID: 805098333363774982, guid: c46c6d279d0ca8145a818da0988e7af5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 58824402c9ad80c41883437320b41a89, type: 2}
     - target: {fileID: 919132149155446097, guid: c46c6d279d0ca8145a818da0988e7af5, type: 3}
       propertyPath: m_Name
       value: Graphics
       objectReference: {fileID: 0}
+    - target: {fileID: 7622661218638243942, guid: c46c6d279d0ca8145a818da0988e7af5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7ade4d9ce2752b540babed2b1bc81a0f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
