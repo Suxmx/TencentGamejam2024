@@ -1,4 +1,6 @@
 ﻿using System;
+using GameMain;
+using JSAM;
 using KinematicCharacterController;
 using UnityEngine;
 using UnityHFSM;
@@ -20,7 +22,7 @@ namespace Tencent
             if (!_jumped)
             {
                 _jumped = true;
-
+                AudioManager.PlaySound(GameplayAudio.JumpStart, Motor.transform);
                 Vector3 jumpDirection = Motor.CharacterUp;
                 if (Motor.GroundingStatus.FoundAnyGround && !Motor.GroundingStatus.IsStableOnGround)
                 {

@@ -1,4 +1,5 @@
 ﻿using Framework;
+using JSAM;
 
 namespace GameMain
 {
@@ -7,6 +8,7 @@ namespace GameMain
         public override void OnEnter()
         {
             base.OnEnter();
+            
             Owner.SetValue("NextScene", "Splash");
             ChangeState<ProcedureChangeScene>();
         }

@@ -1,4 +1,6 @@
-﻿using KinematicCharacterController;
+﻿using GameMain;
+using JSAM;
+using KinematicCharacterController;
 using UnityEngine;
 
 namespace Tencent
@@ -70,5 +72,11 @@ namespace Tencent
         }
 
         #endregion
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            AudioManager.PlaySound(GameplayAudio.Land, Motor.transform);
+        }
     }
 }

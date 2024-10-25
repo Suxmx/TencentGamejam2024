@@ -561,5 +561,10 @@ namespace Tencent
         {
             _playerTip.ShowNoBulletIcon();
         }
+
+        public void OnCollectStar()
+        {
+            _playerTip.ShowGetStarIcon();
+        }
     }
 }

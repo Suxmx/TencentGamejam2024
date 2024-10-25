@@ -2,6 +2,7 @@
 using System.Collections;
 using Framework;
 using Framework.Develop;
+using JSAM;
 using MirMirror;
 using Services.Asset;
 using Services.SceneManagement;
@@ -13,8 +14,11 @@ namespace GameMain
     public class GameTester : MonoBehaviour
     {
         [SerializeField]public MMDialogue_Data _dialogueData;
+        public AudioLibrary L1, L2;
         private void Awake()
         {
+            AudioManager.InternalInstance.LoadAudioLibrary(L1);
+            AudioManager.InternalInstance.LoadAudioLibrary(L2);
             if (FindObjectsByType<GameTester>(FindObjectsSortMode.None).Length > 1)
                 Destroy(gameObject);
             DontDestroyOnLoad(gameObject);
