@@ -155,6 +155,7 @@ namespace Tencent
         {
             _keyInfos.Add(info);
             GameEntry.Event.Fire(this, OnGetKeyArgs.Create(info.KeyString, info.KeyIcon));
+            _playerTip.ShowGetKeyIcon();
         }
 
         public bool TryUseKey(string key)
@@ -560,8 +561,5 @@ namespace Tencent
         {
             _playerTip.ShowNoBulletIcon();
         }
-        
-        
-        
     }
 }

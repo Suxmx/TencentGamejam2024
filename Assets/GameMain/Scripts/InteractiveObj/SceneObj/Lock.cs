@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -6,23 +7,34 @@ namespace Tencent
 {
     public class Lock : MonoBehaviour
     {
-        [SerializeField, LabelText("锁对应钥匙的Key")] private string _lockKey;
-        [SerializeField, LabelText("锁对应的门")] private ActiveableDoor _door;
+        [SerializeField, LabelText("锁对应钥匙的Key")]
+        private string _lockKey;
 
-        private void Awake()
+        private Collider[] _cache = new Collider[10];
+        private bool _unlock = false;
+
+        private void Update()
         {
-            if (_door is not null)
+            var size = Physics.OverlapSphereNonAlloc(transform.position, 2, _cache, LayerMask.GetMask("Player"));
+            for (int i = 0; i < Mathf.Min(size, 10); i++)
             {
-                _door.Lock();
+                if (_cache[i].gameObject.TryGetComponent<PlayerTrigger>(out var playerTrigger))
+                {
+                    var player = playerTrigger.Player;
+                    if (!player.TryUseKey(_lockKey))
+                        return;
+                    else Unlock();
+                }
             }
         }
 
         private void Unlock()
         {
-            _door.Unlock();
-            gameObject.SetActive(false);
+            if (_unlock) return;
+            _unlock = true;
+            transform.DOMoveY(transform.position.y + 2, 2f);
         }
-        
+
         private void OnTriggerStay(Collider other)
         {
             if (!other.TryGetComponent<PlayerTrigger>(out var playerTrigger))

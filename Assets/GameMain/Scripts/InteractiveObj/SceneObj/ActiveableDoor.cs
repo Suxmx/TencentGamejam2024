@@ -12,8 +12,7 @@ namespace Tencent
     {
         [SerializeField, LabelText("开门上升最高点")] private Transform _targetPoint;
         [SerializeField, LabelText("开门时间")] private float _openTime = 1f;
-
-        private bool _locked=false;
+        
         private float _openSpeed;
         private float _initHeight;
         private float _targetHeight;
@@ -22,7 +21,7 @@ namespace Tencent
 
         private void OnDestroy()
         {
-            if(_openTween is not null)
+            if (_openTween is not null)
                 _openTween.Kill();
         }
 
@@ -49,27 +48,10 @@ namespace Tencent
             _openTween = transform.DOMoveY(target, time);
         }
 
-        public void Lock()
-        {
-            _locked = true;
-        }
-        public void Unlock()
-        {
-            _locked = false;
-            if (_shouldOpen)
-            {
-                DoMove(_targetHeight);
-            }
-            else
-            {
-                DoMove(_initHeight);
-            }
-        }
-        
+
         protected override void OnTriggerStateChange(bool enable)
         {
             _shouldOpen = !_initState ? enable : !enable;
-            if (_locked) return;
             if (_shouldOpen)
             {
                 DoMove(_targetHeight);

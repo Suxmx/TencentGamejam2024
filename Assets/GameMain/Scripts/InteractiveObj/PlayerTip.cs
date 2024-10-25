@@ -10,8 +10,11 @@ namespace GameMain
     {
         [SerializeField] private Sprite _noBullet;
         [SerializeField] private Sprite _getBullet;
+        [SerializeField] private Sprite _getKey;
+
         [SerializeField] private Color _crossColor;
         [SerializeField] private Color _getBulletColor;
+        [SerializeField] private Color _getKeyColor;
         private Vector3 _delta;
 
         private Camera _camera;
@@ -57,6 +60,14 @@ namespace GameMain
             _sr.sprite = _getBullet;
             _sr.color = _getBulletColor;
             // _activeTimer.Restart();
+        }
+
+        public void ShowGetKeyIcon()
+        {
+            gameObject.SetActive(true);
+            _animator.Play("NoBullet", 0, 0);
+            _sr.sprite = _getKey;
+            _sr.color = _getKeyColor;
         }
     }
 }
