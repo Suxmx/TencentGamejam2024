@@ -2,20 +2,28 @@ using Autobind;
 using UnityEngine;
 using UnityEngine.UI;
 
-//自动生成于：2024/9/29 2:02:09
+//自动生成于：2024/10/25 12:59:46
 namespace GameMain
 {
 
 	public partial class MenuForm
 	{
 
-		private Button m_btn_start;
+		private Button m_btn_newgame;
+		private Button m_btn_setting;
+		private Button m_btn_makers;
+		private Button m_btn_exit;
+		private RectTransform m_rect_selector;
 
 		private void GetBindComponents(GameObject go)
 		{
 			ComponentAutoBindTool autoBindTool = go.GetComponent<ComponentAutoBindTool>();
 
-			m_btn_start = autoBindTool.GetBindComponent<Button>(0);
+			m_btn_newgame = autoBindTool.GetBindComponent<Button>(0);
+			m_btn_setting = autoBindTool.GetBindComponent<Button>(1);
+			m_btn_makers = autoBindTool.GetBindComponent<Button>(2);
+			m_btn_exit = autoBindTool.GetBindComponent<Button>(3);
+			m_rect_selector = autoBindTool.GetBindComponent<RectTransform>(4);
 		}
 
 		private void ReleaseBindComponents()
