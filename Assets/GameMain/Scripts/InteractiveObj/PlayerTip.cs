@@ -11,10 +11,12 @@ namespace GameMain
         [SerializeField] private Sprite _noBullet;
         [SerializeField] private Sprite _getBullet;
         [SerializeField] private Sprite _getKey;
+        [SerializeField] private Sprite _getStar;
 
         [SerializeField] private Color _crossColor;
         [SerializeField] private Color _getBulletColor;
         [SerializeField] private Color _getKeyColor;
+        [SerializeField] private Color _getStarColor;
         private Vector3 _delta;
 
         private Camera _camera;
@@ -68,6 +70,14 @@ namespace GameMain
             _animator.Play("NoBullet", 0, 0);
             _sr.sprite = _getKey;
             _sr.color = _getKeyColor;
+        }
+
+        public void ShowGetStarIcon()
+        {
+            gameObject.SetActive(true);
+            _animator.Play("NoBullet", 0, 0);
+            _sr.sprite = _getStar;
+            _sr.color = _getStarColor;
         }
     }
 }

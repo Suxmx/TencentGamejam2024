@@ -1,6 +1,7 @@
 ﻿using System;
 using Framework;
 using GameMain;
+using JSAM;
 using MyTimer;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -86,6 +87,7 @@ namespace Tencent
                 changeable.OnHitMaterialBullet(_materialType, _objMaterials);
             }
 
+            AudioManager.PlayMusic(GameplayAudio.BulletHit, transform.position);
             UnspawnObj();
         }
     }
