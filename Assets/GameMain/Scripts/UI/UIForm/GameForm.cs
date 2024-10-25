@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Framework;
 using Framework.Develop;
@@ -29,7 +30,7 @@ namespace GameMain
             EMaterial.Hover,
         };
 
-        private Dictionary<string, GameObject> _keyDict = new();
+        private Dictionary<string, List<GameObject>> _keyDict = new();
         private List<MaterialUIItem> _materialUIItems = new();
         private int _curChooseMaterialIndex = 0;
         private ECameraMode _cameraMode;
@@ -75,13 +76,34 @@ namespace GameMain
                 keyobj.GetComponent<Image>().sprite = e.KeySprite;
             }
 
-            _keyDict.Add(e.Key, keyobj);
+            if (!_keyDict.ContainsKey(e.Key))
+            {
+                _keyDict.Add(e.Key, new List<GameObject>());
+                _keyDict[e.Key].Add(keyobj);
+            }
         }
 
         private void OnUseKey(object sender, GameEventArgs arg)
         {
             var e = (OnUseKeyArgs)arg;
-            Destroy(_keyDict[e.Key]);
+            if (e.AllClear)
+            {
+                var keys = _keyDict.Keys.ToList();
+                foreach (var k in keys)
+                {
+                    foreach (var go in _keyDict[k])
+                    {
+                        Destroy(go);
+                    }
+                }
+                _keyDict.Clear();
+                return;
+            }
+            var list = _keyDict[e.Key];
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                Destroy(list[i]);
+            }
         }
 
         private void OnMaterialChange(object sender, GameEventArgs arg)
