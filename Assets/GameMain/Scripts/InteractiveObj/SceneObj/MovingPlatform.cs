@@ -21,6 +21,7 @@ namespace Tencent
         private Transform _currentTarget;
         private bool _moving;
         private TimerOnly _stopTimer = new();
+        private Vector3 _curDirection;
 
         private void Awake()
         {
@@ -57,17 +58,17 @@ namespace Tencent
             }
 
             //到达后切换目标
-            if (Vector3.Distance(transform.position, _currentTarget.position) < 0.2f)
+            if (Vector3.Distance(transform.position, _currentTarget.position) < 0.05f ||
+                Vector3.Dot(_currentTarget.position - transform.position, _curDirection) < -0.1f)
             {
                 _moving = false;
                 _stopTimer.Restart();
-                goalPosition = transform.position;
+                goalPosition = _currentTarget.position;
                 _currentTarget = _currentTarget == _pointA ? _pointB : _pointA;
+                _curDirection = (_currentTarget.position - transform.position).normalized;
             }
 
-            //正常移动
-            var direction = (_currentTarget.position - transform.position).normalized;
-            goalPosition = transform.position + direction * (_moveSpeed * deltaTime);
+            goalPosition = transform.position + _curDirection * (_moveSpeed * deltaTime);
         }
 
 
