@@ -13,14 +13,15 @@ namespace GameMain
     [DefaultExecutionOrder(-1000)]
     public class GameTester : MonoBehaviour
     {
-        [SerializeField]public MMDialogue_Data _dialogueData;
+        [SerializeField] public MMDialogue_Data _dialogueData;
         public AudioLibrary L1, L2;
+
         private void Awake()
         {
-            AudioManager.InternalInstance.LoadAudioLibrary(L1);
-            AudioManager.InternalInstance.LoadAudioLibrary(L2);
             if (FindObjectsByType<GameTester>(FindObjectsSortMode.None).Length > 1)
                 Destroy(gameObject);
+            AudioManager.InternalInstance.LoadAudioLibrary(L1);
+            AudioManager.InternalInstance.LoadAudioLibrary(L2);
             DontDestroyOnLoad(gameObject);
             if (GameEntry.Resource is null)
             {
@@ -77,7 +78,6 @@ namespace GameMain
 
         private void Update()
         {
-            
         }
     }
 }
